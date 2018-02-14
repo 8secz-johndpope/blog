@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Trying TypeScript | Better world by better software</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="I have used C++, C# and Java for a long time, and love the short, uncluttered view of JavaScript code. Yet, I find myself struggling to refactor my own code without breaking things. It is time to intr">
+<meta name="keywords" content="tutorial,typescript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Trying TypeScript">
+<meta property="og:url" content="https://glebbahmutov.com/blog/trying-typescript/index.html">
+<meta property="og:site_name" content="Better world by better software">
+<meta property="og:description" content="I have used C++, C# and Java for a long time, and love the short, uncluttered view of JavaScript code. Yet, I find myself struggling to refactor my own code without breaking things. It is time to intr">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/typescript/vscode-intellisense.png">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/typescript/atom-intellisense.png">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/typescript/files-exclude.png">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/typescript/peek-definition.png">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/typescript/find-references.png">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/typescript/vscode-help.png">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/typescript/atom-help.png">
+<meta property="og:updated_time" content="2018-02-14T02:33:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Trying TypeScript">
+<meta name="twitter:description" content="I have used C++, C# and Java for a long time, and love the short, uncluttered view of JavaScript code. Yet, I find myself struggling to refactor my own code without breaking things. It is time to intr">
+<meta name="twitter:image" content="https://glebbahmutov.com/blog/images/typescript/vscode-intellisense.png">
+<meta name="twitter:creator" content="@bahmutov">
+  
+    <link rel="alternative" href="/blog/atom.xml" title="Better world by better software" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="../css/style.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-59999353-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <!-- <div id="banner"></div> -->
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../index.html" id="logo">Better world by better software</a>
+      </h1>
+      <!--
+      
+        <h2 id="subtitle-wrap">
+          <a href="../index.html" id="subtitle">Gleb Bahmutov PhD</a>
+        </h2>
+      
+      -->
+      <!-- <span class="no-mobile">Software advice from</span> -->
+      <h2 id="subtitle-wrap">
+        <span class="subtitle">
+          <a id="subtitle" href="http://glebbahmutov.com">Gleb Bahmutov PhD</a>
+        </span>
+      </h2>
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <a id="nav-house-link" class="nav-icon" href="/" title="Home"></a>
+        
+          <a id="nav-rss-link" class="nav-icon" href="/blog/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://glebbahmutov.com/blog"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-trying-typescript" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="" class="article-date">
+  <time datetime="2017-03-13T04:00:00.000Z" itemprop="datePublished">Mar 13 2017</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="../categories/products/">products</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Trying TypeScript
+    </h1>
+
+    <h2 class="article-title" itemprop="name">
+      Setting up and starting with TypeScript and Visual Studio Code editor.
+    </h2>
+
+  
+
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>I have used C++, C# and Java for a long time, and love the short, uncluttered
+view of JavaScript code. Yet, I find myself struggling to refactor my own
+code without breaking things.
+It is time to introduce a little bit of help to my source.
+I tried Flow using source comments, yet could not see many obvious benefits. Recently I have tried <a href="https://www.typescriptlang.org/" target="_blank" rel="noopener">TypeScript</a>
+(v2.2) with <a href="https://code.visualstudio.com/" target="_blank" rel="noopener">Visual Studio Code</a> editor (v1.10)
+and must admit that it was a very positive experience.
+Here is a short tutorial to get anyone started with TypeScript.</p>
+<h2><span id="visual-studio-code-editor">Visual Studio Code editor</span></h2><p>I like Sublime text editor so much! It is fast and has thousands of plugins.
+When I tried <a href="https://code.visualstudio.com/" target="_blank" rel="noopener">Visual Studio Code</a> (VSCode) it came with built-in
+IntelliSense, Git integration (showing me changed and added code lines and
+good color themes. It felt like using Sublime with batteries included by
+default.</p>
+<h2><span id="writing-node-app-in-typescript">Writing Node app in TypeScript</span></h2><p>Let us start with an empty Node project.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm init --yes</span><br></pre></td></tr></table></figure>
+<p>Let us place all TypeScript files into one folder <code>src</code> and output JavaScript
+code into <code>dist</code> folder. We should also specify the configuration for the
+TypeScript compiler in <code>tsconfig.json</code> file</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir -p src</span><br><span class="line">$ cat &lt;&lt;EOF &gt; tsconfig.json</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"compilerOptions"</span>: &#123;</span><br><span class="line">    <span class="string">"outDir"</span>: <span class="string">"./dist"</span>,</span><br><span class="line">    <span class="string">"allowJs"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">"target"</span>: <span class="string">"es2015"</span>,</span><br><span class="line">    <span class="string">"module"</span>: <span class="string">"commonjs"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"include"</span>: [</span><br><span class="line">    <span class="string">"./src/**/*"</span></span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<p>This configuration (that is very simple to change later)
+outputs modern JavaScript, but transpiles ES6 modules into CommonJS ones.
+If you want to use ES6 modules (for tree-shaking bundling for example),
+you can configure a separate step and use <code>&quot;module&quot;: &quot;es6&quot;</code> setting.
+For now, let us just get working Nodejs code.</p>
+<p>Install TypeScript compiler (I prefer to install every tool as a local dev
+dependency rather than globally) and connect it to the build command</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ npm i -D typescript</span><br><span class="line">trying-typescript@1.0.0 /Users/gleb/trying-typescript</span><br><span class="line">└── typescript@2.2.1</span><br></pre></td></tr></table></figure>
+<p>Update <code>package.json</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">    <span class="attr">"build"</span>: <span class="string">"tsc"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Let us write TypeScript!</p>
+<h2><span id="typescript">TypeScript</span></h2><p>There is no magic to TypeScript. In fact, the easiest way to start is to write
+plain JavaScript! Just give it file extension <code>ts</code>. I will use Lodash and Ramda
+to form a greeting string</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/greet.ts</span></span><br><span class="line"><span class="keyword">import</span> &#123;capitalize&#125; <span class="keyword">from</span> <span class="string">'lodash'</span></span><br><span class="line"><span class="keyword">import</span> &#123;trim&#125; <span class="keyword">from</span> <span class="string">'ramda'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">greet</span>(<span class="params">user</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> u = capitalize(trim(user))</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`hello <span class="subst">$&#123;u&#125;</span>`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Let us use the exported function <code>greet</code> from another file.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app.ts</span></span><br><span class="line"><span class="keyword">import</span> &#123;greet&#125; <span class="keyword">from</span> <span class="string">'./greet'</span></span><br><span class="line"><span class="built_in">console</span>.log(greet(<span class="string">' world '</span>))</span><br></pre></td></tr></table></figure>
+<p>If you hover over <code>greet(&#39; world &#39;)</code> function, the IntelliSense pops up and
+shows the type signature <code>greet(user: any): string</code>. Notice that we do not
+know the <em>input type</em>, yet it has correctly inferred the <em>output type</em> -
+this function returns a string.</p>
+<p>Let us build and run the code. Add the <code>start</code> command to <code>package.json</code> file</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">    <span class="attr">"start"</span>: <span class="string">"node dist/app.js"</span>,</span><br><span class="line">    <span class="attr">"prestart"</span>: <span class="string">"npm run build"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ npm start</span><br><span class="line">&gt; trying-typescript@1.0.0 prestart trying-typescript</span><br><span class="line">&gt; npm run build</span><br><span class="line">&gt; trying-typescript@1.0.0 build trying-typescript</span><br><span class="line">&gt; tsc</span><br><span class="line">&gt; trying-typescript@1.0.0 start trying-typescript</span><br><span class="line">&gt; node dist/app.js</span><br><span class="line"></span><br><span class="line">hello World</span><br></pre></td></tr></table></figure>
+<p>Excellent, it works!</p>
+<h2><span id="types">Types</span></h2><p>What happens if we pass a number to our function <code>greet</code>?</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(greet(<span class="number">42</span>))</span><br></pre></td></tr></table></figure>
+<p>It crashes, of course</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hello World</span><br><span class="line">/Users/gleb/node_modules/ramda/dist/ramda.js:1286</span><br><span class="line"><span class="built_in">return</span> str.trim();</span><br><span class="line">TypeError: str.trim is not a <span class="keyword">function</span></span><br></pre></td></tr></table></figure>
+<p>We can catch this error using TypeScript compiler (and even earlier
+using VSCode IntelliSense). We can provide type information,
+for example we can specify that our
+function <code>greet</code> is expecting a string argument. Then any attempt to
+call it with a non-string argument will show an error.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">greet</span>(<span class="params">user: string</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> u = capitalize(trim(user))</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`hello <span class="subst">$&#123;u&#125;</span>`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ npm start</span><br><span class="line">src/app.ts(3,19): error TS2345: Argument of <span class="built_in">type</span> <span class="string">'42'</span> is not assignable</span><br><span class="line">to parameter of <span class="built_in">type</span> <span class="string">'string'</span>.</span><br></pre></td></tr></table></figure>
+<p>The editor is showing red squiggly lines under <code>console.log(greet(42))</code>
+showing the error if I hover it. Helpful!</p>
+<h2><span id="3rd-party-types">3rd party types</span></h2><p>What about the little functions we are using from Lodash and Ramda?
+By default, there is no IntelliSense or type information for them</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;capitalize&#125; <span class="keyword">from</span> <span class="string">'lodash'</span></span><br><span class="line"><span class="keyword">import</span> &#123;trim&#125; <span class="keyword">from</span> <span class="string">'ramda'</span></span><br></pre></td></tr></table></figure>
+<p>Luckily, type definitions for many libraries have been added under <code>@types</code>
+scope name as part of the <a href="https://github.com/DefinitelyTyped/DefinitelyTyped" target="_blank" rel="noopener">DefinitelyTyped</a> project. Just bring these
+types as dev dependencies</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ npm i -D @types/lodash @types/ramda</span><br><span class="line">trying-typescript@1.0.0 /Users/gleb/trying-typescript</span><br><span class="line">├── @types/lodash@4.14.55</span><br><span class="line">└── @types/ramda@0.0.4</span><br></pre></td></tr></table></figure>
+<p>Hover over <code>trim(...)</code> call in the <code>greet.ts</code> and notice helpful type
+definition <code>trim(str: string): string - Removes (strips) whitespace from both ends of the string</code>.</p>
+<h2><span id="ambient-types">Ambient types</span></h2><p>Imagine you have a library written in &quot;classical&quot; CommonJS and you would like
+to use it from a TypeScript project. You can add <em>ambient type definition</em>
+file and list types there.</p>
+<p>If your library has the main file &quot;main.js&quot;, add &quot;main.d.ts&quot; next to it
+and describe the types. For example</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.js</span></span><br><span class="line"><span class="keyword">const</span> add = <span class="function">(<span class="params">a, b</span>) =&gt;</span> a + b</span><br><span class="line"><span class="built_in">module</span>.exports = add</span><br><span class="line"><span class="comment">// main.d.ts</span></span><br><span class="line"><span class="keyword">declare</span> <span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a: <span class="built_in">number</span>, b: <span class="built_in">number</span></span>): <span class="title">number</span></span>;</span><br><span class="line"><span class="keyword">export</span> = add;</span><br></pre></td></tr></table></figure>
+<p>Add link to <code>main.d.ts</code> to your <code>package.json</code>, do not forget to include it
+in the published package.</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"my-lib"</span>,</span><br><span class="line">  <span class="attr">"main"</span>: <span class="string">"main.js"</span>,</span><br><span class="line">  <span class="attr">"types"</span>: <span class="string">"main.d.ts"</span>,</span><br><span class="line">  <span class="attr">"files"</span>: [</span><br><span class="line">    <span class="string">"main.js"</span>,</span><br><span class="line">    <span class="string">"main.d.ts"</span></span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Then from your TypeScript project, <em>require</em> the module &quot;my-lib&quot;.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// client.ts</span></span><br><span class="line"><span class="keyword">import</span> add = <span class="built_in">require</span>(<span class="string">'my-lib'</span>)</span><br><span class="line"><span class="comment">// add will have type signature from main.d.ts</span></span><br></pre></td></tr></table></figure>
+<p>You can find more examples of writing ambient type definitions in the
+official <a href="https://www.typescriptlang.org/docs/handbook/declaration-files/introduction.html" target="_blank" rel="noopener">docs</a></p>
+<h2><span id="manual-types-for-3rd-party-libraries">Manual types for 3rd party libraries</span></h2><p>If the 3rd party library does not provide any types, you can &quot;fill&quot; the
+missing information yourself. For example, imagine you are importing <code>my-math</code>
+module which will give you a couple of methods</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// node_modules/my-math/index.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  add: <span class="function">(<span class="params">a, b</span>) =&gt;</span> a + b</span><br><span class="line">  <span class="comment">// maybe other methods</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// index.js</span></span><br><span class="line"><span class="keyword">const</span> myMath = <span class="built_in">require</span>(<span class="string">'my-math'</span>)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'2 + 3 ='</span>, myMath.add(<span class="number">2</span>, <span class="number">3</span>)) <span class="comment">//&gt; 5</span></span><br></pre></td></tr></table></figure>
+<p>Tell TypeScript compiler that you want to use your own type definition file</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// index.ts</span></span><br><span class="line"><span class="comment">/// &lt;reference path="./libs.d.ts"/&gt;</span></span><br><span class="line"><span class="keyword">import</span> myMath = <span class="built_in">require</span>(<span class="string">'my-math'</span>)</span><br></pre></td></tr></table></figure>
+<p>Write the <code>libs.d.ts</code> file. It should define each module you want to describe
+and the exported value. The only thing that might trip you up: you will
+describe an <em>interface</em> of <code>my-math</code>, but export <em>a named value</em> of that
+interface.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// libs.d.ts</span></span><br><span class="line"><span class="keyword">declare</span> <span class="keyword">module</span> 'my-math' &#123;</span><br><span class="line">  <span class="keyword">interface</span> MyMath &#123;</span><br><span class="line">    add: <span class="function">(<span class="params">a: <span class="built_in">number</span>, b: <span class="built_in">number</span></span>) =&gt;</span> <span class="built_in">number</span></span><br><span class="line">    <span class="comment">// describe any other methods you want to import</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> myMath: MyMath</span><br><span class="line">  <span class="keyword">export</span> = myMath</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>TypeScript compiler should be able to use these definition for the loaded
+CommonJS module. A good idea is to put all your type definitions into
+a file named <code>typings.d.ts</code> in the root of the TypeScript code.</p>
+<h2><span id="linting">Linting</span></h2><p>I love using <a href="http://standardjs.com/" target="_blank" rel="noopener">standard</a> to enforce consistent code style and
+even automatically fix small issues. For TypeScript, there is <a href="https://github.com/palantir/tslint" target="_blank" rel="noopener">tslint</a>
+and &quot;standard&quot; set of rules</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ npm i -D tslint tslint-config-standard</span><br><span class="line">trying-typescript@1.0.0 trying-typescript</span><br><span class="line">└─┬ tslint@4.5.1</span><br></pre></td></tr></table></figure>
+<p>Set the rule in <code>tslint.json</code> file</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ cat &lt;&lt;EOF &gt; tslint.json</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"extends"</span>: <span class="string">"tslint-config-standard"</span></span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+<p>and run linter before each build</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">    <span class="attr">"build"</span>: <span class="string">"tsc"</span>,</span><br><span class="line">    <span class="attr">"prebuild"</span>: <span class="string">"npm run lint"</span>,</span><br><span class="line">    <span class="attr">"lint"</span>: <span class="string">"tslint --fix --format stylish src/**/*.ts"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Most white space errors will be fixed automatically.</p>
+<h3><span id="linting-using-typescript-compiler">Linting using TypeScript compiler</span></h3><p>You can also lint (without auto-fixing) TypeScript files using <code>tsc</code> itself. Just specify options to avoid outputting JS</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">    <span class="attr">"lint"</span>: <span class="string">"tsc --pretty --noEmit cypress/**/*.ts"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Example output:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt; tsc --pretty --noEmit cypress/**/*.ts</span><br><span class="line"></span><br><span class="line">cypress/integration/spec.ts(1,1): error TS2304: Cannot find name &apos;it&apos;.</span><br><span class="line"></span><br><span class="line">1 it(&apos;works&apos;, () =&gt; &#123;</span><br><span class="line">  ~~</span><br><span class="line"></span><br><span class="line">cypress/integration/spec.ts(2,3): error TS2304: Cannot find name &apos;cy&apos;.</span><br><span class="line"></span><br><span class="line">2   cy.document()</span><br><span class="line">    ~~</span><br></pre></td></tr></table></figure>
+<p>We can solve the first problem (missing global <code>it</code> function) by adding Mocha TypeScript definitions with <code>npm i -D @types/mocha</code>. We can solve the second by installing version of Cypress that includes type definitions (should be <code>&gt; 1.1.3</code>) or by installing definitions from deprecated library <code>npm i -D @types/cypress</code>.</p>
+<h2><span id="intellisense-and-jsdoc">IntelliSense and JSDoc</span></h2><p>TypeScript IntelliSense in VSCode and Atom will automatically display JSDoc
+comments with the type definitions. For example, write a short one liner
+above the function to be displayed</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** Adds two numbers or concatenates two strings */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a, b</span>) </span>&#123; <span class="keyword">return</span> a + b &#125;</span><br></pre></td></tr></table></figure>
+<p>Here is how VSCode and Atom shows the type and help comment for a typical
+function.</p>
+<p><img src="/blog/images/typescript/vscode-intellisense.png" alt="VSCode IntelliSense"></p>
+<p><img src="/blog/images/typescript/atom-intellisense.png" alt="Atom IntelliSense"></p>
+<h2><span id="source-maps">Source maps</span></h2><p>Imagine there is a crash inside our transpiled code. For example, if the
+original TypeScript code is</p>
+<figure class="highlight ts"><figcaption><span>greet.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;capitalize&#125; <span class="keyword">from</span> <span class="string">'lodash'</span></span><br><span class="line"><span class="keyword">import</span> &#123;trim&#125; <span class="keyword">from</span> <span class="string">'ramda'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">greet</span>(<span class="params">user: <span class="built_in">string</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> u = capitalize(trim(user))</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'nope'</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>then running the transpiled code generates a stack trace that does NOT point
+at line 6 of <code>greet.ts</code>. Instead it points at the transpiled JavaScript code.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ node dist/greeter.js</span><br><span class="line"></span><br><span class="line">/try-typescript/dist/greet.js:7</span><br><span class="line">    throw new Error(<span class="string">'nope'</span>);</span><br><span class="line">    ^</span><br><span class="line"></span><br><span class="line">Error: nope</span><br><span class="line">    at Object.greet (/try-typescript/dist/greet.js:7:11)</span><br><span class="line">    at Object.&lt;anonymous&gt; (/try-typescript/dist/greeter.js:4:21)</span><br><span class="line">    at Module._compile (module.js:570:32)</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+<p>We need to do 2 things to get the stack traces pointing at the original code.</p>
+<ol>
+<li><p>TypeScript compiler should generate source maps. Go to <code>tsconfig.json</code> and
+add <code>sourceMap</code> setting.</p>
+<figure class="highlight json"><figcaption><span>tsconfig.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"compilerOptions"</span>: &#123;</span><br><span class="line">    <span class="attr">"sourceMap"</span>: <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Running the <code>tsc</code> compiler now should produce extra &quot;.map&quot; files, and each
+&quot;.js&quot; file will have source map reference</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ cat dist/greet.js</span><br><span class="line">&quot;use strict&quot;;</span><br><span class="line">Object.defineProperty(exports, &quot;__esModule&quot;, &#123; value: true &#125;);</span><br><span class="line">const lodash_1 = require(&quot;lodash&quot;);</span><br><span class="line">const ramda_1 = require(&quot;ramda&quot;);</span><br><span class="line">function greet(user) &#123;</span><br><span class="line">    const u = lodash_1.capitalize(ramda_1.trim(user));</span><br><span class="line">    throw new Error(&apos;nope&apos;);</span><br><span class="line">&#125;</span><br><span class="line">exports.greet = greet;</span><br><span class="line">//# sourceMappingURL=greet.js.map</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Add source map support to node by installing
+<a href="https://github.com/evanw/node-source-map-support" target="_blank" rel="noopener">node-source-map-support</a>
+module. It is a runtime dependency.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install --save node-source-map-support</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Import the <code>node-source-map-support</code> at the start of your TypeScript
+application</p>
+<figure class="highlight ts"><figcaption><span>greet.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'source-map-support/register'</span></span><br><span class="line"><span class="keyword">import</span> &#123;greet&#125; <span class="keyword">from</span> <span class="string">'./greet'</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>The crash should now show the original TypeScript locations.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ node dist/greeter.js</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/try-typescript/src/greet.ts:6</span><br><span class="line">  throw new Error(<span class="string">'nope'</span>)</span><br><span class="line">        ^</span><br><span class="line">Error: nope</span><br><span class="line">    at Object.greet (/try-typescript/src/greet.ts:6:9)</span><br><span class="line">    at Object.&lt;anonymous&gt; (/try-typescript/src/greeter.ts:4:13)</span><br><span class="line">    at Module._compile (module.js:570:32)</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+<p>This is still imperfect (what is <code>Object.greet</code>?), but at least can be
+prettified using <a href="https://github.com/AriaMinaei/pretty-error" target="_blank" rel="noopener">pretty-error</a>
+module</p>
+<figure class="highlight ts"><figcaption><span>greet.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'source-map-support/register'</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> PrettyError <span class="keyword">from</span> <span class="string">'pretty-error'</span></span><br><span class="line">PrettyError.start()</span><br><span class="line"><span class="keyword">import</span> &#123;greet&#125; <span class="keyword">from</span> <span class="string">'./greet'</span></span><br></pre></td></tr></table></figure>
+<p>which produces the following (plus colors)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ node dist/greeter.js</span><br><span class="line"></span><br><span class="line">  Error: nope</span><br><span class="line"></span><br><span class="line">  - greet.ts:6 Object.greet</span><br><span class="line">    /try-typescript/src/greet.ts:6:9</span><br><span class="line"></span><br><span class="line">  - greeter.ts:6 Object.&lt;anonymous&gt;</span><br><span class="line">    /try-typescript/src/greeter.ts:6:13</span><br><span class="line"></span><br><span class="line">  - module.js:570 Module._compile</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
+<p>There are other <a href="https://github.com/AriaMinaei/pretty-error#theming" target="_blank" rel="noopener">themes</a>
+you can use.</p>
+<p>Once you have a folder with original TypeScript files <code>.ts</code>, and generated JavaScript files
+<code>.js</code> and the source map files <code>.js.map</code>, the file explorer view becomes very crowded.</p>
+<p><img src="/blog/images/typescript/files-exclude.png" alt="Transpiled JavaScript and source map files crowding the explorer view"></p>
+<p>To hide the generated files when there is an existing TypeScript file,
+open VSCode Preferences, find <code>files.exclude</code> settings object and add the following</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"files.exclude"</span>: &#123;</span><br><span class="line">    <span class="attr">"**/*.js.map"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">"**/*.js"</span>: &#123;<span class="attr">"when"</span>: <span class="string">"$(basename).ts"</span>&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2><span id="favorite-features">Favorite features</span></h2><p>Visual Studio Code has a great feature: hover over a function reference, for
+example over &quot;greet&quot; in <code>console.log(greet(&#39;me&#39;))</code> and select
+&quot;Peek definition&quot; from right click menu.
+The modal shows quick function definition!</p>
+<p><img src="/blog/images/typescript/peek-definition.png" alt="Peek function definition"></p>
+<p>Refactoring a code base is also easier with &quot;Find references&quot; feature</p>
+<p><img src="/blog/images/typescript/find-references.png" alt="Find references"></p>
+<h2><span id="common-problems-and-solutions">Common problems and solutions</span></h2><h3><span id="i-need-to-write-typescript-tests">I need to write TypeScript tests</span></h3><p>I have described how to transpile TypeScript spec files in
+<a href="../unit-test-node-code-in-10-seconds/">Unit test Node in 10 seconds</a>
+blog post.</p>
+<h3><span id="cannot-find-global-symbol-describe-mocha-jasmine">Cannot find global symbol describe (Mocha, Jasmine)</span></h3><p>When testing using Mocha we tell linter that <code>describe</code> and <code>it</code> are global
+symbols</p>
+<figure class="highlight js"><figcaption><span>foo-spec.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* global describe, it */</span></span><br><span class="line">describe(<span class="string">'foo'</span>, () =&gt; &#123;</span><br><span class="line">  it(<span class="string">'does something'</span>, () =&gt; &#123;</span><br><span class="line">    <span class="comment">// test code</span></span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>When moving this code to TypeScript, find if there are Mocha typings using</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ npm info @types/mocha</span><br><span class="line">YES!</span><br><span class="line">$ npm install --save-dev @types/mocha</span><br></pre></td></tr></table></figure>
+<p>Remove the lint comment - VSCode and TypeScript compiler will understand
+the types now automatically.</p>
+<h3><span id="cannot-redeclare-block-scoped-variable">Cannot redeclare block-scoped variable</span></h3><p>When porting JavaScript we can get a cryptic error if multiple files declare
+same variables. For example if two files require same modules using same
+variable names we will get an error.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> debug = <span class="built_in">require</span>(<span class="string">'debug'</span>)(<span class="string">'my-module'</span>)</span><br><span class="line"><span class="keyword">const</span> la = <span class="built_in">require</span>(<span class="string">'lazy-ass'</span>)</span><br><span class="line"><span class="keyword">const</span> is = <span class="built_in">require</span>(<span class="string">'check-more-types'</span>)</span><br><span class="line"><span class="comment">// [ts] Cannot redeclare block-scoped variable 'debug'</span></span><br></pre></td></tr></table></figure>
+<p>To solve I found the solution to use <code>import</code> declaration instead of <code>const</code>.
+You don&#39;t even need to change everything, just put a module that can be
+imported.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> la = <span class="built_in">require</span>(<span class="string">'lazy-ass'</span>)</span><br><span class="line"><span class="keyword">import</span> is = <span class="built_in">require</span>(<span class="string">'check-more-types'</span>)</span><br><span class="line"><span class="keyword">const</span> debug = <span class="built_in">require</span>(<span class="string">'debug'</span>)(<span class="string">'screenshots'</span>)</span><br></pre></td></tr></table></figure>
+<h3><span id="nested-folders">Nested folders</span></h3><p>To convert multiple files in subfolders and generate same folder tree in
+the output folder, use <code>rootDir</code> option. For example, to convert all
+TypeScript files from <code>ts</code> folder and output the results into <code>src</code>
+directory use</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"compilerOptions"</span>: &#123;</span><br><span class="line">    <span class="attr">"outDir"</span>: <span class="string">"./src"</span>,</span><br><span class="line">    <span class="attr">"rootDir"</span>: <span class="string">"./ts"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"include"</span>: [</span><br><span class="line">    <span class="string">"./ts/**/*.ts"</span></span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>See <a href="https://github.com/Microsoft/TypeScript/pull/2772" target="_blank" rel="noopener">#2772</a></p>
+<h3><span id="cannot-find-name-process">Cannot find name process</span></h3><p>If you get an error trying to use common Node global symbols, like <code>process</code> with error
+message <code>error TS2304: Cannot find name &#39;process&#39;</code> you should install the node typings</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install <span class="string">"@types/node"</span> --save-dev</span><br></pre></td></tr></table></figure>
+<p>The VSCode window might need to be reloaded in order to stop showing red squiggly lines.</p>
+<h3><span id="cannot-find-system-module">Cannot find system module</span></h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> fs <span class="keyword">from</span> <span class="string">'fs'</span></span><br></pre></td></tr></table></figure>
+<p>Produces <code>error TS2307: Cannot find module &#39;fs&#39;</code></p>
+<p><strong>solution</strong></p>
+<p>Make sure <code>tsconfig.json</code> file has <code>&quot;moduleResolution&quot;: &quot;node&quot;</code> as in</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"compilerOptions"</span>: &#123;</span><br><span class="line">    <span class="attr">"moduleResolution"</span>: <span class="string">"node"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Then install Node typings <code>npm install &quot;@types/node&quot; --save-dev</code></p>
+<p>and change the <code>import</code> line to <code>import * as fs from &#39;fs&#39;</code>.</p>
+<h3><span id="promise-refers-to-a-type">Promise refers to a type</span></h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> ...)</span><br></pre></td></tr></table></figure>
+<p>produces an error <code>Promise&#39; only refers to a type, but is being used as a value here.</code></p>
+<p><strong>solution</strong></p>
+<p>Make sure the <code>tsconfig.json</code> has ast least <code>es6</code> target type</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"compilerOptions"</span>: &#123;</span><br><span class="line">    <span class="attr">"target"</span>: <span class="string">"es6"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"include"</span>: [</span><br><span class="line">    <span class="string">"./ts/**/*.ts"</span></span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3><span id="loading-json-files">Loading JSON files</span></h3><p>To load a JSON file, like we do in JavaScript <code>const pkg = require(&#39;./package.json&#39;)</code>
+you need to define a <em>wildecard</em> module. Just create a <code>typings.d.ts</code> file
+with</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">declare</span> <span class="keyword">module</span> '*.json' &#123;</span><br><span class="line">  <span class="keyword">const</span> value: <span class="built_in">any</span></span><br><span class="line">  <span class="keyword">export</span> <span class="keyword">default</span> value</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>and then import the file. When you are ready to grab a property from the
+loaded object, cast it as &quot;any&quot; or a specific interface</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> pkg <span class="keyword">from</span> <span class="string">'./package.json'</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'package name'</span>, (pkg <span class="keyword">as</span> <span class="built_in">any</span>).name)</span><br></pre></td></tr></table></figure>
+<p>See the blog post <a href="https://hackernoon.com/import-json-into-typescript-8d465beded79#.2itbfdoub" target="_blank" rel="noopener">How to Import json into TypeScript</a></p>
+<p>Alternatively, you can still use <code>require</code> to load JSON files, but you
+would need to add Node type definitions</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install @types/node --save-dev</span><br></pre></td></tr></table></figure>
+<h3><span id="cpu-is-fried">CPU is fried</span></h3><p>Fun fact: VSCode uses a lot of CPU when rendering
+<a href="https://github.com/Microsoft/vscode/issues/22900" target="_blank" rel="noopener">blinking cursor</a>. Disable
+it in the preferences</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;editor.cursorBlinking&quot;: &quot;solid&quot;</span><br></pre></td></tr></table></figure>
+<h3><span id="atom-editor">Atom editor</span></h3><p>To add TypeScript support to Atom editor, I recommend
+<a href="https://atom.io/packages/atom-typescript" target="_blank" rel="noopener">atom-typescript</a>. The first time
+you open a <code>.ts</code> file, atom-typescript will ask if you want to install
+linter plugin. Click &quot;Yes&quot; and let it install.</p>
+<p>I must admit, Atom TypeScript support via plugin is not as good as in VSCode.
+The notifications often just showed the error, but without providing relevant
+help. For example, as I am typing arguments, Atom only shows that there is
+an error, but not the actual signature!</p>
+<p><img src="/blog/images/typescript/vscode-help.png" alt="VSCode help"></p>
+<p><img src="/blog/images/typescript/atom-help.png" alt="Atom help"></p>
+<h2><span id="additional-information">Additional information</span></h2><p>A few links to why and how you should use TypeScript</p>
+<ul>
+<li><a href="http://staltz.com/all-js-libraries-should-be-authored-in-typescript.html" target="_blank" rel="noopener">All JS libraries should be authored in TypeScript</a></li>
+<li><a href="https://github.com/TylorS/45" target="_blank" rel="noopener">45</a> is a good example of a test runner written in TypeScript, and <a href="https://github.com/alexjoverm/typescript-library-starter" target="_blank" rel="noopener">typescript-library-starter</a> is a good way to start a TypeScript library (includes bundling and tree-shaking)</li>
+<li><a href="https://www.typescriptlang.org/docs/handbook/migrating-from-javascript.html" target="_blank" rel="noopener">Migrating from JavaScript</a></li>
+<li><a href="https://blog.repositive.io/intro-to-typescript/" target="_blank" rel="noopener">An Introduction to TypeScript</a> by Daniel Gynn is good.</li>
+<li><a href="https://x-team.com/blog/introduction-typescript/" target="_blank" rel="noopener">Introduction to TypeScript</a> by Kenny Song is pretty short.</li>
+<li><a href="https://hashnode.com/post/how-we-migrated-a-200k-loc-project-to-typescript-and-survived-to-tell-the-story-ciyzhikcc0001y253w00n11yb" target="_blank" rel="noopener">How we migrated a 200K+ LOC project to TypeScript and survived to tell the story</a> presents a good argument for switching an existing project to TypeScript.</li>
+<li>Video <a href="https://www.youtube.com/watch?v=yy4c0hzNXKw" target="_blank" rel="noopener">TypeScript tooling for greater productivity - Martin Probst and Alex Eagle</a> has Angular-specific parts, but is really high quality intro to TypeScript.</li>
+</ul>
+
+      
+    </div>
+
+    
+      <footer class="article-footer personal-links">
+  Follow Gleb Bahmutov <a href="https://twitter.com/bahmutov">@bahmutov</a>,
+  see his projects at <a href="http://glebbahmutov.com">glebbahmutov.com</a>
+</footer>
+<script src="https://rawgit.com/toddmotto/linkjuice/702066a37124081e7ad1a972844a9a91115be05a/dist/linkjuice.js"></script>
+<script>
+function contentFn (node, icon) {
+  var s = '<a href="#' + node.id + '" class="linkjuice">' +
+    node.innerHTML + ' ' + icon + '</a>\n'
+  return s
+}
+linkjuice.init('.article-entry', {
+  selectors: ['h2'],
+  icon: '<span class="link-symbol">#</span>',
+  contentFn: contentFn
+});
+</script>
+
+    
+
+    <footer class="article-footer">
+      <a data-url="https://glebbahmutov.com/blog/trying-typescript/" data-id="cjdmjvita00wpmtooifts8j8p" class="article-share-link">Share</a>
+      
+        <a href="https://glebbahmutov.com/blog/trying-typescript/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../tags/tutorial/">tutorial</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../tags/typescript/">typescript</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="../pure-programming-with-hyper-app/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Pure programming with Hyper App
+        
+      </div>
+    </a>
+  
+  
+    <a href="../better-slide-format/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Better slide format</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    <style>
+#carbonads {
+  display: block;
+  overflow: hidden;
+  font-size: 11px;
+  font-family: Verdana, "Helvetica Neue", Helvetica, sans-serif;
+  line-height: 1.5;
+}
+
+#carbonads a {
+  color: #258fb8;
+  text-decoration: none;
+}
+
+#carbonads a:hover {
+  text-decoration: underline;
+}
+
+#carbonads span {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+
+.carbon-img {
+  float: left;
+  margin-right: 1em;
+}
+
+.carbon-img img { display: block; }
+
+.carbon-text {
+  display: block;
+  float: left;
+  text-align: left;
+  margin-top: 0.5em;
+}
+@media screen and (min-width: 1024px) {
+  .carbon-text {
+    max-width: calc(100% - 130px - 1em);
+  }
+}
+
+.carbon-poweredby {
+  /*position: absolute;
+  right: 0;
+  bottom: 0;*/
+  float: right;
+  display: block;
+  font-size: 11px;
+}
+</style>
+<div class="widget-wrap">
+  <div class="widget-title">&nbsp;</div>
+  <div class="widget">
+    <!-- Carbon Ads -->
+    <script async type="text/javascript"
+      src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=glebbahmutovcom"
+      id="_carbonads_js"></script>
+  </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="../categories/book-review/">book review</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="../categories/people/">people</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="../categories/process/">process</a><span class="category-list-count">101</span></li><li class="category-list-item"><a class="category-list-link" href="../categories/products/">products</a><span class="category-list-count">275</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../tags/QUnit/">QUnit</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/advice/">advice</a><span class="tag-list-count">97</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/angularjs/">angularjs</a><span class="tag-list-count">58</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/angularjs2/">angularjs2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/assertions/">assertions</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ast/">ast</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/boilerplate/">boilerplate</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/browser/">browser</a><span class="tag-list-count">17</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ci/">ci</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/concurrency/">concurrency</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/cyclejs/">cyclejs</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/cypress/">cypress</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/d3/">d3</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/db/">db</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/docker/">docker</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/es6/">es6</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/es7/">es7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/functional/">functional</a><span class="tag-list-count">67</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/generators/">generators</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/git/">git</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/grunt/">grunt</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/gulp/">gulp</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/hyperapp/">hyperapp</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/immutable/">immutable</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/interview/">interview</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/jade/">jade</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/javascript/">javascript</a><span class="tag-list-count">160</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/jshint/">jshint</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/modular-development/">modular development</a><span class="tag-list-count">26</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/nodejs/">nodejs</a><span class="tag-list-count">69</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/performance/">performance</a><span class="tag-list-count">17</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/presentation/">presentation</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/promises/">promises</a><span class="tag-list-count">31</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/proposal/">proposal</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ramda/">ramda</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/reactive/">reactive</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/reactjs/">reactjs</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/screencast/">screencast</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/security/">security</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/sentry/">sentry</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/service-workers/">service workers</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/testing/">testing</a><span class="tag-list-count">70</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/tutorial/">tutorial</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/typescript/">typescript</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ui/">ui</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/vuejs/">vuejs</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/web-workers/">web workers</a><span class="tag-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="../tags/QUnit/" style="font-size: 11.82px;">QUnit</a> <a href="../tags/advice/" style="font-size: 19.55px;">advice</a> <a href="../tags/angularjs/" style="font-size: 17.73px;">angularjs</a> <a href="../tags/angularjs2/" style="font-size: 10px;">angularjs2</a> <a href="../tags/assertions/" style="font-size: 13.64px;">assertions</a> <a href="../tags/ast/" style="font-size: 13.18px;">ast</a> <a href="../tags/boilerplate/" style="font-size: 15.91px;">boilerplate</a> <a href="../tags/browser/" style="font-size: 16.36px;">browser</a> <a href="../tags/ci/" style="font-size: 12.73px;">ci</a> <a href="../tags/concurrency/" style="font-size: 10px;">concurrency</a> <a href="../tags/cyclejs/" style="font-size: 12.73px;">cyclejs</a> <a href="../tags/cypress/" style="font-size: 14.09px;">cypress</a> <a href="../tags/d3/" style="font-size: 10.91px;">d3</a> <a href="../tags/db/" style="font-size: 14.09px;">db</a> <a href="../tags/docker/" style="font-size: 13.64px;">docker</a> <a href="../tags/es6/" style="font-size: 15.45px;">es6</a> <a href="../tags/es7/" style="font-size: 10px;">es7</a> <a href="../tags/functional/" style="font-size: 18.18px;">functional</a> <a href="../tags/generators/" style="font-size: 11.82px;">generators</a> <a href="../tags/git/" style="font-size: 14.55px;">git</a> <a href="../tags/grunt/" style="font-size: 12.73px;">grunt</a> <a href="../tags/gulp/" style="font-size: 10.91px;">gulp</a> <a href="../tags/hyperapp/" style="font-size: 11.82px;">hyperapp</a> <a href="../tags/immutable/" style="font-size: 11.36px;">immutable</a> <a href="../tags/interview/" style="font-size: 10.91px;">interview</a> <a href="../tags/jade/" style="font-size: 11.36px;">jade</a> <a href="../tags/javascript/" style="font-size: 20px;">javascript</a> <a href="../tags/jshint/" style="font-size: 10.91px;">jshint</a> <a href="../tags/modular-development/" style="font-size: 16.82px;">modular development</a> <a href="../tags/nodejs/" style="font-size: 18.64px;">nodejs</a> <a href="../tags/performance/" style="font-size: 16.36px;">performance</a> <a href="../tags/presentation/" style="font-size: 11.36px;">presentation</a> <a href="../tags/promises/" style="font-size: 17.27px;">promises</a> <a href="../tags/proposal/" style="font-size: 10.45px;">proposal</a> <a href="../tags/ramda/" style="font-size: 10px;">ramda</a> <a href="../tags/reactive/" style="font-size: 15px;">reactive</a> <a href="../tags/reactjs/" style="font-size: 10.45px;">reactjs</a> <a href="../tags/screencast/" style="font-size: 10px;">screencast</a> <a href="../tags/security/" style="font-size: 12.73px;">security</a> <a href="../tags/sentry/" style="font-size: 14.09px;">sentry</a> <a href="../tags/service-workers/" style="font-size: 12.27px;">service workers</a> <a href="../tags/testing/" style="font-size: 19.09px;">testing</a> <a href="../tags/tutorial/" style="font-size: 13.18px;">tutorial</a> <a href="../tags/typescript/" style="font-size: 10.45px;">typescript</a> <a href="../tags/ui/" style="font-size: 10.45px;">ui</a> <a href="../tags/vuejs/" style="font-size: 10.91px;">vuejs</a> <a href="../tags/web-workers/" style="font-size: 12.27px;">web workers</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/12/">December 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/08/">August 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/07/">July 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/06/">June 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/04/">April 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/03/">March 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/02/">February 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/01/">January 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/11/">November 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/09/">September 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/08/">August 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/07/">July 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/06/">June 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/04/">April 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/03/">March 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/02/">February 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/12/">December 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/11/">November 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/10/">October 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/09/">September 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/08/">August 2015</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/07/">July 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/06/">June 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/05/">May 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/04/">April 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/03/">March 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/02/">February 2015</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/01/">January 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/12/">December 2014</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/11/">November 2014</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/10/">October 2014</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/09/">September 2014</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/08/">August 2014</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/07/">July 2014</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/06/">June 2014</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/05/">May 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/04/">April 2014</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/03/">March 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/02/">February 2014</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/01/">January 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/12/">December 2013</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/11/">November 2013</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/10/">October 2013</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/09/">September 2013</a><span class="archive-list-count">10</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="../parcel/">Parcel Bundler</a>
+          </li>
+        
+          <li>
+            <a href="../use-lenses-in-hyperapp/">Use Lenses in Hyperapp</a>
+          </li>
+        
+          <li>
+            <a href="../testing-es6-module-in-cypress-electron/">Testing ES6 Module in Cypress Electron Browser</a>
+          </li>
+        
+          <li>
+            <a href="../drive-by-testing-array-explorer/">Drive-by Testing Array Explorer</a>
+          </li>
+        
+          <li>
+            <a href="../testing-vue-cli-reload/">Testing Vue CLI reload</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Gleb Bahmutov<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'betterworldbybettersoftware';
+  
+  var disqus_url = 'https://glebbahmutov.com/blog/trying-typescript/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="../fancybox/jquery.fancybox.css">
+  <script src="../fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="../js/script.js"></script>
+
+  </div>
+  <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
+<script>
+(function centerMainOnAsideScroll () {
+  // when aside side bar scrolls outside the view
+  // it centers the main content.
+  const main = document.querySelector('#main')
+  const aside = document.querySelector('aside#sidebar')
+  console.assert(main, 'could not get #main')
+  console.assert(aside, 'could not get aside')
+  // initially the aside sidebar is visible
+  let asideVisible = true
+
+  function centerMain () {
+    console.log('adding class center-main')
+    main.classList.add('center-main')
+  }
+  function leftMain () {
+    main.classList.remove('center-main')
+  }
+
+  function callWhenAsideScrollsUp (becameInvisible, becameVisible) {
+    return function () {
+      const border = 50
+      const rect = aside.getBoundingClientRect()
+      if (asideVisible && rect.bottom < -border) {
+        asideVisible = false
+        becameInvisible()
+      }
+
+      if (!asideVisible && window.scrollY < border) {
+        asideVisible = true
+        becameVisible()
+      }
+    }
+  }
+  const throttleWaitMs = 250
+  const onScroll = _.throttle(
+    callWhenAsideScrollsUp(centerMain, leftMain),
+    throttleWaitMs
+  )
+  window.addEventListener('scroll', onScroll)
+}())
+</script>
+
+</body>
+</html>

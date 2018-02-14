@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>JavaScript nuggets | Better world by better software</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Related: Angular nuggets Remove commentsA well-named function replaces comments 123456789authService.checkLogin(null, null, function() &amp;#123;    // there was an error, default to &quot;anonymous&quot;    $scope">
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript nuggets">
+<meta property="og:url" content="https://glebbahmutov.com/blog/javascript-nuggets/index.html">
+<meta property="og:site_name" content="Better world by better software">
+<meta property="og:description" content="Related: Angular nuggets Remove commentsA well-named function replaces comments 123456789authService.checkLogin(null, null, function() &amp;#123;    // there was an error, default to &quot;anonymous&quot;    $scope">
+<meta property="og:updated_time" content="2018-02-14T02:33:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript nuggets">
+<meta name="twitter:description" content="Related: Angular nuggets Remove commentsA well-named function replaces comments 123456789authService.checkLogin(null, null, function() &amp;#123;    // there was an error, default to &quot;anonymous&quot;    $scope">
+<meta name="twitter:creator" content="@bahmutov">
+  
+    <link rel="alternative" href="/blog/atom.xml" title="Better world by better software" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="../css/style.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-59999353-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <!-- <div id="banner"></div> -->
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../index.html" id="logo">Better world by better software</a>
+      </h1>
+      <!--
+      
+        <h2 id="subtitle-wrap">
+          <a href="../index.html" id="subtitle">Gleb Bahmutov PhD</a>
+        </h2>
+      
+      -->
+      <!-- <span class="no-mobile">Software advice from</span> -->
+      <h2 id="subtitle-wrap">
+        <span class="subtitle">
+          <a id="subtitle" href="http://glebbahmutov.com">Gleb Bahmutov PhD</a>
+        </span>
+      </h2>
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <a id="nav-house-link" class="nav-icon" href="/" title="Home"></a>
+        
+          <a id="nav-rss-link" class="nav-icon" href="/blog/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://glebbahmutov.com/blog"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-javascript-nuggets" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="" class="article-date">
+  <time datetime="2016-03-24T04:00:00.000Z" itemprop="datePublished">Mar 24 2016</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="../categories/products/">products</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JavaScript nuggets
+    </h1>
+
+    <h2 class="article-title" itemprop="name">
+      Helpful JavaScript code snippets.
+    </h2>
+
+  
+
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Related: <a href="../angular-nuggets">Angular nuggets</a></p>
+<h2><span id="remove-comments">Remove comments</span></h2><p>A well-named function replaces comments</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">authService.checkLogin(<span class="literal">null</span>, <span class="literal">null</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// there was an error, default to "anonymous"</span></span><br><span class="line">    $scope.authState = <span class="string">"anonymous"</span>;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// becomes</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">onLoginError</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    $scope.authState = <span class="string">"anonymous"</span>;</span><br><span class="line">&#125;</span><br><span class="line">authService.checkLogin(<span class="literal">null</span>, <span class="literal">null</span>, onLoginError);</span><br></pre></td></tr></table></figure>
+<h2><span id="use-comments-in-your-json-files-really">Use comments in your json files (really)</span></h2><p>This is valid JSON syntax</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"short project name"</span>,</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"app-server"</span>,</span><br><span class="line"></span><br><span class="line">    <span class="attr">"engine"</span>: <span class="string">"minimum nodejs version"</span>,</span><br><span class="line">    <span class="attr">"engine"</span>: <span class="string">"0.8"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2><span id="refactor-conditions">Refactor conditions</span></h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ($scope.selectedProduct &amp;&amp;</span><br><span class="line">    $scope.selectedProduct.id !== selectedProductId) &#123;</span><br><span class="line">        $location.path(<span class="string">"/products/"</span> +</span><br><span class="line">            $scope.selectedProduct.id + <span class="string">"/details"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">// becomes</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">selectedNewProduct</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> $scope.selectedProduct &amp;&amp;</span><br><span class="line">        $scope.selectedProduct.id !== selectedProductId;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (selectedNewProduct()) &#123;</span><br><span class="line">    $location.path(<span class="string">"/products/"</span> +</span><br><span class="line">        $scope.selectedProduct.id + <span class="string">"/details"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2><span id="avoid-exceptions-using-short-circuit-expressions">Avoid exceptions using short circuit expressions</span></h2><p>If we have a complex condition, for example if an argument is an object
+and has a certain property, the condition can cause an exception if
+an object is <code>undefined</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isValid</span>(<span class="params">person</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> person &amp;&amp; person.name</span><br><span class="line">&#125;</span><br><span class="line">isValid()</span><br><span class="line"><span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<p>JavaScript uses short circuit evaluation for expressions in the conditions
+to avoid evaluating expressions if the entire value is known, which is often
+the case with Boolean expressions. In the above code, only the left hand
+of the logical AND is evaluated. Since it is false (there is no <code>person</code>)
+the condition returns without evaluating <code>person.name</code>.</p>
+<p>This often fails if we change the condition to OR. Then all parts might be
+evaluated, until at least one is true.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isValid</span>(<span class="params">person</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> person &amp;&amp; person.name || person.age</span><br><span class="line">&#125;</span><br><span class="line">isValid()</span><br><span class="line"><span class="comment">// TypeError: Cannot read property 'age' of undefined</span></span><br></pre></td></tr></table></figure>
+<p>To properly divide the condition we need to make the entire OR into its
+own expression. Then it will be evaluated only if the left hand of the
+AND condition passes.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isValid</span>(<span class="params">person</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> person &amp;&amp; (person.name || person.age)</span><br><span class="line">&#125;</span><br><span class="line">isValid()</span><br><span class="line"><span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<p>In the above code the value of <code>(person.name || person.age)</code> will not be
+computed if the <code>person</code> is false because the short circuit principle stops
+it.</p>
+<h2><span id="cast-result-to-boolean">Cast result to Boolean</span></h2><p>Avoid <code>undefined</code> values by casting the falsy values to real Booleans.
+This will help when converting objects to JSON for example.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isValid</span>(<span class="params">person</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> person &amp;&amp; (person.name || person.age)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> status = &#123;</span><br><span class="line">  hasPerson: isValid()</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">JSON</span>.stringify(status)</span><br><span class="line"><span class="comment">// '&#123;&#125;''</span></span><br></pre></td></tr></table></figure>
+<p>Notice the empty object - the <code>JSON.stringify</code> does NOT output properties
+with <code>undefined</code> values by default. You can use either a custom serializer
+function or ensure that the function <code>isValid</code> returns a true boolean.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bool</span>(<span class="params">fn</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Boolean</span>(fn.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> isValid = bool(<span class="function"><span class="keyword">function</span> (<span class="params">person</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> person &amp;&amp; (person.name || person.age)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">var</span> status = &#123;</span><br><span class="line">  hasPerson: isValid()</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">JSON</span>.stringify(status)</span><br><span class="line"><span class="comment">// '&#123;"hasPerson":false&#125;'</span></span><br></pre></td></tr></table></figure>
+<p>The output now has the desired property.</p>
+<h2><span id="name-functions-consistently">Name functions consistently</span></h2><p>Helps with debugging the stack trace</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">issues.config(<span class="function"><span class="keyword">function</span> <span class="title">config</span>(<span class="params"></span>) </span>&#123;&#125;);</span><br><span class="line">controller(<span class="string">'DashboardCtrl'</span>, <span class="function"><span class="keyword">function</span> <span class="title">HomeController</span>(<span class="params">$scope</span>) </span>&#123;&#125;);</span><br><span class="line"><span class="comment">// becomes</span></span><br><span class="line">issues.config(<span class="function"><span class="keyword">function</span> <span class="title">issuesConfig</span>(<span class="params"></span>) </span>&#123;&#125;);</span><br><span class="line">controller(<span class="string">'DashboardCtrl'</span>, <span class="function"><span class="keyword">function</span> <span class="title">DashboardCtrl</span>(<span class="params">$scope</span>) </span>&#123;&#125;);</span><br></pre></td></tr></table></figure>
+<h2><span id="visual-code-patterns">Visual code patterns</span></h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$scope.archive = <span class="function"><span class="keyword">function</span> (<span class="params">issue</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!issue || !issue.productId || !issue.type || !issue.id) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// becomes</span></span><br><span class="line">$scope.archive = <span class="function"><span class="keyword">function</span> (<span class="params">issue</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!issue ||</span><br><span class="line">        !issue.productId ||</span><br><span class="line">        !issue.type ||</span><br><span class="line">        !issue.id) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2><span id="avoid-required-default-arguments">Avoid required default arguments</span></h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">authService.checkLogin(<span class="literal">null</span>, <span class="literal">null</span>, onLoginError);</span><br><span class="line"><span class="comment">// becomes</span></span><br><span class="line">authService.checkLogin(onLoginError);</span><br></pre></td></tr></table></figure>
+<p>Adjust checkLogin if necessary</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkLogin</span>(<span class="params">username, onSuccess, onError</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> username === <span class="string">'function'</span> &amp;&amp;</span><br><span class="line">        !onSuccess) &#123;</span><br><span class="line">            onError = username;</span><br><span class="line">            username = <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2><span id="use-more-jasmine-matchers">Use more Jasmine matchers</span></h2><p>The Jasmine testing framework comes with a few matchers <code>expect(foo).toBeDefined()</code>, etc.
+<a href="https://github.com/JamieMason/Jasmine-Matchers" target="_blank" rel="noopener">Jasmine-Matchers</a> adds a LOT more, making
+your unit tests a lot more descriptive.</p>
+<h2><span id="focus-skip-single-suite-or-test">Focus / skip single suite or test</span></h2><p>See my <a href="../focus-on-karma-test/">post</a> on how to run / skip individual suite or test.</p>
+<h2><span id="use-consoledebug">Use console.debug</span></h2><p>There is <a href="https://npmjs.org/package/grunt-remove-logging" target="_blank" rel="noopener">grunt-remove-logging</a>
+that removes <code>console.debug</code> or other logging calls after concatenation, but before
+minification step.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">'something really, really important'</span>);</span><br><span class="line"><span class="built_in">console</span>.debug(<span class="string">'useful during testing and development'</span>);</span><br></pre></td></tr></table></figure>
+<p>In general, if I see log messages in the DevTools on
+websites, I think <em>lame</em>.</p>
+<h2><span id="use-inspect-to-find-the-function">Use <code>inspect</code> to find the function</span></h2><p>If you have a function definition (for example from Angular1 scope object)
+you can quickly jump to its definition in Chrome DevTools</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">inspect($($<span class="number">0</span>).scope().saveDescription)</span><br></pre></td></tr></table></figure>
+<h2><span id="use-consoletime">Use console.time</span></h2><p>For simple timing in Node and browsers use</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> label = <span class="string">'foo'</span></span><br><span class="line"><span class="built_in">console</span>.time(label)</span><br><span class="line">...</span><br><span class="line"><span class="built_in">console</span>.timeEnd(label)</span><br><span class="line"><span class="comment">// foo: 200.51ms</span></span><br></pre></td></tr></table></figure>
+<h2><span id="array-concatenation">Array concatenation</span></h2><p>JavaScript flattens items during Array concatenation</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[].concat(<span class="string">'a'</span>, <span class="string">'b'</span>)</span><br><span class="line">&gt; [<span class="string">"a"</span>, <span class="string">"b"</span>]</span><br><span class="line">[].concat(<span class="string">'a'</span>, [<span class="string">'b'</span>, <span class="string">'c'</span>])</span><br><span class="line">&gt; [<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>]</span><br></pre></td></tr></table></figure>
+<h2><span id="concatenating-states">Concatenating states</span></h2><p>Use simple objects for product states, no need to have arrays
+with single object</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.config(<span class="function"><span class="keyword">function</span> (<span class="params">productStates, anotherProductStates</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> states = [].concat(productStates, anotherProductStates);</span><br><span class="line">)&#125;)</span><br></pre></td></tr></table></figure>
+<h2><span id="exclude-files-from-build">Exclude files from build</span></h2><p>When using <a href="http://gruntjs.com/" target="_blank" rel="noopener">grunt</a> to build the front-end, you can easily
+skip files using <strong>!</strong> syntax</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// grabs only .js files, but not .spec.js</span></span><br><span class="line">js: [</span><br><span class="line">  <span class="string">'src/**/*.js'</span>,</span><br><span class="line">  <span class="string">'!src/**/*.spec.js'</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h2><span id="know-your-code39s-complexity">Know your code&#39;s complexity</span></h2><p>Use <a href="https://github.com/vigetlabs/grunt-complexity" target="_blank" rel="noopener">grunt-complexity</a> plugin to measure source
+complexity. You can even fail the build if complexity is higher than a set limit.</p>
+<pre><code>$ grunt complexity
+Running &quot;complexity:all&quot; (complexity) task
+✓ Gruntfile.js                   ████ 88.600
+✓ build.config.js                ████ 98.062
+✓ src/app/footer/footer.js       ███████ 140.54
+✓ src/app/footer/footer.spec.js  ███████ 137.06
+✓ src/app/header/header.js       ██████ 127.84
+✓ src/app/header/header.spec.js  █████ 119.55
+
+// higher number = simpler code
+</code></pre><h2><span id="simplify-your-gruntfilejs">Simplify your Gruntfile.js</span></h2><p>Gruntfiles grow in size and complexity with time. Luckily they can
+be easily refactored to bring them under control. A simple method is
+to move parts of config for different plugins into separate json files</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Gruntfile.js</span></span><br><span class="line">complexity: grunt.file.readJSON(<span class="string">'build.complexity.json'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// build.complexity.json</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"all"</span>: &#123;</span><br><span class="line">    <span class="attr">"src"</span>: [<span class="string">"*.js"</span>, <span class="string">"src/app/**/*.js"</span>],</span><br><span class="line">    <span class="attr">"options"</span>: &#123;</span><br><span class="line">      <span class="attr">"errorsOnly"</span>: <span class="literal">false</span>,</span><br><span class="line">      <span class="attr">"cyclomatic"</span>: <span class="number">10</span>,</span><br><span class="line">      <span class="attr">"halstead"</span>: <span class="number">20</span>,</span><br><span class="line">      <span class="attr">"maintainability"</span>: <span class="number">80</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Each plugin an loads its configuration from a separate simple file.</p>
+<h2><span id="optional-logging-without-extra-code">Optional logging without extra code</span></h2><p>I often turn on optional logging depending on the boolean flag.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">verbose</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (verbose) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'started foo'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">if</span> (verbose) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'another message'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>These small <code>if</code> statements increase <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity" target="_blank" rel="noopener">Cyclomatic complexity</a>,
+leading to code that is harder to read and test. The following code is simpler:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">verbose</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> log = verbose ? <span class="built_in">console</span>.log : angular.noop;</span><br><span class="line">    log(<span class="string">'started foo'</span>);</span><br><span class="line">    ...</span><br><span class="line">    log(<span class="string">'another message'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2><span id="append-array-to-existing-array">Append array to existing array</span></h2><p>We can easily concatenate JavaScript arrays, but this returns a new array</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="string">'foo'</span>];</span><br><span class="line">a.concat([<span class="string">'bar'</span>, <span class="string">'baz'</span>]); <span class="comment">// returns ['foo', 'bar', 'baz']</span></span><br><span class="line"><span class="built_in">console</span>.log(a); <span class="comment">// ['foo']</span></span><br></pre></td></tr></table></figure>
+<p>Sometimes we want to append second array to the existing one.
+JavaScript <code>Array.prototype.push</code> method can take multiple items to append. You can
+pass the entire second array via <code>apply</code> call</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="string">'foo'</span>];</span><br><span class="line">a.push.apply(a, [<span class="string">'bar'</span>, <span class="string">'baz'</span>]);</span><br><span class="line"><span class="built_in">console</span>.log(a); <span class="comment">// ['foo', 'bar', 'baz']</span></span><br></pre></td></tr></table></figure>
+<h2><span id="remove-element-from-array">Remove element from array</span></h2><p><a href="https://lodash.com/docs" target="_blank" rel="noopener">Lodash</a> has two useful methods for removing items from an array.
+Both return new array. <code>_.without</code> removes items by value, and <code>_.remove</code> removes items
+by callback.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="string">'foo'</span>, <span class="string">'bar'</span>];</span><br><span class="line">_.without(a, <span class="string">'bar'</span>); <span class="comment">// returns ['foo']</span></span><br><span class="line">_.remove(a, <span class="function"><span class="keyword">function</span> (<span class="params">item</span>) </span>&#123; <span class="keyword">return</span> <span class="regexp">/^f/</span>.test(item); &#125;); <span class="comment">// returns ['bar']</span></span><br><span class="line"><span class="built_in">console</span>.log(a); <span class="comment">// ['foo', 'bar']</span></span><br></pre></td></tr></table></figure>
+<p><code>_.remove</code> is more versatile and can be used to remove items by property value</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [&#123; <span class="attr">foo</span>: <span class="number">2</span> &#125;, &#123; <span class="attr">foo</span>: <span class="number">3</span> &#125;];</span><br><span class="line">_.remove(a, &#123; <span class="attr">foo</span>: <span class="number">3</span> &#125;); <span class="comment">// returns [&#123; foo: 2 &#125;]</span></span><br></pre></td></tr></table></figure>
+<p>Think of <code>_.remove</code> as inverse of Array.prototype.filter</p>
+<h2><span id="quickly-evaluate-properties-on-the-object">Quickly evaluate properties on the object</span></h2><p>If you have nested property names as strings and an object, you can quickly
+evaluate them without prepending object name. For example, all the console
+log statements below print &quot;baz&quot;.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> foo = &#123;</span><br><span class="line">  bar: &#123;</span><br><span class="line">    baz: <span class="string">'baz'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// explicit dot notation</span></span><br><span class="line"><span class="built_in">console</span>.log(foo.bar.baz);</span><br><span class="line"><span class="comment">// set this = foo, explicit dot notation</span></span><br><span class="line"><span class="keyword">with</span> (foo) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(bar.baz);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// evaluate explicit dot notation string</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">eval</span>(<span class="string">'foo.bar.baz'</span>));</span><br><span class="line"><span class="comment">// evaluate dot notation STRING against an object</span></span><br><span class="line"><span class="keyword">with</span> (foo) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="built_in">eval</span>(<span class="string">'bar.baz'</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>This could be useful to evaluate expressions against a model object</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">$update</span>(<span class="params">model, expression</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">with</span>(model) &#123; <span class="built_in">eval</span>(expression); &#125;</span><br><span class="line">&#125;</span><br><span class="line">$update(foo, <span class="string">'bar.baz = 42;'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(foo);</span><br><span class="line"><span class="comment">// &#123; bar: &#123; baz: 42 &#125; &#125;</span></span><br></pre></td></tr></table></figure>
+<p>While there are <a href="http://javascript.info/tutorial/with-operator#why-with-is-deprecated" target="_blank" rel="noopener">very serious downsides</a>
+to <code>with</code>, there are some neat tricks where it can be used, like <a href="http://jsfiddle.net/ondras/hYfN3/" target="_blank" rel="noopener">tiny spreadsheet</a>
+in vanilla js.</p>
+<h2><span id="deep-clone-an-object">Deep clone an object</span></h2><p>To quickly deep clone an object, you can use this command <code>JSON.parse(JSON.stringify(foo));</code></p>
+<h2><span id="ajax-files-from-files">Ajax files from files</span></h2><p>It is a pain to run a web server locally just so you can Ajax <code>$.get(path)</code>. Chrome browser allows
+you to enable files to make ajax requests to other local files. Just close the browser, then open
+it with command line switch <code>--allow-file-access-from-files</code>. For example</p>
+<pre><code>alias chrome=&quot;/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome&quot;
+alias chromef=&quot;chrome --allow-file-access-from-files&quot;
+chromef index.html
+</code></pre><p>Inside <code>index.html</code> you can fetch files!</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$.get(<span class="string">'foo.txt'</span>).done(<span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">  alert(<span class="string">'foo.txt has\n'</span> + data);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>The full list of Chrome command line switches is available
+<a href="http://peter.sh/experiments/chromium-command-line-switches/" target="_blank" rel="noopener">here</a>.</p>
+<h2><span id="avoid-boilerplate-when-calling-methods">Avoid boilerplate when calling methods</span></h2><p>In nodejs I often use <code>path.join</code> to form full paths. You can avoid always using <code>path</code> object -
+the methjod <code>.join</code> does not use <code>this</code> keyword (see <a href="../useful-module-pattern/">Useful module pattern</a>),
+thus we can use it directly. We can also remove passing <code>__dirname</code> every time using partial application</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// boilerplate</span></span><br><span class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="keyword">var</span> fullPath = path.join(__dirname, <span class="string">'foo.js'</span>);</span><br><span class="line"><span class="comment">// without boilerplate</span></span><br><span class="line"><span class="keyword">var</span> join = <span class="built_in">require</span>(<span class="string">'path'</span>).join;</span><br><span class="line"><span class="keyword">var</span> fullPath = join(__dirname, <span class="string">'foo.js'</span>);</span><br><span class="line"><span class="comment">// plus partial application</span></span><br><span class="line"><span class="keyword">var</span> toFull = <span class="built_in">require</span>(<span class="string">'path'</span>).join.bind(<span class="literal">null</span>, __dirname);</span><br><span class="line"><span class="keyword">var</span> fullPath = toFull(<span class="string">'foo.js'</span>);</span><br></pre></td></tr></table></figure>
+<h2><span id="wrap-streams-into-promises">Wrap streams into promises</span></h2><p>The most efficient way in Node to copy / send a file is to pipe a read stream into a write stream
+and let the system process data in chunks.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</span><br><span class="line"><span class="keyword">const</span> readStream = fs.createReadStream(<span class="string">'input.file'</span>)</span><br><span class="line"><span class="keyword">const</span> writeStream = fs.createWriteStream(<span class="string">'output.file'</span>) <span class="comment">// could be HTTP response, etc</span></span><br><span class="line">readStream.pipe(writeStream)</span><br><span class="line">readStream.on(<span class="string">'end'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'all done'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>Often we can just abstract the above operation into a promise-returning function for convenience.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">letItFlow</span>(<span class="params">read, write</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve</span>) </span>&#123;</span><br><span class="line">    read.pipe(write)</span><br><span class="line">    read.on(<span class="string">'end'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      resolve()</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// use example</span></span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</span><br><span class="line"><span class="keyword">const</span> readStream = fs.createReadStream(<span class="string">'input.file'</span>)</span><br><span class="line"><span class="keyword">const</span> writeStream = fs.createWriteStream(<span class="string">'output.file'</span>) <span class="comment">// could be HTTP response, etc</span></span><br><span class="line">letIfFlow(readStream, writeStream)</span><br><span class="line">  .then(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'all done'</span>)</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+<p>If you run the above examples, you will notice a curious thing. The Node process exits several
+seconds <em>after</em> printing &quot;all done&quot; message. We have a bug in the code - we think the operation
+is finished after the <em>read stream emits &quot;end&quot; event</em>. But the <em>write stream has not finished yet</em>.
+The correct solution would wait for write stream&#39;s
+<a href="http://devdocs.io/node/stream#stream_event_finish" target="_blank" rel="noopener">finish</a> event.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">letItFlow</span>(<span class="params">read, write</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve</span>) </span>&#123;</span><br><span class="line">    read.pipe(write)</span><br><span class="line">    write.on(<span class="string">'finish'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      resolve()</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The above promise resolves only when the write operation has been finished.</p>
+
+      
+    </div>
+
+    
+      <footer class="article-footer personal-links">
+  Follow Gleb Bahmutov <a href="https://twitter.com/bahmutov">@bahmutov</a>,
+  see his projects at <a href="http://glebbahmutov.com">glebbahmutov.com</a>
+</footer>
+<script src="https://rawgit.com/toddmotto/linkjuice/702066a37124081e7ad1a972844a9a91115be05a/dist/linkjuice.js"></script>
+<script>
+function contentFn (node, icon) {
+  var s = '<a href="#' + node.id + '" class="linkjuice">' +
+    node.innerHTML + ' ' + icon + '</a>\n'
+  return s
+}
+linkjuice.init('.article-entry', {
+  selectors: ['h2'],
+  icon: '<span class="link-symbol">#</span>',
+  contentFn: contentFn
+});
+</script>
+
+    
+
+    <footer class="article-footer">
+      <a data-url="https://glebbahmutov.com/blog/javascript-nuggets/" data-id="cjdmjvikc00fbmtooc32ll4zd" class="article-share-link">Share</a>
+      
+        <a href="https://glebbahmutov.com/blog/javascript-nuggets/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../tags/javascript/">javascript</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="../angular-nuggets/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Angular nuggets
+        
+      </div>
+    </a>
+  
+  
+    <a href="../simple-ajax-testing/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Simple Ajax testing</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    <style>
+#carbonads {
+  display: block;
+  overflow: hidden;
+  font-size: 11px;
+  font-family: Verdana, "Helvetica Neue", Helvetica, sans-serif;
+  line-height: 1.5;
+}
+
+#carbonads a {
+  color: #258fb8;
+  text-decoration: none;
+}
+
+#carbonads a:hover {
+  text-decoration: underline;
+}
+
+#carbonads span {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+
+.carbon-img {
+  float: left;
+  margin-right: 1em;
+}
+
+.carbon-img img { display: block; }
+
+.carbon-text {
+  display: block;
+  float: left;
+  text-align: left;
+  margin-top: 0.5em;
+}
+@media screen and (min-width: 1024px) {
+  .carbon-text {
+    max-width: calc(100% - 130px - 1em);
+  }
+}
+
+.carbon-poweredby {
+  /*position: absolute;
+  right: 0;
+  bottom: 0;*/
+  float: right;
+  display: block;
+  font-size: 11px;
+}
+</style>
+<div class="widget-wrap">
+  <div class="widget-title">&nbsp;</div>
+  <div class="widget">
+    <!-- Carbon Ads -->
+    <script async type="text/javascript"
+      src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=glebbahmutovcom"
+      id="_carbonads_js"></script>
+  </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="../categories/book-review/">book review</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="../categories/people/">people</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="../categories/process/">process</a><span class="category-list-count">101</span></li><li class="category-list-item"><a class="category-list-link" href="../categories/products/">products</a><span class="category-list-count">275</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../tags/QUnit/">QUnit</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/advice/">advice</a><span class="tag-list-count">97</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/angularjs/">angularjs</a><span class="tag-list-count">58</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/angularjs2/">angularjs2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/assertions/">assertions</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ast/">ast</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/boilerplate/">boilerplate</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/browser/">browser</a><span class="tag-list-count">17</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ci/">ci</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/concurrency/">concurrency</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/cyclejs/">cyclejs</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/cypress/">cypress</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/d3/">d3</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/db/">db</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/docker/">docker</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/es6/">es6</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/es7/">es7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/functional/">functional</a><span class="tag-list-count">67</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/generators/">generators</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/git/">git</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/grunt/">grunt</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/gulp/">gulp</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/hyperapp/">hyperapp</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/immutable/">immutable</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/interview/">interview</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/jade/">jade</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/javascript/">javascript</a><span class="tag-list-count">160</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/jshint/">jshint</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/modular-development/">modular development</a><span class="tag-list-count">26</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/nodejs/">nodejs</a><span class="tag-list-count">69</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/performance/">performance</a><span class="tag-list-count">17</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/presentation/">presentation</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/promises/">promises</a><span class="tag-list-count">31</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/proposal/">proposal</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ramda/">ramda</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/reactive/">reactive</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/reactjs/">reactjs</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/screencast/">screencast</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/security/">security</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/sentry/">sentry</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/service-workers/">service workers</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/testing/">testing</a><span class="tag-list-count">70</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/tutorial/">tutorial</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/typescript/">typescript</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ui/">ui</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/vuejs/">vuejs</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/web-workers/">web workers</a><span class="tag-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="../tags/QUnit/" style="font-size: 11.82px;">QUnit</a> <a href="../tags/advice/" style="font-size: 19.55px;">advice</a> <a href="../tags/angularjs/" style="font-size: 17.73px;">angularjs</a> <a href="../tags/angularjs2/" style="font-size: 10px;">angularjs2</a> <a href="../tags/assertions/" style="font-size: 13.64px;">assertions</a> <a href="../tags/ast/" style="font-size: 13.18px;">ast</a> <a href="../tags/boilerplate/" style="font-size: 15.91px;">boilerplate</a> <a href="../tags/browser/" style="font-size: 16.36px;">browser</a> <a href="../tags/ci/" style="font-size: 12.73px;">ci</a> <a href="../tags/concurrency/" style="font-size: 10px;">concurrency</a> <a href="../tags/cyclejs/" style="font-size: 12.73px;">cyclejs</a> <a href="../tags/cypress/" style="font-size: 14.09px;">cypress</a> <a href="../tags/d3/" style="font-size: 10.91px;">d3</a> <a href="../tags/db/" style="font-size: 14.09px;">db</a> <a href="../tags/docker/" style="font-size: 13.64px;">docker</a> <a href="../tags/es6/" style="font-size: 15.45px;">es6</a> <a href="../tags/es7/" style="font-size: 10px;">es7</a> <a href="../tags/functional/" style="font-size: 18.18px;">functional</a> <a href="../tags/generators/" style="font-size: 11.82px;">generators</a> <a href="../tags/git/" style="font-size: 14.55px;">git</a> <a href="../tags/grunt/" style="font-size: 12.73px;">grunt</a> <a href="../tags/gulp/" style="font-size: 10.91px;">gulp</a> <a href="../tags/hyperapp/" style="font-size: 11.82px;">hyperapp</a> <a href="../tags/immutable/" style="font-size: 11.36px;">immutable</a> <a href="../tags/interview/" style="font-size: 10.91px;">interview</a> <a href="../tags/jade/" style="font-size: 11.36px;">jade</a> <a href="../tags/javascript/" style="font-size: 20px;">javascript</a> <a href="../tags/jshint/" style="font-size: 10.91px;">jshint</a> <a href="../tags/modular-development/" style="font-size: 16.82px;">modular development</a> <a href="../tags/nodejs/" style="font-size: 18.64px;">nodejs</a> <a href="../tags/performance/" style="font-size: 16.36px;">performance</a> <a href="../tags/presentation/" style="font-size: 11.36px;">presentation</a> <a href="../tags/promises/" style="font-size: 17.27px;">promises</a> <a href="../tags/proposal/" style="font-size: 10.45px;">proposal</a> <a href="../tags/ramda/" style="font-size: 10px;">ramda</a> <a href="../tags/reactive/" style="font-size: 15px;">reactive</a> <a href="../tags/reactjs/" style="font-size: 10.45px;">reactjs</a> <a href="../tags/screencast/" style="font-size: 10px;">screencast</a> <a href="../tags/security/" style="font-size: 12.73px;">security</a> <a href="../tags/sentry/" style="font-size: 14.09px;">sentry</a> <a href="../tags/service-workers/" style="font-size: 12.27px;">service workers</a> <a href="../tags/testing/" style="font-size: 19.09px;">testing</a> <a href="../tags/tutorial/" style="font-size: 13.18px;">tutorial</a> <a href="../tags/typescript/" style="font-size: 10.45px;">typescript</a> <a href="../tags/ui/" style="font-size: 10.45px;">ui</a> <a href="../tags/vuejs/" style="font-size: 10.91px;">vuejs</a> <a href="../tags/web-workers/" style="font-size: 12.27px;">web workers</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/12/">December 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/08/">August 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/07/">July 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/06/">June 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/04/">April 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/03/">March 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/02/">February 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/01/">January 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/11/">November 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/09/">September 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/08/">August 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/07/">July 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/06/">June 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/04/">April 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/03/">March 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/02/">February 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/12/">December 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/11/">November 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/10/">October 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/09/">September 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/08/">August 2015</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/07/">July 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/06/">June 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/05/">May 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/04/">April 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/03/">March 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/02/">February 2015</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/01/">January 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/12/">December 2014</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/11/">November 2014</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/10/">October 2014</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/09/">September 2014</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/08/">August 2014</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/07/">July 2014</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/06/">June 2014</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/05/">May 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/04/">April 2014</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/03/">March 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/02/">February 2014</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/01/">January 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/12/">December 2013</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/11/">November 2013</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/10/">October 2013</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/09/">September 2013</a><span class="archive-list-count">10</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="../parcel/">Parcel Bundler</a>
+          </li>
+        
+          <li>
+            <a href="../use-lenses-in-hyperapp/">Use Lenses in Hyperapp</a>
+          </li>
+        
+          <li>
+            <a href="../testing-es6-module-in-cypress-electron/">Testing ES6 Module in Cypress Electron Browser</a>
+          </li>
+        
+          <li>
+            <a href="../drive-by-testing-array-explorer/">Drive-by Testing Array Explorer</a>
+          </li>
+        
+          <li>
+            <a href="../testing-vue-cli-reload/">Testing Vue CLI reload</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Gleb Bahmutov<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'betterworldbybettersoftware';
+  
+  var disqus_url = 'https://glebbahmutov.com/blog/javascript-nuggets/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="../fancybox/jquery.fancybox.css">
+  <script src="../fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="../js/script.js"></script>
+
+  </div>
+  <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
+<script>
+(function centerMainOnAsideScroll () {
+  // when aside side bar scrolls outside the view
+  // it centers the main content.
+  const main = document.querySelector('#main')
+  const aside = document.querySelector('aside#sidebar')
+  console.assert(main, 'could not get #main')
+  console.assert(aside, 'could not get aside')
+  // initially the aside sidebar is visible
+  let asideVisible = true
+
+  function centerMain () {
+    console.log('adding class center-main')
+    main.classList.add('center-main')
+  }
+  function leftMain () {
+    main.classList.remove('center-main')
+  }
+
+  function callWhenAsideScrollsUp (becameInvisible, becameVisible) {
+    return function () {
+      const border = 50
+      const rect = aside.getBoundingClientRect()
+      if (asideVisible && rect.bottom < -border) {
+        asideVisible = false
+        becameInvisible()
+      }
+
+      if (!asideVisible && window.scrollY < border) {
+        asideVisible = true
+        becameVisible()
+      }
+    }
+  }
+  const throttleWaitMs = 250
+  const onScroll = _.throttle(
+    callWhenAsideScrollsUp(centerMain, leftMain),
+    throttleWaitMs
+  )
+  window.addEventListener('scroll', onScroll)
+}())
+</script>
+
+</body>
+</html>
