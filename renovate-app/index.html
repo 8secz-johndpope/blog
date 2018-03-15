@@ -21,7 +21,7 @@
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/renovate-app/renovate-prs.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/renovate-app/renovate-commits.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/renovate-app/publish-note-on-pr.png">
-<meta property="og:updated_time" content="2018-03-15T03:31:14.000Z">
+<meta property="og:updated_time" content="2018-03-15T12:55:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Painless Dependency Upgrades with Renovate App">
 <meta name="twitter:description" content="I have a lot of NPM packages. Like &amp;quot;more than a 400&amp;quot; a lot. Every package falls behind its dependencies as soon as it is published to the NPM registry. Periodically I get new GitHub issues l">
@@ -156,7 +156,7 @@ ga('send', 'pageview');
 <p><img src="/blog/images/renovate-app/renovate-commits.png" alt="Passing PRs are merged automatically"></p>
 <p>Look at the <code>renovate-bot</code> chugging along, moving code into the <code>master</code> without any effort! Of course I must <a href="../tags/testing/">set up good testing</a> for my repositories to avoid accidentally breaking things. The automerging is disabled for &quot;major&quot; dependency updates. Thus a relatively dangerous upgrade from Lodash 3.x.x to 4.x.x will require my review and approval, while the backwards-compatible minor and patch updates are merged by the Renovate bot. When <code>semantic-release</code> publishes a new version it even writes a comment under the pull request to tell the new NPM version; isn&#39;t it great when tools play nicely together?</p>
 <p><img src="/blog/images/renovate-app/publish-note-on-pr.png" alt="Published version comment"></p>
-<p>Looks like a winner.</p>
+<p>I have limited my initial exploration of Renovate App to just updating dependencies, but there are <a href="https://renovateapp.com/docs/" target="_blank" rel="noopener">a lot of other things it could do</a>. I hope to investigate the app further in the future. Renovate App looks like a winner.</p>
 <h2><span id="final-thoughts">Final thoughts</span></h2><ul>
 <li><a href="https://github.com/bahmutov/next-update" target="_blank" rel="noopener">next-update</a> is my &quot;go to&quot; tool for upgrading dependencies from command line</li>
 <li><a href="https://github.com/bahmutov/next-update-travis" target="_blank" rel="noopener">next-update-travis</a> is a great tool to keep dependencies up to date for small well tested projects</li>
@@ -190,7 +190,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/renovate-app/" data-id="cjeryjxfw00oe4nooi6bor9b2" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/renovate-app/" data-id="cjesipyf700oge1oosyvf9ima" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/renovate-app/#disqus_thread" class="article-comment-link">Comments</a>
       
