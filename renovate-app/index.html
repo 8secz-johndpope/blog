@@ -21,7 +21,8 @@
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/renovate-app/renovate-prs.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/renovate-app/renovate-commits.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/renovate-app/publish-note-on-pr.png">
-<meta property="og:updated_time" content="2018-03-15T17:50:03.000Z">
+<meta property="og:image" content="https://img.shields.io/badge/renovate-app-blue.svg">
+<meta property="og:updated_time" content="2018-03-15T17:52:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Painless Dependency Upgrades with Renovate App">
 <meta name="twitter:description" content="I have a lot of NPM packages. Like &amp;quot;more than a 400&amp;quot; a lot. Every package falls behind its dependencies as soon as it is published to the NPM registry. Periodically I get new GitHub issues l">
@@ -157,7 +158,7 @@ ga('send', 'pageview');
 <p>Look at the <code>renovate-bot</code> chugging along, moving code into the <code>master</code> without any effort! Of course I must <a href="../tags/testing/">set up good testing</a> for my repositories to avoid accidentally breaking things. The automerging is disabled for &quot;major&quot; dependency updates. Thus a relatively dangerous upgrade from Lodash 3.x.x to 4.x.x will require my review and approval, while the backwards-compatible minor and patch updates are merged by the Renovate bot. When <code>semantic-release</code> publishes a new version it even writes a comment under the pull request to tell the new NPM version; isn&#39;t it great when tools play nicely together?</p>
 <p><img src="/blog/images/renovate-app/publish-note-on-pr.png" alt="Published version comment"></p>
 <p>I have limited my initial exploration of Renovate App to just updating dependencies, but there are <a href="https://renovateapp.com/docs/" target="_blank" rel="noopener">a lot of other things it could do</a>. I hope to investigate the app further in the future. Renovate App looks like a winner.</p>
-<p>Just to mark every repo that has Renovate installed I created a couple of badges that look like this [![renovate-app badge][renovate-badge]][renovate-app]. Below is the Markdown markup.</p>
+<p>Just to mark every repo that has Renovate installed I created a couple of badges that look like this <a href="https://renovateapp.com/" target="_blank" rel="noopener"><img src="https://img.shields.io/badge/renovate-app-blue.svg" alt="renovate-app badge"></a>. Below is the Markdown markup.</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[![renovate-app badge][renovate-badge]][renovate-app]</span><br><span class="line"></span><br><span class="line">[renovate-badge]: https://img.shields.io/badge/renovate-app-blue.svg</span><br><span class="line">[renovate-app]: https://renovateapp.com/</span><br></pre></td></tr></table></figure>
 <p>Feel free to use these in your README files.</p>
 <h2><span id="final-thoughts">Final thoughts</span></h2><ul>
@@ -193,7 +194,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/renovate-app/" data-id="cjest8f3z00okjkooi1fbd5gp" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/renovate-app/" data-id="cjestbvmz00okp8oopovu39ro" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/renovate-app/#disqus_thread" class="article-comment-link">Comments</a>
       
