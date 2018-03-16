@@ -22,7 +22,7 @@
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/renovate-app/renovate-commits.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/renovate-app/publish-note-on-pr.png">
 <meta property="og:image" content="https://img.shields.io/badge/renovate-app-blue.svg">
-<meta property="og:updated_time" content="2018-03-15T18:01:13.000Z">
+<meta property="og:updated_time" content="2018-03-16T14:07:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Painless Dependency Upgrades with Renovate App">
 <meta name="twitter:description" content="I have a lot of NPM packages. Like &amp;quot;more than a 400&amp;quot; a lot. Every package falls behind its dependencies as soon as it is published to the NPM registry. Periodically I get new GitHub issues l">
@@ -132,7 +132,7 @@ ga('send', 'pageview');
         <p>I have <a href="https://www.npmjs.com/~bahmutov" target="_blank" rel="noopener">a lot of NPM packages</a>. Like &quot;more than a 400&quot; a lot. Every package falls behind its dependencies as soon as it is published to the NPM registry. Periodically I get new GitHub issues <a href="https://github.com/bahmutov/available-versions/pull/29" target="_blank" rel="noopener">like this</a> one asking me to upgrade a particular dependency and publish a new version to get around a bug or a known security issue.</p>
 <p><img src="/blog/images/renovate-app/update-dependency-pr.png" alt="Pull request to update a vulnerable dependency"></p>
 <p>Manual dependency upgrades are soooo boring. Grab the code, install dependency, increment version for a dependency, run the tests... Boring! So I have written a command line tool <a href="https://github.com/bahmutov/next-update" target="_blank" rel="noopener">next-update</a> to automate this process. The tool helps <em>a lot</em>. But it is still a hustle to run the tool - remember, the number of out of date dependencies is constantly growing, while my time is pretty much constant.</p>
-<h2><span id="next-update-travis">next-update-travis</span></h2><p>So I have automated running <code>next-update</code> - by periodically running it as a [Travis cron job][../slow-updates/]. Here is the tool called <a href="https://github.com/bahmutov/next-update-travis" target="_blank" rel="noopener">next-update-travis</a> in action - each Travis build marked &quot;Cron&quot; is the automated dependency update check. Successful updates are committed to <code>master</code> triggering another &quot;normal&quot; Travis build marked with an orange arrow in the screenshot below.</p>
+<h2><span id="next-update-travis">next-update-travis</span></h2><p>So I have automated running <code>next-update</code> - by periodically running it as a <a href="../slow-updates/">Travis cron job</a>. Here is the tool called <a href="https://github.com/bahmutov/next-update-travis" target="_blank" rel="noopener">next-update-travis</a> in action - each Travis build marked &quot;Cron&quot; is the automated dependency update check. Successful updates are committed to <code>master</code> triggering another &quot;normal&quot; Travis build marked with an orange arrow in the screenshot below.</p>
 <p><img src="/blog/images/renovate-app/updated-deps-build-history.png" alt="Updating dependencies using next-update-travis using Travis Cron job"></p>
 <p>While that works, this approach lacks any flexibility. I could only test dependency upgrade and merge the result - I could not review it. Yes, I could change the code to open a pull request, but then the tool would require a lot more to be useful. It would need logic to NOT open multiple branches for the same dependency, merge some dependency upgrades but not others, etc. So I needed a more flexible solution.</p>
 <h2><span id="greenkeeperio">greenkeeper.io</span></h2><p>My first impulse was to look at the service offered by my friends from <a href="https://github.com/semantic-release/semantic-release" target="_blank" rel="noopener">semantic-release</a> organization. After all - they have written the only tool I <em>always use</em> to publish my NPM packages! They must know how to organize the workflow that makes dependency updates painless. In fact they do have a great tool called <a href="https://greenkeeper.io/" target="_blank" rel="noopener">greenkeeper.io</a> to be installed as a GitHub application. Free for public repos, it monitors all versions of your dependencies and opens pull requests when a new version comes out.</p>
@@ -195,7 +195,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/renovate-app/" data-id="cjestq4t100om6sooh1daz5m3" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/renovate-app/" data-id="cjeu0px3000oklgoo1syxif31" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/renovate-app/#disqus_thread" class="article-comment-link">Comments</a>
       
