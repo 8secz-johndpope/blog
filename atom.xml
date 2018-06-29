@@ -6,7 +6,7 @@
   <link href="/blog/atom.xml" rel="self"/>
   
   <link href="https://glebbahmutov.com/blog/"/>
-  <updated>2018-06-27T14:47:51.000Z</updated>
+  <updated>2018-06-29T02:56:32.000Z</updated>
   <id>https://glebbahmutov.com/blog/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Gatsby Netlify Circle and Cypress</title>
+    <link href="https://glebbahmutov.com/blog/gatsby-netlify-circle-and-cypress/"/>
+    <id>https://glebbahmutov.com/blog/gatsby-netlify-circle-and-cypress/</id>
+    <published>2018-06-29T04:00:00.000Z</published>
+    <updated>2018-06-29T02:56:32.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>Static site generator <a href="https://www.gatsbyjs.org" target="_blank" rel="noopener">Gatsby</a> is all the rage these days. It pairs nicely with quick deploys using <a href="https://www.netlify.com" target="_blank" rel="noopener">Netlify</a>. In this blog post I will show how to test your site using <a href="https://www.cypress.io" target="_blank" rel="noopener">Cypress.io</a> in several situations.</p><ol><li>when running Gatsby locally during development</li><li>on Netlify before deploying</li><li>on CircleCI after deploying against the newly deployed URL</li></ol><p>You can find the source at <a href="https://github.com/bahmutov/gatsby-starter-blog" target="_blank" rel="noopener">bahmutov/gatsby-starter-blog</a> - it is a fork of the Gatsby&#39;s own example. I have the deployed blog running at <a href="https://gatsby-blog-0a5be4.netlify.com/" target="_blank" rel="noopener">https://gatsby-blog-0a5be4.netlify.com/</a>.</p><p><img src="/blog/images/netlify/first-test.png" alt="Cypress test against the blog post (running locally)"></p><p>The deployed sites itself has the 3 mini blog posts that describe the local setup, the Netlify command and how Netlify triggers CircleCI build using a webhook after each deploy.</p><p>So read the blog posts <a href="https://gatsby-blog-0a5be4.netlify.com/" target="_blank" rel="noopener">https://gatsby-blog-0a5be4.netlify.com/</a>, explore the source, and ping me with any questions.</p><p>PS: the immutable deploys and testing go hand in hand. See how to perform them from CI using <a href="https://zeit.co/now" target="_blank" rel="noopener">Zeit Now</a> in the blog post <a href="https://www.cypress.io/blog/2017/05/30/cypress-and-immutable-deploys/" target="_blank" rel="noopener">Immutable deploys and Cypress</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Static site generator &lt;a href=&quot;https://www.gatsbyjs.org&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Gatsby&lt;/a&gt; is all the rage these days. It pairs n
+      
+    
+    </summary>
+    
+      <category term="products" scheme="https://glebbahmutov.com/blog/categories/products/"/>
+    
+    
+      <category term="cypress" scheme="https://glebbahmutov.com/blog/tags/cypress/"/>
+    
+      <category term="ci" scheme="https://glebbahmutov.com/blog/tags/ci/"/>
+    
+      <category term="immutable" scheme="https://glebbahmutov.com/blog/tags/immutable/"/>
+    
+  </entry>
   
   <entry>
     <title>Incredibly Powerful cy.task</title>
@@ -755,9 +784,9 @@ trees for thousands of years, yet there wa
     
       <category term="modular development" scheme="https://glebbahmutov.com/blog/tags/modular-development/"/>
     
-      <category term="ci" scheme="https://glebbahmutov.com/blog/tags/ci/"/>
-    
       <category term="git" scheme="https://glebbahmutov.com/blog/tags/git/"/>
+    
+      <category term="ci" scheme="https://glebbahmutov.com/blog/tags/ci/"/>
     
   </entry>
   
@@ -784,32 +813,6 @@ into existing code bases. One is an internal API and anoth
     
     
       <category term="functional" scheme="https://glebbahmutov.com/blog/tags/functional/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Slow updates</title>
-    <link href="https://glebbahmutov.com/blog/slow-updates/"/>
-    <id>https://glebbahmutov.com/blog/slow-updates/</id>
-    <published>2017-08-16T04:00:00.000Z</published>
-    <updated>2018-02-14T02:33:26.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>NPM packages fall behind in their dependencies. There is a constant tickingof new versions being published; unless a module has 0 dependencies, it willend up out of date pretty quickly.</p><p>Being behind has downsides:</p><ul><li>your package has bugs that have already been fixed;this includes security issues</li><li>you are not using the latest features, sometimes missing out on betterperformance</li><li>the documentation you consult is gets out of sync with the versionyou are using</li></ul><p>There are solutions that automate dependency upgrades. For example, theseservices integrate with CI and GitHub and open pull requests when newversions of dependencies are published.</p><ul><li><a href="https://greenkeeper.io/" target="_blank" rel="noopener">greenkeeper.io</a> is fast testing of availabledependency updates via pull requests (that need to be manually reviewed and merged)</li><li><a href="https://github.com/greenkeeper-keeper/meta" target="_blank" rel="noopener">greenkeeper-keeper</a> is a serviceto automatically merge Greenkeeper pull requests.</li><li><a href="https://github.com/singapore/renovate" target="_blank" rel="noopener">renovate</a> keeps dependencies up todate automatically by testing and merging pull requests (an alternativeto greenkeeper.io + greenkeeper-keeper)</li></ul><p>The above services all work like an <em>avalanche</em> - a new dependency versiontriggers an update, leading to multiple pull requests if you have severalmodules and they all have dependencies.I even had to turn off Greenkeeper.io on my projects - the high number of pullrequests for every single patch update was polluting my GitHub feed.</p><p>Other services automate pull requests, but they all require you to runa service that watches dependencies and integrates with GitHub and CI pullrequest mechanism. I thought that was too much hassle, especially when mymost commonly used continuous integration service TravisCI introduced<a href="https://docs.travis-ci.com/user/cron-jobs/" target="_blank" rel="noopener">cron jobs</a>. Here is the solutionI came up with that does not require any external setup and seems towork pretty well for me.</p><ol><li><p>Use <a href="https://github.com/semantic-release/semantic-release" target="_blank" rel="noopener">semantic-release</a> to publish NPM modules from CI.Its setup could not be simpler:</p> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm i -g semantic-release-cli</span><br><span class="line">semantic-release-cli setup</span><br></pre></td></tr></table></figure><p>Answer a couple of questions and it sets Travis CI with <code>NPM_TOKEN</code>(to authenticate with NPM registry) and <code>GH_TOKEN</code> (to publish tag andrelease notes to GitHub). Takes less than 30 seconds.</p></li><li><p>Enable <code>cron</code> job on Travis CI. Select weekly or monthly interval - unlessyou really want to check for new updates daily, bumping dependenciesinfrequently solves my main problem - falling very far behind the latestversions.</p><p> <img src="/blog/images/slow-updates/cron-job.png" alt="Travis cron job"></p></li><li><p>Install <a href="https://github.com/bahmutov/next-update-travis" target="_blank" rel="noopener">next-update-travis</a> as a dev dependency.This creates a shell script that you should invoke from your <code>.travis.yml</code></p><ul><li><p>it only runs for <code>cron</code> jobs, so it is ok to just add it to the regularscript steps</p><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">script:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">./next-update-travis.sh</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">npm</span> <span class="string">test</span></span><br></pre></td></tr></table></figure></li></ul><p>The shell script uses <a href="https://github.com/bahmutov/next-update" target="_blank" rel="noopener">next-update</a> to test new versions ofdependencies. There are lots of options to control which modules are allowedto be upgraded, which modules are black listed, the test command, etc.You can allow patches and features only (the default),and <a href="https://github.com/bahmutov/next-update/issues/107" target="_blank" rel="noopener">in the future</a> even test updatesthat were successful for other people.</p></li></ol><p>That is it. From now on, Travis periodically tests new versions, and if thetests still pass (you must have tests, ok?) the changed <code>package.json</code> iscommitted and pushed to GitHub. We already have <code>GH_TOKEN</code> setup by thesemantic-release, so zero extra setup is needed. The Travis log shows a steadystream of updates.</p><p>  <img src="/blog/images/slow-updates/updated-deps-build-history.png" alt="Travis job history"></p><p>Each week for example, a successful <code>cron</code> job pushes update <code>package.json</code>which triggers a regular build. Slow and steady wins the race.</p><p>Just one more thing - I add a badge to README to remind me that this projectstays up to date.</p><p><a href="https://github.com/bahmutov/next-update-travis#readme" target="_blank" rel="noopener"><img src="https://img.shields.io/badge/next--update--travis-weekly-green.svg" alt="next-update-travis badge"></a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;NPM packages fall behind in their dependencies. There is a constant ticking
-of new versions being published; unless a module has 0 depend
-      
-    
-    </summary>
-    
-      <category term="process" scheme="https://glebbahmutov.com/blog/categories/process/"/>
-    
-    
-      <category term="modular development" scheme="https://glebbahmutov.com/blog/tags/modular-development/"/>
     
   </entry>
   
