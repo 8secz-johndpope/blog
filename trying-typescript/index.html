@@ -20,7 +20,10 @@
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/typescript/find-references.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/typescript/vscode-help.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/typescript/atom-help.png">
-<meta property="og:updated_time" content="2018-06-24T14:13:28.000Z">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/typescript/readonly1.jpeg">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/typescript/readonly2.jpeg">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/typescript/array-push.jpeg">
+<meta property="og:updated_time" content="2018-07-17T10:31:32.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Trying TypeScript">
 <meta name="twitter:description" content="I have used C++, C# and Java for a long time, and love the short, uncluttered view of JavaScript code. Yet, I find myself struggling to refactor my own code without breaking things. It is time to intr">
@@ -98,7 +101,7 @@ ga('send', 'pageview');
         <section id="main"><article id="post-trying-typescript" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="" class="article-date">
-  <time datetime="2017-03-13T04:00:00.000Z" itemprop="datePublished">Mar 13 2017</time>
+  <time datetime="2017-03-12T23:00:00.000Z" itemprop="datePublished">Mar 13 2017</time>
 </a>
     
   <div class="article-category">
@@ -385,6 +388,21 @@ an error, but not the actual signature!</p>
 <p>Then create <code>tsconfig.json</code> file and set the <code>target</code> property to <code>es6</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx tsc --init</span><br></pre></td></tr></table></figure>
 <figure class="highlight json"><figcaption><span>tsconfig.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"compilerOptions"</span>: &#123;</span><br><span class="line">    <span class="attr">"target"</span>: <span class="string">"es6"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3><span id="cannot-find-name-39require39">Cannot find name &#39;require&#39;</span></h3><p>If you get this error</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">error TS2304: Cannot find name &apos;require&apos;.</span><br></pre></td></tr></table></figure>
+<p>It means TypeScript compiler does not understand that you are working in Node environment. Just add its types</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install @types/node --save-dev</span><br></pre></td></tr></table></figure>
+<h3><span id="ramda-types-are-not-working">Ramda types are not working</span></h3><p>If you are trying to use <a href="https://ramdajs.com/docs/" target="_blank" rel="noopener">Ramda</a> library and the types get &quot;lost&quot;</p>
+<ul>
+<li>add <code>npm i -D @types/ramda</code> to bring Ramda&#39;s types</li>
+<li>use <code>import {prop} from &#39;ramda&#39;</code> instead of <code>const {prop} = require(&#39;ramda&#39;)</code> to get correct operators</li>
+</ul>
+<h3><span id="read-only-objects-and-arrays">Read only objects and arrays</span></h3><p>You can prevent accidental mutations using <code>Readonly</code> and <code>ReadonlyArray</code> types.</p>
+<p><img src="/blog/images/typescript/readonly1.jpeg" alt="Readonly object"></p>
+<p>For deeper freeze, you need to use <code>Readonly</code> on each property</p>
+<p><img src="/blog/images/typescript/readonly2.jpeg" alt="Readonly value inside an object"></p>
+<p>Use <code>ReadonlyArray</code> to prevent changes, even mutation methods are disabled</p>
+<p><img src="/blog/images/typescript/array-push.jpeg" alt="Readonly array"></p>
 <h2><span id="additional-information">Additional information</span></h2><p>A few links to why and how you should use TypeScript</p>
 <ul>
 <li><a href="http://staltz.com/all-js-libraries-should-be-authored-in-typescript.html" target="_blank" rel="noopener">All JS libraries should be authored in TypeScript</a></li>
@@ -421,7 +439,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/trying-typescript/" data-id="cjizf8pqx016tu6oode9k23ua" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/trying-typescript/" data-id="cjjy2yz4400y3f0ooku6dsier" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/trying-typescript/#disqus_thread" class="article-comment-link">Comments</a>
       
