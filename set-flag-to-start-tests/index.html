@@ -17,7 +17,7 @@
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/todomvc-with-delay/app-property.gif">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/todomvc-with-delay/orphan-object.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/todomvc-with-delay/deep-property.png">
-<meta property="og:updated_time" content="2018-09-07T04:22:10.000Z">
+<meta property="og:updated_time" content="2018-09-07T04:32:50.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Set flag to start tests">
 <meta name="twitter:description" content="Imagine your web application (especially in development mode) is slow to start. Maybe it is loading a lot of code, or asking an under-powered server for data. But it does not start working right away.">
@@ -151,7 +151,7 @@ ga('send', 'pageview');
 <p>Alternatively, we can rely on the fact that <code>cy.its</code> uses <code>Lodash.get</code> function under the hood, which allows getting (safely) deep properties</p>
 <figure class="highlight js"><figcaption><span>cypress/integration/spec.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">beforeEach(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  cy.visit(<span class="string">'/'</span>)</span><br><span class="line">  cy.window().its(<span class="string">'config.appReady'</span>).should(<span class="string">'equal'</span>, <span class="literal">true</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 <p><img src="/blog/images/todomvc-with-delay/deep-property.png" alt="Checking deep property"></p>
-<p>Both ways work just fine.</p>
+<p>Both ways work just fine. If you want to see more examples of asserting when properties are added / deleted / changed, check our <a href="https://github.com/cypress-io/cypress-example-recipes/commit/9d75842c18535d691f7c717186b5a855e004674e#diff-1f0349eb597d2c41384216c1ffb4c517" target="_blank" rel="noopener">this commit</a> with example tests.</p>
 <h2><span id="conclusion">Conclusion</span></h2><p>Exposing some flag from the application to let your tests work better is good practice in my opinion. I have shown ways to set a flag in the application code, which tests can detect reliably. If you <em>do not</em> have control over the application code, you can still detect when the application starts reacting to DOM events, but that is a little bit <a href="https://www.cypress.io/blog/2018/02/05/when-can-the-test-start/" target="_blank" rel="noopener">more complicated</a>. Yet it can be done, because Cypress lets your test code inspect, observe and mock any application code, including browser APIs. But to make your life easier, use a flag for slowly starting apps!</p>
 <p>Find all source code from this post in <a href="https://github.com/bahmutov/todomvc-with-delay" target="_blank" rel="noopener">bahmutov/todomvc-with-delay</a> and don&#39;t forget to give <a href="https://github.com/cypress-io/cypress" target="_blank" rel="noopener">cypress-io/cypress</a> a GitHub ⭐️.</p>
 
@@ -180,7 +180,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/set-flag-to-start-tests/" data-id="cjlrhwzsx00srfqoopuqwnfzj" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/set-flag-to-start-tests/" data-id="cjlri99tz00sov8oovpp8v9l3" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/set-flag-to-start-tests/#disqus_thread" class="article-comment-link">Comments</a>
       
