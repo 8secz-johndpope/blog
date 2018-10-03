@@ -5,13 +5,13 @@
   
   <title>Mocking GraphQL with Lunar in Cypress End-to-End Tests | Better world by better software</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Server setup End-to-end Tests Show GraphQL requests Wait on GraphQL call Show GraphQL response Using decoded Blob values Limits Final thoughts   ReactBoston was in town this weekend. While I have no">
+  <meta name="description" content="Server setup End-to-end Tests Show GraphQL requests Wait on GraphQL call Show GraphQL response Using decoded Blob values Limits Update 1: Mock client-side Final thoughts   ReactBoston was in town th">
 <meta name="keywords" content="testing,cypress,graphql">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Mocking GraphQL with Lunar in Cypress End-to-End Tests">
 <meta property="og:url" content="https://glebbahmutov.com/blog/mock-graphql-with-lunar-in-cypress-tests/index.html">
 <meta property="og:site_name" content="Better world by better software">
-<meta property="og:description" content="Server setup End-to-end Tests Show GraphQL requests Wait on GraphQL call Show GraphQL response Using decoded Blob values Limits Final thoughts   ReactBoston was in town this weekend. While I have no">
+<meta property="og:description" content="Server setup End-to-end Tests Show GraphQL requests Wait on GraphQL call Show GraphQL response Using decoded Blob values Limits Update 1: Mock client-side Final thoughts   ReactBoston was in town th">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/lunar/tweet.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/lunar/users.png">
@@ -24,10 +24,10 @@
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/lunar/see-blob.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/lunar/use-name.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/lunar/error.png">
-<meta property="og:updated_time" content="2018-10-02T13:31:55.000Z">
+<meta property="og:updated_time" content="2018-10-03T01:59:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mocking GraphQL with Lunar in Cypress End-to-End Tests">
-<meta name="twitter:description" content="Server setup End-to-end Tests Show GraphQL requests Wait on GraphQL call Show GraphQL response Using decoded Blob values Limits Final thoughts   ReactBoston was in town this weekend. While I have no">
+<meta name="twitter:description" content="Server setup End-to-end Tests Show GraphQL requests Wait on GraphQL call Show GraphQL response Using decoded Blob values Limits Update 1: Mock client-side Final thoughts   ReactBoston was in town th">
 <meta name="twitter:image" content="https://glebbahmutov.com/blog/images/lunar/tweet.png">
 <meta name="twitter:creator" content="@bahmutov">
   
@@ -140,6 +140,7 @@ ga('send', 'pageview');
 <li><a href="#show-graphql-response">Show GraphQL response</a></li>
 <li><a href="#using-decoded-blob-values">Using decoded Blob values</a></li>
 <li><a href="#limits">Limits</a></li>
+<li><a href="#update-1-mock-client-side">Update 1: Mock client-side</a></li>
 <li><a href="#final-thoughts">Final thoughts</a></li>
 </ul>
 <!-- tocstop -->
@@ -197,7 +198,11 @@ ga('send', 'pageview');
 <p>but not if it is a variable outside the function&#39;s immediate closure</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> name = <span class="string">'Joe Smith'</span></span><br><span class="line">cy.mock(&#123;</span><br><span class="line">  Query: <span class="function"><span class="params">()</span> =&gt;</span> (&#123;</span><br><span class="line">    user: <span class="function"><span class="params">()</span> =&gt;</span> (&#123;</span><br><span class="line">      name,</span><br><span class="line">      favoriteFoods: [</span><br><span class="line">        &#123;<span class="attr">foodItem</span>: &#123;<span class="attr">name</span>: <span class="string">'Spaghetti'</span>&#125;, <span class="attr">eatingFrequency</span>: <span class="string">'WEEKLY'</span>&#125;,</span><br><span class="line">        &#123;<span class="attr">foodItem</span>: &#123;<span class="attr">name</span>: <span class="string">'Coconut Water'</span>&#125;, <span class="attr">eatingFrequency</span>: <span class="string">'DAILY'</span>&#125;,</span><br><span class="line">      ],</span><br><span class="line">    &#125;),</span><br><span class="line">  &#125;),</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <p><img src="/blog/images/lunar/error.png" alt="Cannot use variables from outside the closure"></p>
-<p>So you are limited to getting the data from the decoded GraphQL response or duplicate data between the mock and the rest of the test.</p>
+<p>So you are limited to getting the data from the decoded GraphQL response or duplicate data between the mock and the rest of the test. But wait, there is more! The sent mock functions are actually <em>invoked</em> by the GraphQL server, thus they can use anything from the input parameters server-side. For example</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">cy.mock(&#123;</span><br><span class="line">  Query: <span class="function"><span class="params">()</span> =&gt;</span> (&#123;</span><br><span class="line">    user: <span class="function"><span class="params">()</span> =&gt;</span> (&#123;</span><br><span class="line">      favoriteFoods: [],</span><br><span class="line">    &#125;),</span><br><span class="line">  &#125;),</span><br><span class="line">  Mutation: <span class="function"><span class="params">()</span> =&gt;</span> (&#123;</span><br><span class="line">    addFavoriteFood: <span class="function">(<span class="params">parent, args</span>) =&gt;</span> (&#123;</span><br><span class="line">      <span class="comment">// parent and args passed by the GraphQL server</span></span><br><span class="line">      foodItem: &#123;</span><br><span class="line">        name: args.name,</span><br><span class="line">      &#125;,</span><br><span class="line">      eatingFrequency: args.eatingFrequency,</span><br><span class="line">    &#125;),</span><br><span class="line">  &#125;),</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2><span id="update-1-mock-client-side">Update 1: Mock client-side</span></h2><p>If you do not NOT want to include Lunar in your server code, and would like to completely mock GraphQL endpoint, you can stub the request before it even leaves the Cypress browser. See <a href="https://github.com/cypress-io/cypress-documentation/issues/122" target="_blank" rel="noopener">issue #122</a> and here is short example.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">cy.visit(url, &#123;</span><br><span class="line">  onBeforeLoad: <span class="function"><span class="params">win</span> =&gt;</span> &#123;</span><br><span class="line">    cy</span><br><span class="line">      <span class="comment">// stub `fetch`</span></span><br><span class="line">      .stub(win, <span class="string">'fetch'</span>)</span><br><span class="line"></span><br><span class="line">      <span class="comment">// your graphql endpoint</span></span><br><span class="line">      .withArgs(<span class="string">'/graphql'</span>)</span><br><span class="line"></span><br><span class="line">      <span class="comment">// call our stub</span></span><br><span class="line">      .callsFake(serverStub)</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>The above code visits the page, but then right away overwrites <code>window.fetch</code> in the <em>application</em> iframe. And it only overwrites it using <a href="https://sinonjs.org/" target="_blank" rel="noopener">Sinon.js</a> bundled in Cypress when called with argument <code>/graphql</code>. Whenever application code tries to do <code>fetch(&#39;/graphql&#39;)</code> a fake function <code>serverStub</code> gets executed. Of course puts ALL logic client-side into a function <code>serverStub</code> that you will need to write.</p>
 <h2><span id="final-thoughts">Final thoughts</span></h2><p>Absolutely hands down I recommend <a href="https://github.com/ezcater/lunar-core#readme" target="_blank" rel="noopener">lunar-core</a> for mocking GraphQL endpoints for end-to-end tests. You can find all above code from this post in <a href="https://github.com/bahmutov/react-boston-2018-lunar-launch" target="_blank" rel="noopener">https://github.com/bahmutov/react-boston-2018-lunar-launch</a></p>
 
       
@@ -225,7 +230,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/mock-graphql-with-lunar-in-cypress-tests/" data-id="cjmrrkp4i00j0z9oog3e1o9c4" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/mock-graphql-with-lunar-in-cypress-tests/" data-id="cjmsia86v00ik5qoo62aatisg" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/mock-graphql-with-lunar-in-cypress-tests/#disqus_thread" class="article-comment-link">Comments</a>
       
