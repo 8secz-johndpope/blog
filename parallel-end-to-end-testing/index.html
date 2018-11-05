@@ -5,19 +5,19 @@
   
   <title>Parallel end to end testing with Cypress, Docker and GitLab | Better world by better software</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="We have been enjoying end to end testing with Cypress a lot, and this blog post describes our test build system. We just open sourced the build tool multi-cypress that allows everyone to  reuse parts">
+  <meta name="description" content="Update: November 2018 - this way of manual balancing for Cypress tests is obsolete. There is a much faster and simpler way to run multiple specs in parallel using Cypress parallelization flag. See Run">
 <meta name="keywords" content="testing,cypress,browser,docker,db">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Parallel end to end testing with Cypress, Docker and GitLab">
 <meta property="og:url" content="https://glebbahmutov.com/blog/parallel-end-to-end-testing/index.html">
 <meta property="og:site_name" content="Better world by better software">
-<meta property="og:description" content="We have been enjoying end to end testing with Cypress a lot, and this blog post describes our test build system. We just open sourced the build tool multi-cypress that allows everyone to  reuse parts">
+<meta property="og:description" content="Update: November 2018 - this way of manual balancing for Cypress tests is obsolete. There is a much faster and simpler way to run multiple specs in parallel using Cypress parallelization flag. See Run">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://raw.githubusercontent.com/kensho/multi-cypress/master/example-pipeline.png">
-<meta property="og:updated_time" content="2018-02-14T02:33:26.000Z">
+<meta property="og:updated_time" content="2018-11-05T14:40:15.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Parallel end to end testing with Cypress, Docker and GitLab">
-<meta name="twitter:description" content="We have been enjoying end to end testing with Cypress a lot, and this blog post describes our test build system. We just open sourced the build tool multi-cypress that allows everyone to  reuse parts">
+<meta name="twitter:description" content="Update: November 2018 - this way of manual balancing for Cypress tests is obsolete. There is a much faster and simpler way to run multiple specs in parallel using Cypress parallelization flag. See Run">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/kensho/multi-cypress/master/example-pipeline.png">
 <meta name="twitter:creator" content="@bahmutov">
   
@@ -92,7 +92,7 @@ ga('send', 'pageview');
         <section id="main"><article id="post-parallel-end-to-end-testing" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="" class="article-date">
-  <time datetime="2016-06-25T22:00:00.000Z" itemprop="datePublished">Jun 26 2016</time>
+  <time datetime="2016-06-26T04:00:00.000Z" itemprop="datePublished">Jun 26 2016</time>
 </a>
     
   <div class="article-category">
@@ -121,7 +121,8 @@ ga('send', 'pageview');
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>We have been enjoying end to end <a href="../web-testing-nirvana-with-cypress/">testing with Cypress</a> a lot,
+        <p><strong>Update: November 2018</strong> - this way of manual balancing for Cypress tests is obsolete. There is a much faster and simpler way to run multiple specs in parallel using <a href="https://on.cypress.io/parallelization" target="_blank" rel="noopener">Cypress parallelization</a> flag. See <a href="../run-and-group-tests/">Run and group tests the way you want to</a>.</p>
+<p>We have been enjoying end to end <a href="../web-testing-nirvana-with-cypress/">testing with Cypress</a> a lot,
 and this blog post describes our test build system. We just open sourced the build tool
 <a href="https://github.com/kensho/multi-cypress" target="_blank" rel="noopener">multi-cypress</a> that allows everyone to</p>
 <ul>
@@ -261,7 +262,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/parallel-end-to-end-testing/" data-id="cjnm0ar8m00ldukoorcqnkxar" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/parallel-end-to-end-testing/" data-id="cjo4exuzn00kvn5ooupaev5wc" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/parallel-end-to-end-testing/#disqus_thread" class="article-comment-link">Comments</a>
       
