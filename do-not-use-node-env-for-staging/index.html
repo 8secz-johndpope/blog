@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="Better world by better software">
 <meta property="og:description" content="I write software locally, push it to remote Git server, where if the tests pass it gets deployed to staging environment. If the staging environment works correctly, then I will deploy the software to">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-29T18:24:54.000Z">
+<meta property="og:updated_time" content="2018-12-29T18:49:51.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Do not use NODE_ENV for staging">
 <meta name="twitter:description" content="I write software locally, push it to remote Git server, where if the tests pass it gets deployed to staging environment. If the staging environment works correctly, then I will deploy the software to">
@@ -128,9 +128,9 @@ ga('send', 'pageview');
 <li>On staging with <code>NODE_ENV=staging</code> <code>npm install</code> and <code>npm ci</code> will install production AND dev dependencies</li>
 <li>Thus staging will NOT be exactly like production.</li>
 </ul>
-<p>Staging would run just fine if one of the dependencies was saved a dev dependency by mistake, but the same application would crash in production.</p>
-<p>Modifying <code>npm install</code> call with conditional to add <code>--production</code> flag when running on staging and production would create a nasty shell command. Luckily NPM thought about this. There is additional environment variable we can set to install only the production dependencies on staging - it is <a href="https://docs.npmjs.com/misc/config#production" target="_blank" rel="noopener"><code>NPM_CONFIG_PRODUCTION</code></a> which acts just like <code>--production</code> during install step.</p>
-<p>But watch out! <a href="https://github.com/npm/npm/issues/14168" target="_blank" rel="noopener">Setting <code>NPM_CONFIG_PRODUCTION=true</code> during install overrides <code>NODE_ENV</code> for all npm scripts</a>, which is what NPM intended. So the server will behave differently if you call <code>node ./start.js</code> or <code>npm start</code>!</p>
+<p>Staging would run just fine if one of the dependencies was saved as dev dependency by mistake, but the same application would crash in production because that dependencies would not be present.</p>
+<p>Modifying <code>npm install</code> call with conditional to add <code>--production</code> flag when running on staging and production would create a nasty shell command. Luckily NPM thought about this. There is an additional environment variable we can set to install only the production dependencies on staging - it is <a href="https://docs.npmjs.com/misc/config#production" target="_blank" rel="noopener"><code>NPM_CONFIG_PRODUCTION</code></a> which acts just like <code>--production</code> during install step.</p>
+<p>But watch out! <a href="https://github.com/npm/npm/issues/14168" target="_blank" rel="noopener">Setting <code>NPM_CONFIG_PRODUCTION=true</code> during install overrides <code>NODE_ENV</code> for all npm scripts</a>, which is what NPM intended. So the server will behave differently if you call <code>node ./start.js</code> or <code>npm start</code>.</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">NPM_CONFIG_PRODUCTION=true</span><br><span class="line">NODE_ENV=staging</span><br><span class="line">node ./start.js</span><br></pre></td></tr></table></figure>
 <p>Server starts with <code>process.env.NODE_ENV=staging</code> value. But if you have NPM script <code>start</code> that does the same in <code>package.json</code> the result will be different.</p>
 <figure class="highlight json"><figcaption><span>package.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">    <span class="attr">"start"</span>: <span class="string">"node ./start.js"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -170,7 +170,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/do-not-use-node-env-for-staging/" data-id="cjq9sqqv7009udlmexsvm6db4" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/do-not-use-node-env-for-staging/" data-id="cjq9tmqqc009vl6mehxuxizgq" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/do-not-use-node-env-for-staging/#disqus_thread" class="article-comment-link">Comments</a>
       
