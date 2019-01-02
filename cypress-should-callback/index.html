@@ -21,7 +21,7 @@
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/should-cb/should-cb.gif">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/should-cb/second-text.gif">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/should-cb/pipe-example.gif">
-<meta property="og:updated_time" content="2019-01-02T14:34:55.000Z">
+<meta property="og:updated_time" content="2019-01-02T14:38:31.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Cypress should callback">
 <meta name="twitter:description" content="Note: source code for this blog post is in bahmutov/cypress-should-callback, see the spec files. Cypress has a built-in retry-ability in almost every command - a concept that still keeps blowing my mi">
@@ -118,7 +118,7 @@ ga('send', 'pageview');
     </h1>
 
     <h2 class="article-title" itemprop="name">
-      Use any assertions inside `should(cb)` function to have Cypress auto-retry command with your assertion function.
+      Use any assertion inside &#34;should(cb)&#34; function to have Cypress auto-retry its command with your assertion function.
     </h2>
 
   
@@ -128,7 +128,7 @@ ga('send', 'pageview');
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Note: source code for this blog post is in <a href="https://github.com/bahmutov/cypress-should-callback" target="_blank" rel="noopener">bahmutov/cypress-should-callback</a>, see the <a href="https://github.com/bahmutov/cypress-should-callback/tree/master/cypress/integration" target="_blank" rel="noopener">spec files</a>.</p>
+        <p><strong>Note:</strong> source code for this blog post is in <a href="https://github.com/bahmutov/cypress-should-callback" target="_blank" rel="noopener">bahmutov/cypress-should-callback</a>, see the <a href="https://github.com/bahmutov/cypress-should-callback/tree/master/cypress/integration" target="_blank" rel="noopener">spec files</a>.</p>
 <p>Cypress has a built-in retry-ability in almost every command - a concept that still keeps blowing my mind, and makes for a great demo during my presentations. For example, here is an application that adds elements to the page one by one</p>
 <figure class="highlight js"><figcaption><span>app.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> app = <span class="built_in">document</span>.getElementById(<span class="string">'app'</span>)</span><br><span class="line"><span class="keyword">const</span> addTodo = <span class="function">(<span class="params">title</span>) =&gt;</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> el = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>)</span><br><span class="line">  el.innerText = title</span><br><span class="line">  app.appendChild(el)</span><br><span class="line">&#125;</span><br><span class="line">setTimeout(addTodo(<span class="string">'first child'</span>), <span class="number">1000</span>)</span><br><span class="line">setTimeout(addTodo(<span class="string">'second child'</span>), <span class="number">2000</span>)</span><br><span class="line">setTimeout(addTodo(<span class="string">'third child'</span>), <span class="number">3000</span>)</span><br></pre></td></tr></table></figure>
 <p>My Cypress test for this is extremely simple.</p>
@@ -197,7 +197,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/cypress-should-callback/" data-id="cjqfaa439007i4ioocynurw8n" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/cypress-should-callback/" data-id="cjqfaelpc007o8looi95xyaof" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/cypress-should-callback/#disqus_thread" class="article-comment-link">Comments</a>
       
