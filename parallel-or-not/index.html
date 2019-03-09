@@ -19,7 +19,7 @@
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/parallel-or-not/github-required.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/parallel-or-not/serial-1.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/parallel-or-not/parallel-2.png">
-<meta property="og:updated_time" content="2019-03-09T16:49:10.000Z">
+<meta property="og:updated_time" content="2019-03-09T17:56:55.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Parallel or not">
 <meta name="twitter:description" content="Cypress.io The problem Solution The test job definition Branch filters One machine for external pull requests Parallel tests for internal branches   GitHub configuration   Cypress.io test runner can">
@@ -146,7 +146,7 @@ ga('send', 'pageview');
 <h2><span id="cypressio">Cypress.io</span></h2><p>When running Cypress.io end-to-end tests across multiple machines, you can use <a href="https://github.com/cypress-io/circleci-orb" target="_blank" rel="noopener">Cypress CircleCI Orb</a> or write the test job steps yourself. Ultimately, each test machine has to call the <code>cypress run</code> command</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx cypress run --record --parallel</span><br></pre></td></tr></table></figure>
 <p>Each CI machine contacts the Cypress.io Dashboard API to pick the next spec to run. To authenticate with the Cypress Dashboard, each agent requires passing a private record key, usually by having an environment variable called <a href="https://on.cypress.io/dashboard-service" target="_blank" rel="noopener">CYPRESS_RECORD_KEY</a> set. In the parallel mode, by adding more machines the test job can power through all tests very quickly, see my other blog post <a href="https://www.cypress.io/blog/2018/09/05/run-end-to-end-tests-on-ci-faster/" target="_blank" rel="noopener">&quot;Run Your End-to-end Tests 10 Times Faster with Automatic Test Parallelization&quot;</a>.</p>
-<h2><span id="the-problem">The problem</span></h2><p>Recently, our friends at <a href="https://github.com/withspectrum/spectrum" target="_blank" rel="noopener">Spectrum</a> had a problem. They are using CircleCI and are running the tests in parallel mode across 9 machines, which speeds their tests from <a href="https://dashboard.cypress.io/#/projects/6a92uk/runs/3145/specs" target="_blank" rel="noopener">16 minutes</a> to <a href="https://dashboard.cypress.io/#/projects/6a92uk/runs/3276/specs" target="_blank" rel="noopener">2 minutes</a>.</p>
+<h2><span id="the-problem">The problem</span></h2><p>Our friends at <a href="https://github.com/withspectrum/spectrum" target="_blank" rel="noopener">Spectrum</a> have started using parallel running mode, which dropped their test run from <a href="https://dashboard.cypress.io/#/projects/6a92uk/runs/3145/specs" target="_blank" rel="noopener">16 minutes</a> to <a href="https://dashboard.cypress.io/#/projects/6a92uk/runs/3276/specs" target="_blank" rel="noopener">2 minutes</a>.</p>
 <p><strong>Before</strong></p>
 <p><img src="/blog/images/parallel-or-not/1-machine.png" alt="1 machine"></p>
 <p><strong>After</strong></p>
@@ -209,7 +209,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/parallel-or-not/" data-id="cjt1scway00ltjy51df6qszio" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/parallel-or-not/" data-id="cjt1sjukw00m71a51j1csscl0" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/parallel-or-not/#disqus_thread" class="article-comment-link">Comments</a>
       
