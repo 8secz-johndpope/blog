@@ -21,7 +21,7 @@
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/chainsaws/sorted.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/chainsaws/search-xhr.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/chainsaws/found.gif">
-<meta property="og:updated_time" content="2019-04-25T21:41:41.000Z">
+<meta property="og:updated_time" content="2019-04-26T13:29:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Testing an online chainsaw store using Cypress.io">
 <meta name="twitter:description" content="Source code for this blog post is in https://github.com/bahmutov/testing-chainsawsdirect repo. I don&amp;#39;t know what kind of chainsaw Cypress.io is (maybe it is an open source chainsaw ?!) but I do kn">
@@ -129,8 +129,8 @@ ga('send', 'pageview');
     <div class="article-entry" itemprop="articleBody">
       
         <p><strong>Source code</strong> for this blog post is in <a href="https://github.com/bahmutov/testing-chainsawsdirect" target="_blank" rel="noopener">https://github.com/bahmutov/testing-chainsawsdirect</a> repo.</p>
-<p>I don&#39;t know what kind of chainsaw <a href="https://www.cypress.io" target="_blank" rel="noopener">Cypress.io</a> is (maybe it is an open source chainsaw ?!) but I do know that Cypress can quickly test an online chainsaw store like <a href="https://www.chainsawsdirect.com" target="_blank" rel="noopener">www.chainsawdirect.com</a>.</p>
-<h2><span id="first-test">First test</span></h2><p>I have installed Cypress with <code>npm install -D cypress</code> and created <code>cypress.json</code> file with base url pointing at the domain I want to test: <a href="https://www.chainsawsdirect.com" target="_blank" rel="noopener">www.chainsawdirect.com</a></p>
+<p>I don&#39;t know what kind of chainsaw <a href="https://www.cypress.io" target="_blank" rel="noopener">Cypress.io</a> is (maybe it is an open source chainsaw ?!) but I do know that Cypress can quickly test an online chainsaw store like <a href="https://www.chainsawsdirect.com" target="_blank" rel="noopener">www.chainsawsdirect.com</a>.</p>
+<h2><span id="first-test">First test</span></h2><p>I have installed Cypress with <code>npm install -D cypress</code> and created <code>cypress.json</code> file with base url pointing at the domain I want to test: <a href="https://www.chainsawsdirect.com" target="_blank" rel="noopener">www.chainsawsdirect.com</a></p>
 <figure class="highlight json"><figcaption><span>cypress.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"baseUrl"</span>: <span class="string">"https://www.chainsawsdirect.com"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>My first test is simple - it selects a type of the product and checks if the page shows at least a few matching ones.</p>
 <figure class="highlight js"><figcaption><span>cypress/integration/first.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// &lt;reference types="Cypress" /&gt;</span></span><br><span class="line">it(<span class="string">'has gas chainsaws'</span>, () =&gt; &#123;</span><br><span class="line">  cy.visit(<span class="string">'/'</span>)</span><br><span class="line">  cy.get(<span class="string">'#style1'</span>).select(<span class="string">'Chain Saws - Gas'</span>)</span><br><span class="line">  <span class="comment">// make sure there are at least double digit number of products</span></span><br><span class="line">  cy.contains(<span class="string">'.plcount'</span>, /^\d\d Products$/).should(<span class="string">'be.visible'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
@@ -195,7 +195,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/chainsaws/" data-id="cjux69tzn005gfpoox38qgbez" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/chainsaws/" data-id="cjuy45ez8005trboogp3r8fum" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/chainsaws/#disqus_thread" class="article-comment-link">Comments</a>
       
