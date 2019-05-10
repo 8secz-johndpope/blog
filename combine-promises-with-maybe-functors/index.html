@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Combine promises with Maybe functors | Better world by better software</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="This post was inspired by the cat pictures in Functors and Applicatives. I showed that promises are functors in the previous blog post. In this post I will show how to combine another functor Maybe wi">
+<meta name="keywords" content="functional,javascript,promises">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Combine promises with Maybe functors">
+<meta property="og:url" content="https://glebbahmutov.com/blog/combine-promises-with-maybe-functors/index.html">
+<meta property="og:site_name" content="Better world by better software">
+<meta property="og:description" content="This post was inspired by the cat pictures in Functors and Applicatives. I showed that promises are functors in the previous blog post. In this post I will show how to combine another functor Maybe wi">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-02-14T02:33:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Combine promises with Maybe functors">
+<meta name="twitter:description" content="This post was inspired by the cat pictures in Functors and Applicatives. I showed that promises are functors in the previous blog post. In this post I will show how to combine another functor Maybe wi">
+<meta name="twitter:creator" content="@bahmutov">
+  
+    <link rel="alternative" href="/blog/atom.xml" title="Better world by better software" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="preload" href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" as="style">
+  <link rel="stylesheet" href="../css/style.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-59999353-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <!-- <div id="banner"></div> -->
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../index.html" id="logo">Better world by better software</a>
+      </h1>
+      <!--
+      
+        <h2 id="subtitle-wrap">
+          <a href="../index.html" id="subtitle">Gleb Bahmutov PhD</a>
+        </h2>
+      
+      -->
+      <!-- <span class="no-mobile">Software advice from</span> -->
+      <h2 id="subtitle-wrap">
+        <span class="subtitle">
+          <a id="subtitle" href="http://glebbahmutov.com">Gleb Bahmutov PhD</a>
+        </span>
+      </h2>
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <a id="nav-house-link" class="nav-icon" href="/" title="Home"></a>
+        
+          <a id="nav-rss-link" class="nav-icon" href="/blog/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://glebbahmutov.com/blog"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-combine-promises-with-maybe-functors" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="" class="article-date">
+  <time datetime="2014-11-14T05:00:00.000Z" itemprop="datePublished">Nov 14 2014</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="../categories/products/">products</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Combine promises with Maybe functors
+    </h1>
+
+    <h2 class="article-title" itemprop="name">
+      Functor Promise together with Maybe applicative.
+    </h2>
+
+  
+
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>This post was inspired by the cat pictures in <a href="http://buzzdecafe.github.io/code/2014/10/26/functors-and-applicatives/" target="_blank" rel="noopener">Functors and Applicatives</a>.</p>
+<p>I showed that <a href="../when-in-doubt-return-a-promise/">promises are functors</a> in the previous blog post.
+In this post I will show how to combine another functor Maybe with promises. I will 
+use <a href="https://github.com/kriskowal/q" target="_blank" rel="noopener">Q promise library</a> and in my examples.</p>
+<p>A <a href="http://functionaljavascript.blogspot.in/2013/07/functors.html" target="_blank" rel="noopener">functor</a> is a wrapper for an object that can apply a function to the value and return
+new functor of the same type. Promises are functors since they can apply a function via
+<code>.then</code> method and then continue with new promise. I will first define another useful
+functor called Maybe that can stop execution if the value is undefined.</p>
+<h2><span id="maybe-functor">Maybe functor</span></h2><p>Let us start with a simple function that returns a length of a string (or an array).</p>
+<pre><code>function length(x) {
+    return x.length;
+}
+</code></pre><p>We can use this function with strings, but if we pass an undefined or null function, it
+dies a horrible death</p>
+<pre><code>console.log(length(&apos;foo&apos;)); // 3
+console.log(length()); // TypeError: Cannot read property &apos;length&apos; of undefined
+</code></pre><p>How do we guard our application logic against runtime errors like these? Usually by modifying the
+&#39;length&#39; function itself</p>
+<pre><code>function length(x) {
+  if (typeof x !== &apos;undefined&apos;)
+    return x.length;
+}
+console.log(length(&apos;foo&apos;)); // prints 3
+console.log(length()); // prints undefined
+</code></pre><p>This solution has two downsides</p>
+<ul>
+<li>We had to modify the function&#39;s code. We could wrap the function dynamically, but still this is less than ideal.</li>
+<li>We did not stop the execution chain. We have stopped the exception, but the <code>console.log</code> still executed and 
+printed &#39;undefined&#39;.</li>
+</ul>
+<p>Instead of applying the <code>length</code> function directly to the value, let us wrap the value in a <em>functor</em> instance.
+The functor object will have a method to run the function on the contained value and will always return another
+(or the same) functor instance. The functor Maybe will apply the function only if there is a value to be applied.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// original length function without input data check</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">length</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x.length;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Maybe keeps given value</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Maybe</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.value = x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// returns transformed value or itself</span></span><br><span class="line">Maybe.prototype.map = <span class="function"><span class="keyword">function</span> (<span class="params">fn</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">typeof</span> <span class="keyword">this</span>.value === <span class="string">'undefined'</span> ?</span><br><span class="line">    <span class="keyword">this</span> :</span><br><span class="line">    <span class="keyword">new</span> Maybe(fn(<span class="keyword">this</span>.value));</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">new</span> Maybe(<span class="string">'foo'</span>)</span><br><span class="line">  .map(length)</span><br><span class="line">  .map(<span class="built_in">console</span>.log);</span><br><span class="line"><span class="comment">// prints 3</span></span><br></pre></td></tr></table></figure>
+<p>Even more interesting in this case, what happens if Maybe instance contains <code>undefined</code>?</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Maybe()</span><br><span class="line">  .map(length)</span><br><span class="line">  .map(<span class="built_in">console</span>.log);</span><br><span class="line"><span class="comment">// nothing!</span></span><br></pre></td></tr></table></figure>
+<p>Nothing happens. Function <code>length</code> is not called, because the value is undefined.
+Then the method <code>console.log</code> is not called, because the value is undefined. 
+We safely skipped all the steps.</p>
+<h2><span id="maybe-functor-without-new-keyword">Maybe functor without <code>new</code> keyword</span></h2><p>I <a href="../working-around-keyword-new-in-javascript/">described</a> how to transform a constructor function to make <code>new</code> optional.
+Now we can easily use <code>Maybe</code> as callback function for example, or start the chain 
+without <code>new</code> keyword.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Maybe</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">this</span> <span class="keyword">instanceof</span> Maybe)</span><br><span class="line">    <span class="keyword">this</span>.value = x;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Maybe(x);</span><br><span class="line">&#125;</span><br><span class="line">Maybe(<span class="string">'foo'</span>)</span><br><span class="line">  .map(length)</span><br><span class="line">  .map(<span class="built_in">console</span>.log);</span><br></pre></td></tr></table></figure>
+<p>Even better, let us avoid wrapping a value in Maybe object, if the value has already been wrapped once</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Maybe</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (x <span class="keyword">instanceof</span> Maybe) &#123;</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">this</span> <span class="keyword">instanceof</span> Maybe)</span><br><span class="line">    <span class="keyword">this</span>.value = x;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Maybe(x);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(Maybe(<span class="string">'foo'</span>));</span><br><span class="line"><span class="built_in">console</span>.log(Maybe(Maybe(<span class="string">'foo'</span>)));</span><br><span class="line"><span class="comment">// prints</span></span><br><span class="line">&#123; <span class="attr">value</span>: <span class="string">'foo'</span> &#125;</span><br><span class="line">&#123; <span class="attr">value</span>: <span class="string">'foo'</span> &#125;</span><br></pre></td></tr></table></figure>
+<h2><span id="promises-are-functors">Promises are functors</span></h2><p><a href="../when-in-doubt-return-a-promise/">Promises are functors</a>. Example:</p>
+<pre><code>var q = require(&apos;q&apos;);
+function double(x) { return x + x; }
+q(&apos;foo&apos;).then(double).then(console.log);
+// prints foofoo
+</code></pre><p>Here is typical situation where we start with a promise object and then try to run
+<code>length</code> on the result</p>
+<pre><code>q(&apos;foo&apos;)
+    .then(length)
+    .then(console.log);
+// prints 3
+</code></pre><p>Let us try starting the chain with undefined value.</p>
+<pre><code>q()
+    .then(length)
+    .then(console.log);
+// nothing happens
+</code></pre><p>Nothing happens because there is an exception that is silently swallowed by the Q engine. We need to
+close promise chain using <code>.done</code> method, see <a href="../why-promises-need-to-be-done/">why promises need to be done</a>.</p>
+<pre><code>q()
+    .then(length)
+    .then(console.log)
+    .done();
+// TypeError: Cannot read property &apos;length&apos; of undefined
+</code></pre><p>We see the error, let us try guard against it using the Maybe functor we used above.</p>
+<h2><span id="maybe-with-promises-problem">Maybe with promises problem</span></h2><p>Let us introduce the Maybe function into the promise started by the Q. We would like to avoid calling
+functions if the value passed through the promise chain is undefined.</p>
+<p>If we try the chain directly, it does not work</p>
+<pre><code>q()
+  .then(Maybe)
+  .then(length)
+  .then(console.log)
+  .done();
+// prints &apos;undefined&apos;
+</code></pre><p>This is not what we needed. If we look at the run-time details, here is what is happening.
+I will add to each line the owner of the <code>.then</code> call and the type of the result passed around.</p>
+<pre><code>q() 
+  .then(Maybe)          // Q.then calls Maybe constructor
+  .then(length)         // Q.then calls `length` with Maybe instance wrapping undefined. 
+                        // `length` returns { Maybe }.length which is undefined
+  .then(console.log)    // Q.then calls console.log(undefined)
+  .done();
+// prints &apos;undefined&apos;
+</code></pre><p>Notice the above code is not using Maybe as a functor. 
+Instead of wrapping a value, we need Maybe to wrap a function to be executed. We need something like this:</p>
+<pre><code>q()
+  .then(Maybe(length)) // wraps length, waits for value
+  .then(Maybe(console.log)) // wraps console.log, waits for value
+  .done();
+</code></pre><h2><span id="wrapping-functions">Wrapping functions</span></h2><p>If we wrap a function to be applied to wrapped value, it becomes an <em>applicative</em>. We can apply the <em>applicative</em>
+to a value using <code>.ap</code> method</p>
+<pre><code>Maybe.prototype.ap = function ap(x) {
+  if (typeof this.value === &apos;function&apos;)
+    return Maybe(x).map(this.value); // 1
+  return Maybe();
+};
+Maybe(console.log).ap(&apos;foo&apos;);
+// prints &quot;foo&quot;
+</code></pre><p>Thus the applicative is wrapped function that operates on the wrapped value. This is why we were checking if
+the value is already wrapped inside the Maybe constructor - so we can safely call wrapper on every value before
+calling <code>return Maybe(x).map(this.value); // 1</code>.</p>
+<p>If we want to use the applicative as a callback, we need to bind the <code>.ap</code> method to the Maybe instance</p>
+<pre><code>var MaybeLog = Maybe(console.log);
+var cb = MaybeLog.ap.bind(MaybeLog);
+setTimeout(function () {
+  cb(&apos;foo&apos;);
+}, 0);
+// prints &quot;foo&quot; after timeout
+</code></pre><h2><span id="applicative-as-promise-callback">Applicative as promise callback</span></h2><p>Now we can apply conditional functions to values passed by the promise</p>
+<pre><code>var q = require(&apos;q&apos;);
+var MaybeLength = Maybe(length);
+var MaybeLog = Maybe(console.log);
+q(&apos;foo&apos;)
+  .then(MaybeLength.ap.bind(MaybeLength))
+  .then(MaybeLog.ap.bind(MaybeLog))
+  .done();
+// prints 3 asynchronously
+q()
+  .then(MaybeLength.ap.bind(MaybeLength))
+  .then(MaybeLog.ap.bind(MaybeLog))
+  .done();
+// does nothing
+</code></pre><p>I do not like remembering to bind the <code>.ap</code> to the Maybe instance, so let us change <code>.ap</code> method
+to access both the wrapped function and the passed value using lexical scope instead of <code>this</code> context.
+We will do this by moving <code>.ap</code> from prototype directly inside the constructor function. This will
+use more memory (every instance gets its own instance of <code>ap</code> function), but will not require the binding.</p>
+<pre><code>function Maybe(x) {
+  if (x instanceof Maybe) {
+    return x;
+  }
+  if (this instanceof Maybe) {
+    this.value = x;
+    this.ap = function ap(arg) {
+      // access function x via lexical scope
+      if (typeof x === &apos;function&apos;)
+        return Maybe(arg).map(x);
+    };
+  } else
+    return new Maybe(x);
+}
+</code></pre><p>Now we can quickly wrap functions passed as steps to the promise</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">q(<span class="string">'foo'</span>)</span><br><span class="line">  .then(Maybe(length).ap)</span><br><span class="line">  .then(Maybe(<span class="built_in">console</span>.log).ap)</span><br><span class="line">  .done();</span><br><span class="line"><span class="comment">// prints 3 asynchronously</span></span><br><span class="line">q()</span><br><span class="line">  .then(Maybe(length).ap)</span><br><span class="line">  .then(Maybe(<span class="built_in">console</span>.log).ap)</span><br><span class="line">  .done();</span><br><span class="line"><span class="comment">// prints nothing</span></span><br></pre></td></tr></table></figure>
+<h2><span id="conclusion">Conclusion</span></h2><p>Wrapping raw values inside functors and applicatives helped me refine and simplify the code in my programs.
+This is an unfinished process, and I am still looking for a more practical approach.</p>
+
+      
+    </div>
+
+    
+      <footer class="article-footer personal-links">
+  Follow Gleb Bahmutov <a href="https://twitter.com/bahmutov">@bahmutov</a>,
+  see his projects at <a href="http://glebbahmutov.com">glebbahmutov.com</a>
+</footer>
+<script src="https://rawgit.com/toddmotto/linkjuice/702066a37124081e7ad1a972844a9a91115be05a/dist/linkjuice.js"></script>
+<script>
+function contentFn (node, icon) {
+  const s = '<a href="#' + node.id + '" class="linkjuice">' +
+    node.innerHTML + ' ' + icon + '</a>\n'
+  return s
+}
+linkjuice.init('.article-entry', {
+  selectors: ['h2 span'],
+  icon: '<span class="link-symbol">#</span>',
+  contentFn: contentFn
+});
+</script>
+
+    
+
+    <footer class="article-footer">
+      <a data-url="https://glebbahmutov.com/blog/combine-promises-with-maybe-functors/" data-id="cjvi4bepw011ux4ooy7n5awo8" class="article-share-link">Share</a>
+      
+        <a href="https://glebbahmutov.com/blog/combine-promises-with-maybe-functors/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../tags/functional/">functional</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../tags/javascript/">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../tags/promises/">promises</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="../sharing-data-between-controller-and-link-without-scope/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Sharing data between controller and link functions in Angular directive
+        
+      </div>
+    </a>
+  
+  
+    <a href="../test-if-a-function-is-pure/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Test if a function is pure</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    <style>
+#carbonads {
+  display: block;
+  overflow: hidden;
+  font-size: 11px;
+  font-family: Verdana, "Helvetica Neue", Helvetica, sans-serif;
+  line-height: 1.5;
+}
+
+#carbonads a {
+  color: #258fb8;
+  text-decoration: none;
+}
+
+#carbonads a:hover {
+  text-decoration: underline;
+}
+
+#carbonads span {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+
+.carbon-img {
+  float: left;
+  margin-right: 1em;
+}
+
+.carbon-img img { display: block; }
+
+.carbon-text {
+  display: block;
+  float: left;
+  text-align: left;
+  margin-top: 0.5em;
+}
+@media screen and (min-width: 1024px) {
+  .carbon-text {
+    max-width: calc(100% - 130px - 1em);
+  }
+}
+
+.carbon-poweredby {
+  /*position: absolute;
+  right: 0;
+  bottom: 0;*/
+  float: right;
+  display: block;
+  font-size: 11px;
+}
+</style>
+<div class="widget-wrap">
+  <div class="widget-title">&nbsp;</div>
+  <div class="widget">
+    <!-- Carbon Ads -->
+    <script async type="text/javascript"
+      src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=glebbahmutovcom"
+      id="_carbonads_js"></script>
+  </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="../categories/book-review/">book review</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="../categories/people/">people</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="../categories/process/">process</a><span class="category-list-count">108</span></li><li class="category-list-item"><a class="category-list-link" href="../categories/products/">products</a><span class="category-list-count">309</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../tags/QUnit/">QUnit</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/advice/">advice</a><span class="tag-list-count">100</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/angularjs/">angularjs</a><span class="tag-list-count">58</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/angularjs2/">angularjs2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/assertions/">assertions</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ast/">ast</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/boilerplate/">boilerplate</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/browser/">browser</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ci/">ci</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/concurrency/">concurrency</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/cyclejs/">cyclejs</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/cypress/">cypress</a><span class="tag-list-count">36</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/d3/">d3</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/db/">db</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/docker/">docker</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/es6/">es6</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/es7/">es7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/functional/">functional</a><span class="tag-list-count">68</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/generators/">generators</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/git/">git</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/github/">github</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/graphql/">graphql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/grunt/">grunt</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/gulp/">gulp</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/hyperapp/">hyperapp</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/immutable/">immutable</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/interview/">interview</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/jade/">jade</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/javascript/">javascript</a><span class="tag-list-count">160</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/jshint/">jshint</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/modular-development/">modular development</a><span class="tag-list-count">27</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/nodejs/">nodejs</a><span class="tag-list-count">76</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/performance/">performance</a><span class="tag-list-count">17</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/presentation/">presentation</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/promises/">promises</a><span class="tag-list-count">31</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/proposal/">proposal</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ramda/">ramda</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/reactive/">reactive</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/reactjs/">reactjs</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/screencast/">screencast</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/security/">security</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/sentry/">sentry</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/service-workers/">service workers</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/state-machine/">state machine</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/testing/">testing</a><span class="tag-list-count">89</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/tutorial/">tutorial</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/typescript/">typescript</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ui/">ui</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/vuejs/">vuejs</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/web-workers/">web workers</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/zeit/">zeit</a><span class="tag-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="../tags/QUnit/" style="font-size: 11.67px;">QUnit</a> <a href="../tags/advice/" style="font-size: 19.58px;">advice</a> <a href="../tags/angularjs/" style="font-size: 17.92px;">angularjs</a> <a href="../tags/angularjs2/" style="font-size: 10px;">angularjs2</a> <a href="../tags/assertions/" style="font-size: 13.33px;">assertions</a> <a href="../tags/ast/" style="font-size: 12.92px;">ast</a> <a href="../tags/boilerplate/" style="font-size: 15.42px;">boilerplate</a> <a href="../tags/browser/" style="font-size: 16.25px;">browser</a> <a href="../tags/ci/" style="font-size: 13.33px;">ci</a> <a href="../tags/concurrency/" style="font-size: 10px;">concurrency</a> <a href="../tags/cyclejs/" style="font-size: 12.5px;">cyclejs</a> <a href="../tags/cypress/" style="font-size: 17.5px;">cypress</a> <a href="../tags/d3/" style="font-size: 10.83px;">d3</a> <a href="../tags/db/" style="font-size: 14.17px;">db</a> <a href="../tags/docker/" style="font-size: 13.75px;">docker</a> <a href="../tags/es6/" style="font-size: 15px;">es6</a> <a href="../tags/es7/" style="font-size: 10px;">es7</a> <a href="../tags/functional/" style="font-size: 18.33px;">functional</a> <a href="../tags/generators/" style="font-size: 11.67px;">generators</a> <a href="../tags/git/" style="font-size: 15px;">git</a> <a href="../tags/github/" style="font-size: 11.25px;">github</a> <a href="../tags/graphql/" style="font-size: 10.83px;">graphql</a> <a href="../tags/grunt/" style="font-size: 12.5px;">grunt</a> <a href="../tags/gulp/" style="font-size: 10.83px;">gulp</a> <a href="../tags/hyperapp/" style="font-size: 12.5px;">hyperapp</a> <a href="../tags/immutable/" style="font-size: 11.67px;">immutable</a> <a href="../tags/interview/" style="font-size: 10.83px;">interview</a> <a href="../tags/jade/" style="font-size: 11.25px;">jade</a> <a href="../tags/javascript/" style="font-size: 20px;">javascript</a> <a href="../tags/jshint/" style="font-size: 10.83px;">jshint</a> <a href="../tags/modular-development/" style="font-size: 16.67px;">modular development</a> <a href="../tags/nodejs/" style="font-size: 18.75px;">nodejs</a> <a href="../tags/performance/" style="font-size: 15.83px;">performance</a> <a href="../tags/presentation/" style="font-size: 11.25px;">presentation</a> <a href="../tags/promises/" style="font-size: 17.08px;">promises</a> <a href="../tags/proposal/" style="font-size: 10.42px;">proposal</a> <a href="../tags/ramda/" style="font-size: 10px;">ramda</a> <a href="../tags/reactive/" style="font-size: 14.58px;">reactive</a> <a href="../tags/reactjs/" style="font-size: 10.83px;">reactjs</a> <a href="../tags/screencast/" style="font-size: 10px;">screencast</a> <a href="../tags/security/" style="font-size: 12.5px;">security</a> <a href="../tags/sentry/" style="font-size: 13.75px;">sentry</a> <a href="../tags/service-workers/" style="font-size: 12.08px;">service workers</a> <a href="../tags/state-machine/" style="font-size: 10px;">state machine</a> <a href="../tags/testing/" style="font-size: 19.17px;">testing</a> <a href="../tags/tutorial/" style="font-size: 13.75px;">tutorial</a> <a href="../tags/typescript/" style="font-size: 11.67px;">typescript</a> <a href="../tags/ui/" style="font-size: 10.42px;">ui</a> <a href="../tags/vuejs/" style="font-size: 11.25px;">vuejs</a> <a href="../tags/web-workers/" style="font-size: 12.08px;">web workers</a> <a href="../tags/zeit/" style="font-size: 12.08px;">zeit</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/05/">May 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/04/">April 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/03/">March 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/01/">January 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/12/">December 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/11/">November 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/10/">October 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/09/">September 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/08/">August 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/06/">June 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/04/">April 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/03/">March 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/12/">December 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/08/">August 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/07/">July 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/06/">June 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/04/">April 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/03/">March 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/02/">February 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/01/">January 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/11/">November 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/09/">September 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/08/">August 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/07/">July 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/06/">June 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/04/">April 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/03/">March 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/02/">February 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/12/">December 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/11/">November 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/10/">October 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/09/">September 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/08/">August 2015</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/07/">July 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/06/">June 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/05/">May 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/04/">April 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/03/">March 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/02/">February 2015</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/01/">January 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/12/">December 2014</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/11/">November 2014</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/10/">October 2014</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/09/">September 2014</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/08/">August 2014</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/07/">July 2014</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/06/">June 2014</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/05/">May 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/04/">April 2014</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/03/">March 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/02/">February 2014</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/01/">January 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/12/">December 2013</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/11/">November 2013</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/10/">October 2013</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/09/">September 2013</a><span class="archive-list-count">10</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="../using-ts-aliases-in-cypress-tests/">Using TypeScript aliases in Cypress tests</a>
+          </li>
+        
+          <li>
+            <a href="../code-coverage-for-e2e-tests/">Code Coverage for End-to-end Tests</a>
+          </li>
+        
+          <li>
+            <a href="../stub-navigator-api/">Stub navigator API in end-to-end tests</a>
+          </li>
+        
+          <li>
+            <a href="../chainsaws/">Testing an online chainsaw store using Cypress.io</a>
+          </li>
+        
+          <li>
+            <a href="../npm-install-with-just-github/">NPM Install with just GitHub</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Gleb Bahmutov<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'betterworldbybettersoftware';
+  
+  var disqus_url = 'https://glebbahmutov.com/blog/combine-promises-with-maybe-functors/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="../fancybox/jquery.fancybox.css">
+  <script src="../fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="../js/script.js"></script>
+
+  </div>
+  <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
+<script>
+(function centerMainOnAsideScroll () {
+  // when aside side bar scrolls outside the view
+  // it centers the main content.
+  const main = document.querySelector('#main')
+  const aside = document.querySelector('aside#sidebar')
+  console.assert(main, 'could not get #main')
+  console.assert(aside, 'could not get aside')
+  // initially the aside sidebar is visible
+  let asideVisible = true
+
+  function centerMain () {
+    console.log('adding class center-main')
+    main.classList.add('center-main')
+  }
+  function leftMain () {
+    main.classList.remove('center-main')
+  }
+
+  function callWhenAsideScrollsUp (becameInvisible, becameVisible) {
+    return function () {
+      const border = 50
+      const rect = aside.getBoundingClientRect()
+      if (asideVisible && rect.bottom < -border) {
+        asideVisible = false
+        becameInvisible()
+      }
+
+      if (!asideVisible && window.scrollY < border) {
+        asideVisible = true
+        becameVisible()
+      }
+    }
+  }
+  const throttleWaitMs = 250
+  const onScroll = _.throttle(
+    callWhenAsideScrollsUp(centerMain, leftMain),
+    throttleWaitMs
+  )
+  window.addEventListener('scroll', onScroll)
+}())
+</script>
+
+</body>
+</html>

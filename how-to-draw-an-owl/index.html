@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>How To Draw An Owl | Better world by better software</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="IntroI like simple code. I consider functional code simpler than OO code. Yet, I am not an advanced practitioner of functional programming; and I easily get lost when people throw words like &amp;quot;com">
+<meta name="keywords" content="functional">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How To Draw An Owl">
+<meta property="og:url" content="https://glebbahmutov.com/blog/how-to-draw-an-owl/index.html">
+<meta property="og:site_name" content="Better world by better software">
+<meta property="og:description" content="IntroI like simple code. I consider functional code simpler than OO code. Yet, I am not an advanced practitioner of functional programming; and I easily get lost when people throw words like &amp;quot;com">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/how-to-draw-fp-owl/how-to-draw-an-owl.jpg">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/how-to-draw-fp-owl/how-to-really-draw-an-owl.jpg">
+<meta property="og:updated_time" content="2018-02-14T02:33:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="How To Draw An Owl">
+<meta name="twitter:description" content="IntroI like simple code. I consider functional code simpler than OO code. Yet, I am not an advanced practitioner of functional programming; and I easily get lost when people throw words like &amp;quot;com">
+<meta name="twitter:image" content="https://glebbahmutov.com/blog/images/how-to-draw-fp-owl/how-to-draw-an-owl.jpg">
+<meta name="twitter:creator" content="@bahmutov">
+  
+    <link rel="alternative" href="/blog/atom.xml" title="Better world by better software" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="preload" href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" as="style">
+  <link rel="stylesheet" href="../css/style.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-59999353-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <!-- <div id="banner"></div> -->
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../index.html" id="logo">Better world by better software</a>
+      </h1>
+      <!--
+      
+        <h2 id="subtitle-wrap">
+          <a href="../index.html" id="subtitle">Gleb Bahmutov PhD</a>
+        </h2>
+      
+      -->
+      <!-- <span class="no-mobile">Software advice from</span> -->
+      <h2 id="subtitle-wrap">
+        <span class="subtitle">
+          <a id="subtitle" href="http://glebbahmutov.com">Gleb Bahmutov PhD</a>
+        </span>
+      </h2>
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <a id="nav-house-link" class="nav-icon" href="/" title="Home"></a>
+        
+          <a id="nav-rss-link" class="nav-icon" href="/blog/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://glebbahmutov.com/blog"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-how-to-draw-an-owl" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="" class="article-date">
+  <time datetime="2017-06-05T04:00:00.000Z" itemprop="datePublished">Jun 5 2017</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="../categories/process/">process</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      How To Draw An Owl
+    </h1>
+
+    <h2 class="article-title" itemprop="name">
+      Refactor code using functional approach (Maybe, immutable).
+    </h2>
+
+  
+
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2><span id="intro">Intro</span></h2><p>I like simple code. I consider functional code simpler than OO code. Yet, I
+am not an advanced practitioner of functional programming; and I easily get
+lost when people throw words like &quot;comonads&quot; around. After writing
+[a lot of blog posts][../tags/functional/]
+about functional way of writing JavaScript, I only scratch a surface of
+<em>actually using</em> the full power of FP in JS.</p>
+<p>In fact, using a little bit of functional programming in JavaScript is super
+easy - just take advantage of built-in Array callbacks! Yet mastering an
+advanced topic like combining several Monad types together is much much harder.
+See if you can read <a href="https://medium.com/@drboolean/free-er-monads-in-js-f5a59e7abc82" target="_blank" rel="noopener">this explanation</a> of Freer Monad and be ready to use
+it in your code!</p>
+<p>A lot of FP explanations seems to start with basics and then immediately
+switch to controlling side effects via Abstract Data Types (like Functor,
+Monad). Meanwhile I am sitting there reading about it and feeling like I am
+learning to draw an owl:</p>
+<p><img src="/blog/images/how-to-draw-fp-owl/how-to-draw-an-owl.jpg" alt="How to draw an owl: simplified version"></p>
+<p>In this blog post I will try to refactor a piece of my code applying
+the following functional principles:</p>
+<ul>
+<li>pure functions</li>
+<li>object lenses</li>
+<li>immutable data structure</li>
+<li>Maybe monad</li>
+</ul>
+<p>and I will also do it slowly, explaining each code transformation. Hopefully,
+I will better understand the FP myself, and fill in the details on how to
+draw an owl.</p>
+<p><img src="/blog/images/how-to-draw-fp-owl/how-to-really-draw-an-owl.jpg" alt="How to really draw an owl"></p>
+<h2><span id="initial-code">Initial code</span></h2><p>As an example, I will use a little utility I wrote some time ago called
+<a href="https://github.com/bahmutov/rocha" target="_blank" rel="noopener">Rocha</a> - it is a wrapper around super
+popular unit testing framework <a href="https://mochajs.org/" target="_blank" rel="noopener">Mocha</a> that
+randomizes the order of unit tests before running them. This comes in handy
+when flashing dependencies between tests. If the tests pass - great, and next
+time they will run in new order. But if the tests fail, the running order is
+saved as a JSON file, and the next test run will try the
+<em>same failing test order</em>. Thus you can work on finding and fixing the
+test dependencies, making them truly independent.</p>
+<p>The code fragment we are going to look at is the shuffling code. Each Mocha
+test file can have blocks of tests called <code>suites</code>. The <code>suites</code> can be nested,
+and each <code>suite</code> can have additional tests. The <code>suite</code> is defined by
+<code>describe</code> function and each test by <code>it</code> function.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// typical spec file</span></span><br><span class="line">it(<span class="string">'has a test'</span>, () =&gt; &#123;...&#125;)</span><br><span class="line">describe(<span class="string">'a suite'</span>, () =&gt; &#123;</span><br><span class="line">  it(<span class="string">'a test inside a suite'</span>, () =&gt; &#123;...&#125;)</span><br><span class="line">  it(<span class="string">'second'</span>, () =&gt; &#123;...&#125;)</span><br><span class="line">  it(<span class="string">'third'</span>, () =&gt; &#123;...&#125;)</span><br><span class="line">  describe(<span class="string">'nested suite'</span>, () =&gt; &#123;</span><br><span class="line">    it(<span class="string">'has another test'</span>, () =&gt; &#123;...&#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">  describe(<span class="string">'second nested suite'</span>, () =&gt; &#123;</span><br><span class="line">    it(<span class="string">'yet another test'</span>, () =&gt; &#123;...&#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>Our Rocha wrapper looks at the previous run results, and if there is no
+previously saved failing test run order, shuffles the top level <code>suite</code> object.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mocha.suite.beforeAll(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> cachedOrder = cache.load()</span><br><span class="line">  <span class="keyword">if</span> (cachedOrder) &#123;</span><br><span class="line">    log(<span class="string">'reordering specs like last time'</span>)</span><br><span class="line">    order.set(mocha.suite, cachedOrder)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    order.shuffle(mocha.suite)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>The initial implementation of <code>order.shuffle</code> is in
+function <code>shuffleDescribes</code> that you can see <a href="https://github.com/bahmutov/rocha/blob/233e99d20aaa70324085913f081ee42cd9a56ae3/src/order-of-tests.js#L6" target="_blank" rel="noopener">here</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shuffleDescribes</span> (<span class="params">suite</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (suite.suites &amp;&amp; suite.suites.length) &#123;</span><br><span class="line">    log(<span class="string">'shuffling %d describe blocks in "%s"'</span>,</span><br><span class="line">      suite.suites.length, suite.title)</span><br><span class="line">    suite.suites = _.shuffle(suite.suites)</span><br><span class="line">    shuffleTests(suite)</span><br><span class="line">    suite.suites.forEach(shuffleDescribes)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Before we refactor, we must write unit tests. I quickly wrote a few sanity
+checks using <a href="https://github.com/bahmutov/snap-shot" target="_blank" rel="noopener">snap-shot</a> utility
+to add snapshot testing to Mocha framework. For sanity, I added returning
+the <code>suite</code> reference from <code>shuffleDescribes</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shuffleDescribes</span> (<span class="params">suite</span>) </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="keyword">return</span> suite</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>the unit tests are very simple. I am using <code>la</code> assertion function from
+<a href="https://github.com/bahmutov/lazy-ass" target="_blank" rel="noopener">lazy-ass</a> - which just checks predicate
+and throws an exception formed from all arguments passed to it.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> la = <span class="built_in">require</span>(<span class="string">'lazy-ass'</span>)</span><br><span class="line"><span class="keyword">const</span> is = <span class="built_in">require</span>(<span class="string">'check-more-types'</span>)</span><br><span class="line"><span class="keyword">const</span> _ = <span class="built_in">require</span>(<span class="string">'lodash'</span>)</span><br><span class="line">describe.only(<span class="string">'shuffle'</span>, () =&gt; &#123;</span><br><span class="line">  it(<span class="string">'is a function'</span>, () =&gt; &#123;</span><br><span class="line">    la(is.fn(shuffle), shuffle)</span><br><span class="line">  &#125;)</span><br><span class="line">  it(<span class="string">'does not shuffle undefined'</span>, () =&gt; &#123;</span><br><span class="line">    la(_.isUndefined(shuffle()))</span><br><span class="line">  &#125;)</span><br><span class="line">  it(<span class="string">'does not shuffle empty'</span>, () =&gt; &#123;</span><br><span class="line">    la(snapshot(shuffle(&#123;&#125;)))</span><br><span class="line">  &#125;)</span><br><span class="line">  it(<span class="string">'does not shuffle empty suites'</span>, () =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> s = &#123;</span><br><span class="line">      suites: []</span><br><span class="line">    &#125;</span><br><span class="line">    la(snapshot(shuffle(s)))</span><br><span class="line">  &#125;)</span><br><span class="line">  it(<span class="string">'returns shuffled suites'</span>, () =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> s = &#123;</span><br><span class="line">      suites: R.range(<span class="number">1</span>, <span class="number">100</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> shuffled = shuffle(s)</span><br><span class="line">    la(!_.isEqual(shuffled.suites, s.suites),</span><br><span class="line">      <span class="string">'shuffled suites are the same'</span>, shuffled.suites)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>Note in the last test we are getting shuffled test, but because we are mutating
+the <code>s.suites</code> array directly, our initial object <code>s</code> does NOT hold the original
+list of items from 1 to 100.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> s = &#123;</span><br><span class="line">  suites: R.range(<span class="number">1</span>, <span class="number">100</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> shuffled = shuffle(s)</span><br><span class="line">la(_.isEqual(shuffled.suites, s.suites),</span><br><span class="line">  <span class="string">'shuffled suites are the same'</span>, shuffled.suites)</span><br></pre></td></tr></table></figure>
+<p>This is the major downside to mutable data - the original reference all of the
+sudden has changed data; this is very unexpected and hurts our test! We will
+take care of this later, but for now we are going to add an explicit check
+to compare object reference returned from the transformation - for now the
+returned object is going to be the same as the input one.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> s = &#123;</span><br><span class="line">  suites: R.range(<span class="number">1</span>, <span class="number">100</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> shuffled = shuffle(s)</span><br><span class="line">la(shuffled === s, <span class="string">'returns same reference'</span>)</span><br><span class="line">la(_.isEqual(shuffled.suites, s.suites),</span><br><span class="line">  <span class="string">'shuffled suites are the same'</span>, shuffled.suites)</span><br></pre></td></tr></table></figure>
+<h2><span id="comment-the-code">Comment the code</span></h2><p>Two quick notes on refactoring: we need to have unit tests, and we need to
+understand what is going on (to the best of our abilities) before changing
+any code. To better understand, I usually write a few comments to see if
+I understand the coded algorithm. Isn&#39;t this what we do every day: read and
+understand what the code does (and then change it to <em>really</em> do what it
+claims to do?)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shuffleDescribes</span> (<span class="params">suite</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// if the `suite` has nested suites</span></span><br><span class="line">  <span class="keyword">if</span> (suite.suites &amp;&amp; suite.suites.length) &#123;</span><br><span class="line">    <span class="comment">// side-effect: print log message</span></span><br><span class="line">    log(<span class="string">'shuffling %d describe blocks in "%s"'</span>,</span><br><span class="line">      suite.suites.length, suite.title)</span><br><span class="line">    <span class="comment">// shuffle sub-suites</span></span><br><span class="line">    suite.suites = _.shuffle(suite.suites)</span><br><span class="line">    <span class="comment">// shuffle tests inside this suite</span></span><br><span class="line">    shuffleTests(suite)</span><br><span class="line">    <span class="comment">// recursive call: shuffle each suite inside</span></span><br><span class="line">    suite.suites.forEach(shuffleDescribes)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Note that we already found a problem. A suite can have just tests, and no
+nested suites; but our <code>shuffleDescribes</code> only calls <code>shuffleTests(suite)</code>
+if there are nested suites! This is a common occurrence; reading the code
+and trying to document each step finds flaws in the coded logic.</p>
+<p>Before we begin refactoring, I must say that I usually have both
+Lodash docs <a href="https://lodash.com/docs/" target="_blank" rel="noopener">https://lodash.com/docs/</a> and
+Ramda docs <a href="http://ramdajs.com/docs/" target="_blank" rel="noopener">http://ramdajs.com/docs/</a> open in my
+browser as I program day to day. We are going to use a lot of little
+functions from these libraries. Whenever I need a function that operates on
+a collection for example, I look through each set of docs;
+they both have split all available functions into categories:
+<code>Function</code>, <code>Logic</code>, <code>List</code>, <code>Objects</code>, etc, making the search easy.</p>
+<h2><span id="refactoring-the-condition">Refactoring the condition</span></h2><p>Let us start with the guard condition at the start of the function
+<code>shuffleDescribes</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (suite.suites &amp;&amp; suite.suites.length) &#123;</span><br><span class="line"> ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The condition checks if the object <code>suite</code> has a <code>suites</code> property, and if
+the value is non-empty. Yet, the check is not very robust. For example, it
+assumes that the argument <code>suite</code> is a valid object. It also does not
+check if the <code>suite.suites</code> is an Array - only that its length property is
+truthy; this allows <code>suite.suites</code> to be a string, invoking recursive shuffle!</p>
+<p>The condition is just <code>AND</code> of several predicates. I have shown how to refactor
+this case in <a href="../simplify-filtering-conditions/">this blog post</a>. We just
+need to clearly express each check and then use
+<a href="http://ramdajs.com/docs/#allPass" target="_blank" rel="noopener">R.allPass</a> to combine them.</p>
+<p><strong>step 1</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> R = <span class="built_in">require</span>(<span class="string">'ramda'</span>)</span><br><span class="line"><span class="keyword">const</span> positive = R.lt(<span class="number">0</span>)</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isValidSuite</span> (<span class="params">suite</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> p1 = R.is(<span class="built_in">Object</span>)</span><br><span class="line">  <span class="keyword">const</span> p2 = R.has(<span class="string">'suites'</span>),</span><br><span class="line">  <span class="keyword">const</span> p3 = R.pathSatisfies(positive, [<span class="string">'suites'</span>, <span class="string">'length'</span>])</span><br><span class="line">  <span class="keyword">return</span> p1(suite) &amp;&amp; p2(suite) &amp;&amp; p3(suite)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shuffleDescribes</span> (<span class="params">suite</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (isValidSuite(suite)) &#123;</span><br><span class="line">    ...</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> suite</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The last predicate <code>p3</code> is unusual - it makes use of
+<a href="http://ramdajs.com/docs/#pathSatisfies" target="_blank" rel="noopener">Ramda.pathSatisfies</a> function that can check if a value in an
+object at the path satisfies a given predicate function,
+in this case the predicate itself
+is a function we derive using <a href="http://ramdajs.com/docs/#lt" target="_blank" rel="noopener">Ramda.lt</a> function.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> positive = R.lt(<span class="number">0</span>)</span><br><span class="line">positive(<span class="number">0</span>)   <span class="comment">// false</span></span><br><span class="line">positive(<span class="number">100</span>) <span class="comment">// true</span></span><br><span class="line"><span class="keyword">const</span> p3 = R.pathSatisfies(positive, [<span class="string">'suites'</span>, <span class="string">'length'</span>])</span><br><span class="line">p3(&#123;<span class="attr">suites</span>: []&#125;)        <span class="comment">// false</span></span><br><span class="line">p3(&#123;<span class="attr">suites</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]&#125;) <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p><strong>step 2</strong></p>
+<p>Let us replace <code>p1(suite) &amp;&amp; p2(suite) &amp;&amp; p3(suite)</code> with a single call - and
+we can do this because all predicate functions are unary and applied to the
+same object <code>suite</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> R = <span class="built_in">require</span>(<span class="string">'ramda'</span>)</span><br><span class="line"><span class="keyword">const</span> positive = R.lt(<span class="number">0</span>)</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isValidSuite</span> (<span class="params">suite</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> p1 = R.is(<span class="built_in">Object</span>)</span><br><span class="line">  <span class="keyword">const</span> p2 = R.has(<span class="string">'suites'</span>),</span><br><span class="line">  <span class="keyword">const</span> p3 = R.pathSatisfies(positive, [<span class="string">'suites'</span>, <span class="string">'length'</span>])</span><br><span class="line">  <span class="keyword">const</span> isValid = R.allPass([p1, p2, p3])</span><br><span class="line">  <span class="keyword">return</span> isValid(suite)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Now the trick to get rid of the extra function. Notice that our predicates
+<code>p1</code>, <code>p2</code> and <code>p3</code> no longer use the argument <code>suite</code>. Even
+<a href="http://ramdajs.com/docs/#allPass" target="_blank" rel="noopener">allPass</a> does not need it right away - it is curried after all.
+Thus the function <code>isValid</code> and <code>isValidSuite</code> is really the same function
+and we can &quot;collapse&quot; the condition into a single call</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> positive = R.lt(<span class="number">0</span>)</span><br><span class="line"><span class="comment">// isValidSuite :: suite -&gt; bool (depending on the suites object)</span></span><br><span class="line"><span class="keyword">const</span> isValidSuite = R.allPass([</span><br><span class="line">  R.is(<span class="built_in">Object</span>),</span><br><span class="line">  R.has(<span class="string">'suites'</span>),</span><br><span class="line">  R.pathSatisfies(positive, [<span class="string">'suites'</span>, <span class="string">'length'</span>])</span><br><span class="line">])</span><br></pre></td></tr></table></figure>
+<p>The rest of the code stays unchanged. Function <code>isValidSuite</code> is waiting
+(patiently) for an object <code>suite</code> to inspect.</p>
+<h2><span id="refactoring-imperative-code">Refactoring imperative code</span></h2><p>Now that we have a clean self-explaining and robust condition function,
+let us see how to write better code in its <code>if/else</code> branches. Our current
+code required comments in order to be clear (otherwise a logical error we just
+found would be tough to hide). One good way to avoid using comments, is to
+split the code in small functions. Each function should be so small
+that it should have a single purpose and good descriptive name.
+Then the code would not require a lot of comments, because
+function names would explain what is happening step by step.</p>
+<p>We have 3 new candidate functions to write looking at the code. Just look at
+each line with a comment!</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shuffleDescribes</span> (<span class="params">suite</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (isValidSuite(suite)) &#123;</span><br><span class="line">    <span class="comment">// side-effect: print log message</span></span><br><span class="line">    log(<span class="string">'shuffling %d describe blocks in "%s"'</span>,</span><br><span class="line">      suite.suites.length, suite.title)</span><br><span class="line">    <span class="comment">// shuffle sub-suites</span></span><br><span class="line">    suite.suites = _.shuffle(suite.suites)</span><br><span class="line">    shuffleTests(suite)</span><br><span class="line">    <span class="comment">// recursive call: shuffle each suite inside</span></span><br><span class="line">    suite.suites.forEach(shuffleDescribes)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> suite</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Functio <code>shuffleTests</code> already exists, so we only need new functions to
+log debug message, shuffle suites order and recursively shuffle each suite.
+Moving each line into its own function makes the code self-documenting</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> logShuffle = <span class="function">(<span class="params">s</span>) =&gt;</span></span><br><span class="line">  log(<span class="string">'shuffling %d describe blocks in "%s"'</span>,</span><br><span class="line">    s.suites.length, s.title)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> shuffleSuites = <span class="function">(<span class="params">s</span>) =&gt;</span> &#123;</span><br><span class="line">  s.suites = _.shuffle(s.suites)</span><br><span class="line">  <span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shuffleNestedSuites</span> (<span class="params">s</span>) </span>&#123;</span><br><span class="line">  s.suites.forEach(shuffleDescribes)</span><br><span class="line">  <span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shuffleDescribes</span> (<span class="params">suite</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (isValidSuite(suite)) &#123;</span><br><span class="line">    logShuffle(suite)</span><br><span class="line">    suite = shuffleSuites(suite)</span><br><span class="line">    suite = shuffleTests(suite)</span><br><span class="line">    suite = shuffleNestedSuites(suite)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> suite</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Great; each function has a single purpose and is simple to read and understand.
+Every function (except for logging one) is closer to being <em>pure</em>. The
+functions still mutate the input object, but at least they do not access
+outside variables, except for <code>logShuffle</code>.</p>
+<h2><span id="use-object-lens-to-modified-properties">Use object lens to modified properties</span></h2><p>Look at the function that shuffles <code>s.suites</code> array. It operates on the parent
+object <code>s</code> (which is our <code>suite</code>), reaches in, grabs the value of the property
+<code>s.suites</code>, modifies it and then sets it back.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> shuffleSuites = <span class="function">(<span class="params">s</span>) =&gt;</span> &#123;</span><br><span class="line">  s.suites = _.shuffle(s.suites)</span><br><span class="line">  <span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Is there a functional way to read a property, run a function to modified it
+(in this case by calling <code>_.shuffle</code>) and then write the value back into the
+object? There is and it is called <em>lenses</em> - and Ramda includes functions
+to do so. Watch this Egghead lesson
+<a href="https://egghead.io/lessons/javascript-change-object-properties-with-ramda-lenses" target="_blank" rel="noopener">https://egghead.io/lessons/javascript-change-object-properties-with-ramda-lenses</a>
+to get a taste of them. In our case, we are reading and writing the same
+property, which has a Ramda shortcut called <a href="http://ramdajs.com/docs/#lensProp" target="_blank" rel="noopener">R.lensProp</a> - it is a
+<em>lens focused on an object&#39;s property</em>. We can create a lens and then
+specify a function to transform the value and then write it back - using
+<a href="http://ramdajs.com/docs/#over" target="_blank" rel="noopener">R.over</a> function.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> suitesLens = R.lensProp(<span class="string">'suites'</span>)</span><br><span class="line"><span class="keyword">const</span> shuffleSuites = R.over(suitesLens, _.shuffle)</span><br><span class="line"><span class="comment">// call shuffleSuites just like before</span></span><br><span class="line"><span class="comment">// suite = shuffleSuites(suite)</span></span><br></pre></td></tr></table></figure>
+<p>Hmm, on of our unit tests fails!</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">shuffle returns shuffled suites:</span><br><span class="line">  Error: returns same reference</span><br></pre></td></tr></table></figure>
+<p>Turns out Ramda lenses, <em>clone</em> the given object when setting the property.
+It plays right into our hands and gives us data immutability at this particular
+step.</p>
+<p>We can update our tests and move on.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">'returns different object'</span>, () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> s = &#123;</span><br><span class="line">    suites: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> shuffled = shuffle(s)</span><br><span class="line">  la(shuffled !== s, <span class="string">'returns new object'</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">it(<span class="string">'returns shuffled suites'</span>, () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> s = &#123;</span><br><span class="line">    suites: R.range(<span class="number">1</span>, <span class="number">100</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> shuffled = shuffle(s)</span><br><span class="line">  la(!_.isEqual(shuffled.suites, s.suites),</span><br><span class="line">    <span class="string">'shuffled suites are the same'</span>,</span><br><span class="line">    shuffled.suites, <span class="string">'initial'</span>, s.suites)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>But there are other places were we can use lenses. For example shuffling
+each child suite. Our current code does this in &quot;side-effecty&quot; way using
+<code>Array.forEach</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shuffleNestedSuites</span> (<span class="params">s</span>) </span>&#123;</span><br><span class="line">  s.suites.forEach(shuffleDescribes)</span><br><span class="line">  <span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>We can first refactor this code to be pure and use <code>Array.map</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shuffleNestedSuites</span> (<span class="params">s</span>) </span>&#123;</span><br><span class="line">  s.suites = s.suites.map(shuffleDescribes)</span><br><span class="line">  <span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>s.suites = s.suites.map(...)</code> looks almost like a property lens, yet instead of
+a transformation function the code calls a method on the array. Not going to
+work. Luckily, Ramda provides the <a href="http://ramdajs.com/docs/#map" target="_blank" rel="noopener">map</a> function we can use instead, passing
+the array.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// use Ramda.map</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shuffleNestedSuites</span> (<span class="params">s</span>) </span>&#123;</span><br><span class="line">  s.suites = R.map(shuffleDescribes, s.suites)</span><br><span class="line">  <span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// use Ramda.map partially applied for clarity</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shuffleNestedSuites</span> (<span class="params">s</span>) </span>&#123;</span><br><span class="line">  s.suites = R.map(shuffleDescribes)(s.suites)</span><br><span class="line">  <span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The above code can now be rewritten using a lens - and we can even reuse the
+same property lens, because we are operating on the property name <code>suites</code>!</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> suitesLens = R.lensProp(<span class="string">'suites'</span>)</span><br><span class="line"><span class="keyword">const</span> shuffleSuites = R.over(suitesLens, _.shuffle)</span><br><span class="line"><span class="keyword">const</span> shuffleNestedSuites = R.over(suitesLens, R.map(shuffleDescribes))</span><br></pre></td></tr></table></figure>
+<p><strong>Note:</strong> sometimes I use <code>R.</code> prefix in my code to make clear that <code>lensProp</code>
+is coming from Ramda library. Usually I prefer destructuring assignment to
+import only the desired properties from the library to make code more readable.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;lensProp, over, map&#125; = <span class="built_in">require</span>(<span class="string">'ramda'</span>)</span><br><span class="line"><span class="keyword">const</span> suitesLens = lensProp(<span class="string">'suites'</span>)</span><br><span class="line"><span class="keyword">const</span> shuffleSuites = over(suitesLens, _.shuffle)</span><br><span class="line"><span class="keyword">const</span> shuffleNestedSuites = over(suitesLens, map(shuffleDescribes))</span><br></pre></td></tr></table></figure>
+<p>Beautiful, lenses can really focus on object&#39;s properties.
+Sigh, it is a bad pun.</p>
+<h2><span id="maybe">Maybe</span></h2><p>The last refactoring I am going to use is to replace the imperative <code>if/else</code>
+statement with a <a href="../call-me-maybe/">Maybe monad</a>. Our code currently evaluates
+a condition and then proceeds to call series of functions, passing an argument.
+The code also receives the result from each function and passes it to the next
+one - <strong>super ugly</strong>!</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shuffleDescribes</span> (<span class="params">suite</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (isValidSuite(suite)) &#123;</span><br><span class="line">    logShuffle(suite)</span><br><span class="line">    suite = shuffleSuites(suite)</span><br><span class="line">    suite = shuffleTests(suite)</span><br><span class="line">    suite = shuffleNestedSuites(suite)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> suite</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>What we are describing is a computation that starts with a value. Then, if
+the value passes the condition <code>isValidSuite</code> it <em>transforms</em> this
+value through several transformation functions. If the value does not pass
+<code>isValidSuite</code> condition, all these transformations are skipped.
+We do not have to reinvent
+the wheel and code it ourselves - this pattern has been implemented before
+(many times). Here is how it would look in principle.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shuffleDescribes</span> (<span class="params">suite</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span></span><br><span class="line">  wrap(suite)  <span class="comment">// &lt;-- predicate goes here</span></span><br><span class="line">    .map(logShuffle)    <span class="comment">// ok, just believe me</span></span><br><span class="line">    .map(shuffleSuites) <span class="comment">// puts shuffleSuites(s) result back</span></span><br><span class="line">    .map(shuffleTests)  <span class="comment">// into the "wrapper object"</span></span><br><span class="line">    .map(shuffleNestedSuites)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Ramda itself does not implement this wrapper type, but a companion library
+<a href="https://github.com/ramda/ramda-fantasy" target="_blank" rel="noopener">ramda-fantasy</a> does. In case we are going to use the
+<a href="https://github.com/ramda/ramda-fantasy/blob/master/docs/Maybe.md" target="_blank" rel="noopener">Maybe</a> type which represents a value that might or might not be there.</p>
+<p><strong>step 1</strong></p>
+<p>How do we create a <code>Maybe</code>? We don&#39;t. We create one of the subtypes - if the
+value is invalid / does not exist we will create <code>Maybe.Nothing</code>, and if the
+value is valid we are going to create <code>Maybe.Just(x)</code> passing actual value
+as <code>x</code> argument. Here is our condition code</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;Just, Nothing&#125; = <span class="built_in">require</span>(<span class="string">'ramda-fantasy'</span>).Maybe</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">maybeSuites</span> (<span class="params">suite</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> isValidSuite(suite) ? Just(suite) : Nothing()</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shuffleDescribes</span> (<span class="params">suite</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> maybeSuites(suite)</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="comment">// we need the actual value?</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>See how we stick <code>suites</code> value into <code>Maybe</code>? Now we can map over it, passing
+our transform functions. But first, we need to decide what to do <em>at the end</em>.
+Function <code>shuffleDescribes</code> does not return the <code>Maybe[suites]</code> - it returns
+just <code>suites</code> reference. Thus we need to extract the value before returning it.
+At the end the value <code>Maybe[suites]</code> could be <code>Just[something]</code> or <code>Nothing()</code>.
+We must handle both cases. Ramda-fantasy supplies a good method
+<a href="https://github.com/ramda/ramda-fantasy/blob/master/docs/Maybe.md#maybegetorelse" target="_blank" rel="noopener">maybe.getOrElse</a> to extract
+the value <code>something</code> from the <code>Just[something]</code> case, or a default if the
+value is <code>Nothing()</code>. In our case, the <code>else</code> branch of the imperative code
+just returned the <code>suites</code> argument - and we can do the same.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shuffleDescribes</span> (<span class="params">suite</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> maybeSuites(suite)</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  .getOrElse(suite)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Perfect, we are conforming to the function&#39;s API. We are constructing
+a <code>Maybe[suites]</code> value and we are getting value back before returning from the
+function <code>shuffleDescribes</code>.</p>
+<p><strong>step 2</strong></p>
+<p>We are shuffling suites inside the top level suite. Before we were just
+calling a function and mutated the variable <code>suites</code>. When we use a
+<code>Maybe</code> it has a method <code>.map</code> just like a JavaScript array has; supply a
+transform function and the <code>Maybe</code> will receive and store updated value.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// before</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  suite = shuffleSuites(suite)</span></span><br><span class="line"><span class="comment">  suite = shuffleTests(suite)</span></span><br><span class="line"><span class="comment">  suite = shuffleNestedSuites(suite)</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="comment">// after switching to Maybe</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shuffleDescribes</span> (<span class="params">suite</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> maybeSuites(suite)</span><br><span class="line">    .map(shuffleSuites)</span><br><span class="line">    .map(shuffleTests)</span><br><span class="line">    .map(shuffleNestedSuites)</span><br><span class="line">    .getOrElse(suite)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Nice, the imperative logic &quot;call function F and store result;
+call function G and store result ...&quot; has been replaced with
+<code>.map(F).map(G)...</code> fluent interface. But we have one function that does NOT
+return <code>suites</code> - the log function. It returns nothing (which is a red flag
+that the function is not pure). We cannot put <code>logShuffle</code> into our <code>Maybe</code>
+chain as a callback because it will overwrite <code>suites</code> value with <code>undefined</code>.
+We could modify <code>logShuffle</code> to return the argument it receives:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> logShuffle = <span class="function">(<span class="params">s</span>) =&gt;</span> &#123;</span><br><span class="line">  log(<span class="string">'shuffling %d describe blocks in "%s"'</span>,</span><br><span class="line">    s.suites.length, s.title)</span><br><span class="line">  <span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>That&#39;s ugly, and it is easy to forget to return the argument <code>s</code>. Thus
+we better use <a href="http://ramdajs.com/docs/#tap" target="_blank" rel="noopener">Ramda.tap</a> to wrap a function and always return the
+input argument. Tap is one of my favorite and most often used
+<a href="../my-favorite-functional-adaptors/">function adaptors</a>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shuffleDescribes</span> (<span class="params">suite</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> maybeSuites(suite)</span><br><span class="line">    .map(tap(logShuffle))</span><br><span class="line">    .map(shuffleSuites)</span><br><span class="line">    .map(shuffleTests)</span><br><span class="line">    .map(shuffleNestedSuites)</span><br><span class="line">    .getOrElse(suite)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Is this really better than imperative code? I would argue yes.</p>
+<ul>
+<li>We had to explicitly deal with invalid <code>suite</code> data.</li>
+<li>Each step is a pure function, operating on an immutable data object.</li>
+<li>We only used a few &quot;primitive&quot; functions: map, lens, etc. With fewer
+moving parts, we did not really have to write new code; our code is just
+a series of data transforms.</li>
+</ul>
+<p>And that is how you draw an owl.</p>
+<h2><span id="more-info">More info</span></h2><p>More writings on refactoring and writing code functional style</p>
+<ul>
+<li><a href="../getting-good-at-fp/">Getting good at FP advice</a></li>
+<li><a href="http://www.tomharding.me/2016/12/31/yippee-ki-yay-other-functors/" target="_blank" rel="noopener">Maybe functor</a></li>
+<li><a href="../refactoring-to-compose/">Refactor to compose</a></li>
+<li><a href="../from-callbacks-to-tasks/">From callbacks to Tasks</a></li>
+<li><a href="../refactoring-or/">Refactoring OR</a></li>
+<li><a href="../simplify-filtering-conditions/">Simplify filtering conditions</a></li>
+</ul>
+
+      
+    </div>
+
+    
+      <footer class="article-footer personal-links">
+  Follow Gleb Bahmutov <a href="https://twitter.com/bahmutov">@bahmutov</a>,
+  see his projects at <a href="http://glebbahmutov.com">glebbahmutov.com</a>
+</footer>
+<script src="https://rawgit.com/toddmotto/linkjuice/702066a37124081e7ad1a972844a9a91115be05a/dist/linkjuice.js"></script>
+<script>
+function contentFn (node, icon) {
+  const s = '<a href="#' + node.id + '" class="linkjuice">' +
+    node.innerHTML + ' ' + icon + '</a>\n'
+  return s
+}
+linkjuice.init('.article-entry', {
+  selectors: ['h2 span'],
+  icon: '<span class="link-symbol">#</span>',
+  contentFn: contentFn
+});
+</script>
+
+    
+
+    <footer class="article-footer">
+      <a data-url="https://glebbahmutov.com/blog/how-to-draw-an-owl/" data-id="cjvi4bew501efx4oogmturxaz" class="article-share-link">Share</a>
+      
+        <a href="https://glebbahmutov.com/blog/how-to-draw-an-owl/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../tags/functional/">functional</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="../vp-of-success/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          VP of Success
+        
+      </div>
+    </a>
+  
+  
+    <a href="../docker-user/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Docker User</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    <style>
+#carbonads {
+  display: block;
+  overflow: hidden;
+  font-size: 11px;
+  font-family: Verdana, "Helvetica Neue", Helvetica, sans-serif;
+  line-height: 1.5;
+}
+
+#carbonads a {
+  color: #258fb8;
+  text-decoration: none;
+}
+
+#carbonads a:hover {
+  text-decoration: underline;
+}
+
+#carbonads span {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+
+.carbon-img {
+  float: left;
+  margin-right: 1em;
+}
+
+.carbon-img img { display: block; }
+
+.carbon-text {
+  display: block;
+  float: left;
+  text-align: left;
+  margin-top: 0.5em;
+}
+@media screen and (min-width: 1024px) {
+  .carbon-text {
+    max-width: calc(100% - 130px - 1em);
+  }
+}
+
+.carbon-poweredby {
+  /*position: absolute;
+  right: 0;
+  bottom: 0;*/
+  float: right;
+  display: block;
+  font-size: 11px;
+}
+</style>
+<div class="widget-wrap">
+  <div class="widget-title">&nbsp;</div>
+  <div class="widget">
+    <!-- Carbon Ads -->
+    <script async type="text/javascript"
+      src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=glebbahmutovcom"
+      id="_carbonads_js"></script>
+  </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="../categories/book-review/">book review</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="../categories/people/">people</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="../categories/process/">process</a><span class="category-list-count">108</span></li><li class="category-list-item"><a class="category-list-link" href="../categories/products/">products</a><span class="category-list-count">309</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../tags/QUnit/">QUnit</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/advice/">advice</a><span class="tag-list-count">100</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/angularjs/">angularjs</a><span class="tag-list-count">58</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/angularjs2/">angularjs2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/assertions/">assertions</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ast/">ast</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/boilerplate/">boilerplate</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/browser/">browser</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ci/">ci</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/concurrency/">concurrency</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/cyclejs/">cyclejs</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/cypress/">cypress</a><span class="tag-list-count">36</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/d3/">d3</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/db/">db</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/docker/">docker</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/es6/">es6</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/es7/">es7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/functional/">functional</a><span class="tag-list-count">68</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/generators/">generators</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/git/">git</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/github/">github</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/graphql/">graphql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/grunt/">grunt</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/gulp/">gulp</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/hyperapp/">hyperapp</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/immutable/">immutable</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/interview/">interview</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/jade/">jade</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/javascript/">javascript</a><span class="tag-list-count">160</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/jshint/">jshint</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/modular-development/">modular development</a><span class="tag-list-count">27</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/nodejs/">nodejs</a><span class="tag-list-count">76</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/performance/">performance</a><span class="tag-list-count">17</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/presentation/">presentation</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/promises/">promises</a><span class="tag-list-count">31</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/proposal/">proposal</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ramda/">ramda</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/reactive/">reactive</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/reactjs/">reactjs</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/screencast/">screencast</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/security/">security</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/sentry/">sentry</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/service-workers/">service workers</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/state-machine/">state machine</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/testing/">testing</a><span class="tag-list-count">89</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/tutorial/">tutorial</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/typescript/">typescript</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ui/">ui</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/vuejs/">vuejs</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/web-workers/">web workers</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/zeit/">zeit</a><span class="tag-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="../tags/QUnit/" style="font-size: 11.67px;">QUnit</a> <a href="../tags/advice/" style="font-size: 19.58px;">advice</a> <a href="../tags/angularjs/" style="font-size: 17.92px;">angularjs</a> <a href="../tags/angularjs2/" style="font-size: 10px;">angularjs2</a> <a href="../tags/assertions/" style="font-size: 13.33px;">assertions</a> <a href="../tags/ast/" style="font-size: 12.92px;">ast</a> <a href="../tags/boilerplate/" style="font-size: 15.42px;">boilerplate</a> <a href="../tags/browser/" style="font-size: 16.25px;">browser</a> <a href="../tags/ci/" style="font-size: 13.33px;">ci</a> <a href="../tags/concurrency/" style="font-size: 10px;">concurrency</a> <a href="../tags/cyclejs/" style="font-size: 12.5px;">cyclejs</a> <a href="../tags/cypress/" style="font-size: 17.5px;">cypress</a> <a href="../tags/d3/" style="font-size: 10.83px;">d3</a> <a href="../tags/db/" style="font-size: 14.17px;">db</a> <a href="../tags/docker/" style="font-size: 13.75px;">docker</a> <a href="../tags/es6/" style="font-size: 15px;">es6</a> <a href="../tags/es7/" style="font-size: 10px;">es7</a> <a href="../tags/functional/" style="font-size: 18.33px;">functional</a> <a href="../tags/generators/" style="font-size: 11.67px;">generators</a> <a href="../tags/git/" style="font-size: 15px;">git</a> <a href="../tags/github/" style="font-size: 11.25px;">github</a> <a href="../tags/graphql/" style="font-size: 10.83px;">graphql</a> <a href="../tags/grunt/" style="font-size: 12.5px;">grunt</a> <a href="../tags/gulp/" style="font-size: 10.83px;">gulp</a> <a href="../tags/hyperapp/" style="font-size: 12.5px;">hyperapp</a> <a href="../tags/immutable/" style="font-size: 11.67px;">immutable</a> <a href="../tags/interview/" style="font-size: 10.83px;">interview</a> <a href="../tags/jade/" style="font-size: 11.25px;">jade</a> <a href="../tags/javascript/" style="font-size: 20px;">javascript</a> <a href="../tags/jshint/" style="font-size: 10.83px;">jshint</a> <a href="../tags/modular-development/" style="font-size: 16.67px;">modular development</a> <a href="../tags/nodejs/" style="font-size: 18.75px;">nodejs</a> <a href="../tags/performance/" style="font-size: 15.83px;">performance</a> <a href="../tags/presentation/" style="font-size: 11.25px;">presentation</a> <a href="../tags/promises/" style="font-size: 17.08px;">promises</a> <a href="../tags/proposal/" style="font-size: 10.42px;">proposal</a> <a href="../tags/ramda/" style="font-size: 10px;">ramda</a> <a href="../tags/reactive/" style="font-size: 14.58px;">reactive</a> <a href="../tags/reactjs/" style="font-size: 10.83px;">reactjs</a> <a href="../tags/screencast/" style="font-size: 10px;">screencast</a> <a href="../tags/security/" style="font-size: 12.5px;">security</a> <a href="../tags/sentry/" style="font-size: 13.75px;">sentry</a> <a href="../tags/service-workers/" style="font-size: 12.08px;">service workers</a> <a href="../tags/state-machine/" style="font-size: 10px;">state machine</a> <a href="../tags/testing/" style="font-size: 19.17px;">testing</a> <a href="../tags/tutorial/" style="font-size: 13.75px;">tutorial</a> <a href="../tags/typescript/" style="font-size: 11.67px;">typescript</a> <a href="../tags/ui/" style="font-size: 10.42px;">ui</a> <a href="../tags/vuejs/" style="font-size: 11.25px;">vuejs</a> <a href="../tags/web-workers/" style="font-size: 12.08px;">web workers</a> <a href="../tags/zeit/" style="font-size: 12.08px;">zeit</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/05/">May 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/04/">April 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/03/">March 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/01/">January 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/12/">December 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/11/">November 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/10/">October 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/09/">September 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/08/">August 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/06/">June 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/04/">April 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/03/">March 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/12/">December 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/08/">August 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/07/">July 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/06/">June 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/04/">April 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/03/">March 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/02/">February 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/01/">January 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/11/">November 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/09/">September 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/08/">August 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/07/">July 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/06/">June 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/04/">April 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/03/">March 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/02/">February 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/12/">December 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/11/">November 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/10/">October 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/09/">September 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/08/">August 2015</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/07/">July 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/06/">June 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/05/">May 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/04/">April 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/03/">March 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/02/">February 2015</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/01/">January 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/12/">December 2014</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/11/">November 2014</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/10/">October 2014</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/09/">September 2014</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/08/">August 2014</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/07/">July 2014</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/06/">June 2014</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/05/">May 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/04/">April 2014</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/03/">March 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/02/">February 2014</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/01/">January 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/12/">December 2013</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/11/">November 2013</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/10/">October 2013</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/09/">September 2013</a><span class="archive-list-count">10</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="../using-ts-aliases-in-cypress-tests/">Using TypeScript aliases in Cypress tests</a>
+          </li>
+        
+          <li>
+            <a href="../code-coverage-for-e2e-tests/">Code Coverage for End-to-end Tests</a>
+          </li>
+        
+          <li>
+            <a href="../stub-navigator-api/">Stub navigator API in end-to-end tests</a>
+          </li>
+        
+          <li>
+            <a href="../chainsaws/">Testing an online chainsaw store using Cypress.io</a>
+          </li>
+        
+          <li>
+            <a href="../npm-install-with-just-github/">NPM Install with just GitHub</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Gleb Bahmutov<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'betterworldbybettersoftware';
+  
+  var disqus_url = 'https://glebbahmutov.com/blog/how-to-draw-an-owl/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="../fancybox/jquery.fancybox.css">
+  <script src="../fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="../js/script.js"></script>
+
+  </div>
+  <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
+<script>
+(function centerMainOnAsideScroll () {
+  // when aside side bar scrolls outside the view
+  // it centers the main content.
+  const main = document.querySelector('#main')
+  const aside = document.querySelector('aside#sidebar')
+  console.assert(main, 'could not get #main')
+  console.assert(aside, 'could not get aside')
+  // initially the aside sidebar is visible
+  let asideVisible = true
+
+  function centerMain () {
+    console.log('adding class center-main')
+    main.classList.add('center-main')
+  }
+  function leftMain () {
+    main.classList.remove('center-main')
+  }
+
+  function callWhenAsideScrollsUp (becameInvisible, becameVisible) {
+    return function () {
+      const border = 50
+      const rect = aside.getBoundingClientRect()
+      if (asideVisible && rect.bottom < -border) {
+        asideVisible = false
+        becameInvisible()
+      }
+
+      if (!asideVisible && window.scrollY < border) {
+        asideVisible = true
+        becameVisible()
+      }
+    }
+  }
+  const throttleWaitMs = 250
+  const onScroll = _.throttle(
+    callWhenAsideScrollsUp(centerMain, leftMain),
+    throttleWaitMs
+  )
+  window.addEventListener('scroll', onScroll)
+}())
+</script>
+
+</body>
+</html>

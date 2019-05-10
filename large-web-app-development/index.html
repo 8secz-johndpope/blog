@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Large Web App Development | Better world by better software</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Here is my (never up to date) list of web application tips. Use bundlerUsing individual script tags quickly breaks down. Instead each source file should declare what it needs. If our module &amp;quot;app.">
+<meta name="keywords" content="advice">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Large Web App Development">
+<meta property="og:url" content="https://glebbahmutov.com/blog/large-web-app-development/index.html">
+<meta property="og:site_name" content="Better world by better software">
+<meta property="og:description" content="Here is my (never up to date) list of web application tips. Use bundlerUsing individual script tags quickly breaks down. Instead each source file should declare what it needs. If our module &amp;quot;app.">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-02-14T02:33:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Large Web App Development">
+<meta name="twitter:description" content="Here is my (never up to date) list of web application tips. Use bundlerUsing individual script tags quickly breaks down. Instead each source file should declare what it needs. If our module &amp;quot;app.">
+<meta name="twitter:creator" content="@bahmutov">
+  
+    <link rel="alternative" href="/blog/atom.xml" title="Better world by better software" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="preload" href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" as="style">
+  <link rel="stylesheet" href="../css/style.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-59999353-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <!-- <div id="banner"></div> -->
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../index.html" id="logo">Better world by better software</a>
+      </h1>
+      <!--
+      
+        <h2 id="subtitle-wrap">
+          <a href="../index.html" id="subtitle">Gleb Bahmutov PhD</a>
+        </h2>
+      
+      -->
+      <!-- <span class="no-mobile">Software advice from</span> -->
+      <h2 id="subtitle-wrap">
+        <span class="subtitle">
+          <a id="subtitle" href="http://glebbahmutov.com">Gleb Bahmutov PhD</a>
+        </span>
+      </h2>
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <a id="nav-house-link" class="nav-icon" href="/" title="Home"></a>
+        
+          <a id="nav-rss-link" class="nav-icon" href="/blog/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://glebbahmutov.com/blog"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-large-web-app-development" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="" class="article-date">
+  <time datetime="2017-03-06T05:00:00.000Z" itemprop="datePublished">Mar 6 2017</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="../categories/products/">products</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Large Web App Development
+    </h1>
+
+    <h2 class="article-title" itemprop="name">
+      Tips and tricks for larger web apps.
+    </h2>
+
+  
+
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Here is my (never up to date) list of web application tips.</p>
+<h2><span id="use-bundler">Use bundler</span></h2><p>Using individual script tags quickly breaks down. Instead each source file
+should declare what it needs. If our module &quot;app.js&quot; needs jQuery and modules
+&quot;foo&quot; and &quot;bar&quot;, we do not want to list the script tags in certain &quot;magic&quot;
+order.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- this does not scale --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"jquery.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"foo.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"bar.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"app.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>Instead we want to list dependencies in each source file. In this case we just
+want &quot;app.js&quot;.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app.js</span></span><br><span class="line"><span class="keyword">const</span> $ = <span class="built_in">require</span>(<span class="string">'jquery'</span>)</span><br><span class="line"><span class="keyword">const</span> foo = <span class="built_in">require</span>(<span class="string">'foo'</span>)</span><br><span class="line"><span class="keyword">const</span> bar = <span class="built_in">require</span>(<span class="string">'bar'</span>)</span><br></pre></td></tr></table></figure>
+<p>In order to create the bundle to be included in the web page, use a &quot;bundler&quot;.
+Common ones are <a href="http://browserify.org/" target="_blank" rel="noopener">Browserify</a> and
+<a href="https://webpack.github.io/" target="_blank" rel="noopener">WebPack</a>. I used both, and they are great.
+A good intro to WebPack is
+<a href="http://arianv.com/post/Module-Bundling-and-Webpack-in-Simple-Terms/" target="_blank" rel="noopener">Module Bundling and Webpack in Simple Terms</a> - highly recommended
+reading. Both bundlers can even separate libraries from application code.
+Because library code rarely changes, the bundle stays the same, and the user
+browser caches it. You can find how to do this in my
+<a href="../using-webpack/">Using WebPack</a> blog post.</p>
+<h2><span id="use-reactive-stream-library">Use reactive stream library</span></h2><p>Emitting events is the most flexible way for different parts in the
+application to communicate. One module can just subscribe to another module&#39;s
+events and do something whenever an event happens. There are two parts how
+to take this to the next level.</p>
+<ol>
+<li>Use central pub-sub hub with hierarchical messages.</li>
+</ol>
+<p>Instead of each module discovering a reference to every module it wants to
+subscribe, have a single central object, whose purpose is only to dispatch
+events. For example, using <a href="https://github.com/mroderick/PubSubJS" target="_blank" rel="noopener">pubsub-js</a>
+any module can subscribe to a topic</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> PubSub = <span class="built_in">require</span>(<span class="string">'pubsub-js'</span>)</span><br><span class="line">PubSub.subscribe(<span class="string">'topic'</span>, (msg, data) =&gt; &#123;...&#125;)</span><br></pre></td></tr></table></figure>
+<p>Since a module no longer needs to get a reference to another module before
+subscribing this greatly simplifies the start up and decouples modules from
+each other.</p>
+<p>Look for pub-sub library that has <em>hierarchical</em> topics. For example,
+you should be able to subscribe to <em>all</em> messages in the &quot;user&quot; channel</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> PubSub = <span class="built_in">require</span>(<span class="string">'pubsub-js'</span>)</span><br><span class="line">PubSub.subscribe(<span class="string">'user'</span>, callback)</span><br><span class="line"><span class="comment">// somewhere else</span></span><br><span class="line">PubSub.publish(<span class="string">'user.login'</span>, &#123;<span class="attr">name</span>: <span class="string">'joe'</span>&#125;)</span><br><span class="line">PubSub.publish(<span class="string">'user.logout'</span>, &#123;<span class="attr">name</span>: <span class="string">'joe'</span>&#125;)</span><br><span class="line"><span class="comment">// callback function has been called twice</span></span><br></pre></td></tr></table></figure>
+<p>Or we could subscribe to &quot;user.login&quot; messages</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> PubSub = <span class="built_in">require</span>(<span class="string">'pubsub-js'</span>)</span><br><span class="line">PubSub.subscribe(<span class="string">'user.login'</span>, callback)</span><br><span class="line"><span class="comment">// somewhere else</span></span><br><span class="line">PubSub.publish(<span class="string">'user.login'</span>, &#123;<span class="attr">name</span>: <span class="string">'joe'</span>&#125;)</span><br><span class="line">PubSub.publish(<span class="string">'user.logout'</span>, &#123;<span class="attr">name</span>: <span class="string">'joe'</span>&#125;)</span><br><span class="line"><span class="comment">// callback function has been called once</span></span><br></pre></td></tr></table></figure>
+<p>Ability to &quot;hear&quot; all messages or a part of them leads to much cleaner
+callback implementation, since you no longer have to filter the messages
+yourself.</p>
+<p>See <a href="https://github.com/mroderick/PubSubJS#hierarchical-addressing" target="_blank" rel="noopener">pubsub-js addressing</a>
+documentation for more examples.</p>
+<ol start="2">
+<li>Build more complex streams from &quot;primitive&quot; events</li>
+</ol>
+<p>Take the events in the previous example, and assume we have the following
+situation. A &quot;user.login&quot; event happens 100ms after start, and then again
+1000ms after start. Maybe something went wrong, and the user could not login
+the first time. Then a second later, user logs out. In code this would look
+like this</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> PubSub = <span class="built_in">require</span>(<span class="string">'pubsub-js'</span>)</span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  PubSub.publish(<span class="string">'user.login'</span>)</span><br><span class="line">&#125;, <span class="number">100</span>)</span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  PubSub.publish(<span class="string">'user.login'</span>)</span><br><span class="line">&#125;, <span class="number">1000</span>)</span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  PubSub.publish(<span class="string">'user.logout'</span>)</span><br><span class="line">&#125;, <span class="number">2000</span>)</span><br><span class="line">PubSub.subscribe(<span class="string">'user'</span>, message =&gt; <span class="built_in">console</span>.log(message))</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">user.login</span></span><br><span class="line"><span class="comment">user.login</span></span><br><span class="line"><span class="comment">user.logout</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<p>Our business logic requires us to keep track of user sessions, which is a
+&quot;login&quot; followed by &quot;logout&quot; event. How do we know when a session &quot;event&quot;
+happens? We could keep track of the state in our code, but that will quickly
+generate lots of extra code. If only there was a &quot;standard&quot; way to work with
+event streams. Luckily, just like there are array iterator methods &quot;map&quot;,
+&quot;filter&quot;, etc, there are <em>reactive stream</em> libraries that deal with
+events. Common libraries are <a href="http://reactivex.io/rxjs/" target="_blank" rel="noopener">RxJS</a>,
+<a href="https://github.com/baconjs/bacon.js" target="_blank" rel="noopener">Bacon.js</a>,
+<a href="https://rpominov.github.io/kefir/" target="_blank" rel="noopener">Kefir</a>,
+<a href="https://github.com/cujojs/most" target="_blank" rel="noopener">most.js</a> and many others. First, we need
+to connect to pub-sub and make individual streams from events. For this example
+I will use &quot;kefir&quot; library. We will create separate streams for &quot;login&quot;
+and &quot;logout&quot; events.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> PubSub = <span class="built_in">require</span>(<span class="string">'pubsub-js'</span>)</span><br><span class="line"><span class="keyword">const</span> kefir = <span class="built_in">require</span>(<span class="string">'kefir'</span>)</span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  PubSub.publish(<span class="string">'user.login'</span>)</span><br><span class="line">&#125;, <span class="number">100</span>)</span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  PubSub.publish(<span class="string">'user.login'</span>)</span><br><span class="line">&#125;, <span class="number">1000</span>)</span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  PubSub.publish(<span class="string">'user.logout'</span>)</span><br><span class="line">&#125;, <span class="number">2000</span>)</span><br><span class="line"><span class="keyword">const</span> login$ = kefir.stream(<span class="function"><span class="params">emitter</span> =&gt;</span> &#123;</span><br><span class="line">  PubSub.subscribe(<span class="string">'user.login'</span>, msg =&gt; emitter.emit(msg))</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">const</span> logout$ = kefir.stream(<span class="function"><span class="params">emitter</span> =&gt;</span> &#123;</span><br><span class="line">  PubSub.subscribe(<span class="string">'user.logout'</span>, msg =&gt; emitter.emit(msg))</span><br><span class="line">&#125;)</span><br><span class="line">login$.log()</span><br><span class="line">logout$.log()</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">[stream] &lt;value&gt; user.login</span></span><br><span class="line"><span class="comment">[stream] &lt;value&gt; user.login</span></span><br><span class="line"><span class="comment">[stream] &lt;value&gt; user.logout</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<p>By convention I end variables referencing a stream with <code>$</code> character. It is
+like plural &quot;s&quot; at the end of English noun. A &quot;login&quot; is an event,
+multiple &quot;logins&quot; are flowing through &quot;login$&quot; stream.</p>
+<p>To create a session event we want to combine two streams, and we need latest
+&quot;login&quot; event followed by a &quot;logout&quot; event. Luckily the stream libraries have
+operators for this common use case, just like JavaScript Array has
+methods for common cases &quot;map&quot;, &quot;filter&quot;, &quot;some&quot;, etc.</p>
+<p>For example, we could buffer login events, until a logout event happens.
+The the buffered login events would be passed as an array, but we could map
+the array to a string.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">login$.bufferBy(logout$)</span><br><span class="line">  .map(<span class="function"><span class="params">()</span> =&gt;</span> <span class="string">'session ended'</span>)</span><br><span class="line">  .log(<span class="string">'session'</span>)</span><br></pre></td></tr></table></figure>
+<p>The stream operators usually are shown using
+<a href="http://rxmarbles.com/" target="_blank" rel="noopener">marble diagrams</a>. In the above case the events are
+looking like this (I call &quot;login&quot; event &quot;L&quot; and &quot;logout&quot; event &quot;O&quot;).
+The first column shows the stream variables, and the arrows are showing
+time flowing from left to right.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">login$:    --L----L---------------------&gt;</span><br><span class="line">logout$:   ------------O----------------&gt;</span><br><span class="line">.bufferBy  ------------[L, L]-----------&gt;</span><br><span class="line">.map       ------------&quot;session ended&quot;--&gt;</span><br></pre></td></tr></table></figure>
+<p>Events in the first stream are buffered until an event in the second stream
+occurs. Then the array is becomes a new event, which is mapped by the <code>.map</code>
+operator into a &quot;session ended&quot; event, which is then logged using <code>.log()</code>
+operator. Notice that each operator returns new stream, even <code>.log()</code>.
+We can confirm this by attaching another <code>.log()</code> operator with a different
+string label.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">login$.bufferBy(logout$)</span><br><span class="line">  .map(<span class="function"><span class="params">()</span> =&gt;</span> <span class="string">'session ended'</span>)</span><br><span class="line">  .log(<span class="string">'session'</span>)</span><br><span class="line">  .log(<span class="string">'session2'</span>)</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">session &lt;value&gt; session ended</span></span><br><span class="line"><span class="comment">session2 &lt;value&gt; session ended</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<p>Using off the shelf reactive library gives you power to work with streams
+of asynchronous events. The hard part is finding the right operator!
+RxJs has an excellent page with all the operators together grouped by
+their main purpose, see
+<a href="https://github.com/ReactiveX/rxjs/blob/master/doc/operators.md" target="_blank" rel="noopener">operators.md</a>.
+It also gives an example of making your own operator, which is a viable
+solution if none of the above operators suite your needs.</p>
+<p><strong>Caution</strong> you need to think (and test) the order of events in the above
+scenarios. What happens if &quot;logout&quot; event is before &quot;login&quot; event for some
+reason? What happens if there are two &quot;logout&quot; events?</p>
+<h2><span id="use-debug-logging-library">Use debug logging library</span></h2><p>Something always goes wrong. That is why a good logging library is a good
+idea from the start. I prefer using
+<a href="https://github.com/visionmedia/debug#readme" target="_blank" rel="noopener">debug</a>. It has two main features</p>
+<ul>
+<li>cross platform (Node and browser)</li>
+<li><p>has hierarchical logging</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> logLogin = <span class="built_in">require</span>(<span class="string">'debug'</span>)(<span class="string">'user:login'</span>)</span><br><span class="line">logLogin(<span class="string">'user logged in'</span>)</span><br><span class="line"><span class="keyword">const</span> logLogout = <span class="built_in">require</span>(<span class="string">'debug'</span>)(<span class="string">'user:logout'</span>)</span><br><span class="line">logLogout(<span class="string">'user logged out'</span>)</span><br></pre></td></tr></table></figure>
+<p>If you want to only see &quot;user:login&quot; messages</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ DEBUG=user:login npm start</span><br><span class="line">user logged in</span><br></pre></td></tr></table></figure>
+<p>If you want to only see all &quot;user:&quot; messages</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ DEBUG=user:* npm start</span><br><span class="line">user logged in</span><br><span class="line">user logged out</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>There are lots of options for <code>debug</code>, including formatting and colors.
+You can safely leave the <code>debug</code> statements in your code.
+If you do not enable the environment variable (command line) or
+<code>localStorage.debug</code> (in the browser), the log statements will be do nothing.</p>
+<h2><span id="local-development-using-folders">Local development using folders</span></h2><p>If you split your large project into smaller NPM modules (as I strongly
+believe you should), the development might slow down due to release / upgrade
+cycle. While you can have everything <a href="../how-i-publish-to-npm/">automated</a>,
+you might still want to have local dependencies during development.</p>
+<p>Luckily, NPM allows you to:</p>
+<ul>
+<li>install a local folder as a single command.
+For example <code>npm install ../foo</code> will install
+whatever is in the folder <code>../foo</code>, it only assumes there is
+<code>../foo/package.json</code> that is a valid NPM module.</li>
+<li>describe that you are installing a local folder in the <code>package.json</code>
+using <code>file:&lt;path&gt;</code> syntax, see
+<a href="https://docs.npmjs.com/files/package.json#local-paths" target="_blank" rel="noopener">package.json#local-paths</a>
+documentation.</li>
+<li>use a local folder as a source for a module and bring it with you.
+You can even commit the local folder into your source repo to skip the
+install. A good way to do this is by using
+<a href="https://github.com/jamiemason/shrinkpack" target="_blank" rel="noopener">shrinkpack</a> tool.</li>
+</ul>
+<p>I am a little wary of the above approaches and would prefer using private
+NPM modules instead as a general solution.</p>
+<h2><span id="misc-advice">Misc advice</span></h2><ul>
+<li>Install crash reporting service early on, see <a href="..//tags/sentry/">blog posts</a></li>
+<li>Use Cypress.io to test your website, see <a href="../tags/cypress/">blog posts</a></li>
+<li>Use immutable deploys with end to end testing before switching the domain
+name alias. An example tool based on <a href="https://zeit.co/now" target="_blank" rel="noopener">Zeit.co Now</a>
+is <a href="https://github.com/bahmutov/now-pipeline" target="_blank" rel="noopener">now-pipeline</a>.</li>
+</ul>
+
+      
+    </div>
+
+    
+      <footer class="article-footer personal-links">
+  Follow Gleb Bahmutov <a href="https://twitter.com/bahmutov">@bahmutov</a>,
+  see his projects at <a href="http://glebbahmutov.com">glebbahmutov.com</a>
+</footer>
+<script src="https://rawgit.com/toddmotto/linkjuice/702066a37124081e7ad1a972844a9a91115be05a/dist/linkjuice.js"></script>
+<script>
+function contentFn (node, icon) {
+  const s = '<a href="#' + node.id + '" class="linkjuice">' +
+    node.innerHTML + ' ' + icon + '</a>\n'
+  return s
+}
+linkjuice.init('.article-entry', {
+  selectors: ['h2 span'],
+  icon: '<span class="link-symbol">#</span>',
+  contentFn: contentFn
+});
+</script>
+
+    
+
+    <footer class="article-footer">
+      <a data-url="https://glebbahmutov.com/blog/large-web-app-development/" data-id="cjvi4berg014mx4oo9ybnpsb9" class="article-share-link">Share</a>
+      
+        <a href="https://glebbahmutov.com/blog/large-web-app-development/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../tags/advice/">advice</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="../better-slide-format/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Better slide format
+        
+      </div>
+    </a>
+  
+  
+    <a href="../my-favorite-es6/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">My favorite ES6</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    <style>
+#carbonads {
+  display: block;
+  overflow: hidden;
+  font-size: 11px;
+  font-family: Verdana, "Helvetica Neue", Helvetica, sans-serif;
+  line-height: 1.5;
+}
+
+#carbonads a {
+  color: #258fb8;
+  text-decoration: none;
+}
+
+#carbonads a:hover {
+  text-decoration: underline;
+}
+
+#carbonads span {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+
+.carbon-img {
+  float: left;
+  margin-right: 1em;
+}
+
+.carbon-img img { display: block; }
+
+.carbon-text {
+  display: block;
+  float: left;
+  text-align: left;
+  margin-top: 0.5em;
+}
+@media screen and (min-width: 1024px) {
+  .carbon-text {
+    max-width: calc(100% - 130px - 1em);
+  }
+}
+
+.carbon-poweredby {
+  /*position: absolute;
+  right: 0;
+  bottom: 0;*/
+  float: right;
+  display: block;
+  font-size: 11px;
+}
+</style>
+<div class="widget-wrap">
+  <div class="widget-title">&nbsp;</div>
+  <div class="widget">
+    <!-- Carbon Ads -->
+    <script async type="text/javascript"
+      src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=glebbahmutovcom"
+      id="_carbonads_js"></script>
+  </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="../categories/book-review/">book review</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="../categories/people/">people</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="../categories/process/">process</a><span class="category-list-count">108</span></li><li class="category-list-item"><a class="category-list-link" href="../categories/products/">products</a><span class="category-list-count">309</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../tags/QUnit/">QUnit</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/advice/">advice</a><span class="tag-list-count">100</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/angularjs/">angularjs</a><span class="tag-list-count">58</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/angularjs2/">angularjs2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/assertions/">assertions</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ast/">ast</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/boilerplate/">boilerplate</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/browser/">browser</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ci/">ci</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/concurrency/">concurrency</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/cyclejs/">cyclejs</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/cypress/">cypress</a><span class="tag-list-count">36</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/d3/">d3</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/db/">db</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/docker/">docker</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/es6/">es6</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/es7/">es7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/functional/">functional</a><span class="tag-list-count">68</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/generators/">generators</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/git/">git</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/github/">github</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/graphql/">graphql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/grunt/">grunt</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/gulp/">gulp</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/hyperapp/">hyperapp</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/immutable/">immutable</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/interview/">interview</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/jade/">jade</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/javascript/">javascript</a><span class="tag-list-count">160</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/jshint/">jshint</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/modular-development/">modular development</a><span class="tag-list-count">27</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/nodejs/">nodejs</a><span class="tag-list-count">76</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/performance/">performance</a><span class="tag-list-count">17</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/presentation/">presentation</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/promises/">promises</a><span class="tag-list-count">31</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/proposal/">proposal</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ramda/">ramda</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/reactive/">reactive</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/reactjs/">reactjs</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/screencast/">screencast</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/security/">security</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/sentry/">sentry</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/service-workers/">service workers</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/state-machine/">state machine</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/testing/">testing</a><span class="tag-list-count">89</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/tutorial/">tutorial</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/typescript/">typescript</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ui/">ui</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/vuejs/">vuejs</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/web-workers/">web workers</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/zeit/">zeit</a><span class="tag-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="../tags/QUnit/" style="font-size: 11.67px;">QUnit</a> <a href="../tags/advice/" style="font-size: 19.58px;">advice</a> <a href="../tags/angularjs/" style="font-size: 17.92px;">angularjs</a> <a href="../tags/angularjs2/" style="font-size: 10px;">angularjs2</a> <a href="../tags/assertions/" style="font-size: 13.33px;">assertions</a> <a href="../tags/ast/" style="font-size: 12.92px;">ast</a> <a href="../tags/boilerplate/" style="font-size: 15.42px;">boilerplate</a> <a href="../tags/browser/" style="font-size: 16.25px;">browser</a> <a href="../tags/ci/" style="font-size: 13.33px;">ci</a> <a href="../tags/concurrency/" style="font-size: 10px;">concurrency</a> <a href="../tags/cyclejs/" style="font-size: 12.5px;">cyclejs</a> <a href="../tags/cypress/" style="font-size: 17.5px;">cypress</a> <a href="../tags/d3/" style="font-size: 10.83px;">d3</a> <a href="../tags/db/" style="font-size: 14.17px;">db</a> <a href="../tags/docker/" style="font-size: 13.75px;">docker</a> <a href="../tags/es6/" style="font-size: 15px;">es6</a> <a href="../tags/es7/" style="font-size: 10px;">es7</a> <a href="../tags/functional/" style="font-size: 18.33px;">functional</a> <a href="../tags/generators/" style="font-size: 11.67px;">generators</a> <a href="../tags/git/" style="font-size: 15px;">git</a> <a href="../tags/github/" style="font-size: 11.25px;">github</a> <a href="../tags/graphql/" style="font-size: 10.83px;">graphql</a> <a href="../tags/grunt/" style="font-size: 12.5px;">grunt</a> <a href="../tags/gulp/" style="font-size: 10.83px;">gulp</a> <a href="../tags/hyperapp/" style="font-size: 12.5px;">hyperapp</a> <a href="../tags/immutable/" style="font-size: 11.67px;">immutable</a> <a href="../tags/interview/" style="font-size: 10.83px;">interview</a> <a href="../tags/jade/" style="font-size: 11.25px;">jade</a> <a href="../tags/javascript/" style="font-size: 20px;">javascript</a> <a href="../tags/jshint/" style="font-size: 10.83px;">jshint</a> <a href="../tags/modular-development/" style="font-size: 16.67px;">modular development</a> <a href="../tags/nodejs/" style="font-size: 18.75px;">nodejs</a> <a href="../tags/performance/" style="font-size: 15.83px;">performance</a> <a href="../tags/presentation/" style="font-size: 11.25px;">presentation</a> <a href="../tags/promises/" style="font-size: 17.08px;">promises</a> <a href="../tags/proposal/" style="font-size: 10.42px;">proposal</a> <a href="../tags/ramda/" style="font-size: 10px;">ramda</a> <a href="../tags/reactive/" style="font-size: 14.58px;">reactive</a> <a href="../tags/reactjs/" style="font-size: 10.83px;">reactjs</a> <a href="../tags/screencast/" style="font-size: 10px;">screencast</a> <a href="../tags/security/" style="font-size: 12.5px;">security</a> <a href="../tags/sentry/" style="font-size: 13.75px;">sentry</a> <a href="../tags/service-workers/" style="font-size: 12.08px;">service workers</a> <a href="../tags/state-machine/" style="font-size: 10px;">state machine</a> <a href="../tags/testing/" style="font-size: 19.17px;">testing</a> <a href="../tags/tutorial/" style="font-size: 13.75px;">tutorial</a> <a href="../tags/typescript/" style="font-size: 11.67px;">typescript</a> <a href="../tags/ui/" style="font-size: 10.42px;">ui</a> <a href="../tags/vuejs/" style="font-size: 11.25px;">vuejs</a> <a href="../tags/web-workers/" style="font-size: 12.08px;">web workers</a> <a href="../tags/zeit/" style="font-size: 12.08px;">zeit</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/05/">May 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/04/">April 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/03/">March 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/01/">January 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/12/">December 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/11/">November 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/10/">October 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/09/">September 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/08/">August 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/06/">June 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/04/">April 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/03/">March 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/12/">December 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/08/">August 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/07/">July 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/06/">June 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/04/">April 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/03/">March 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/02/">February 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/01/">January 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/11/">November 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/09/">September 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/08/">August 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/07/">July 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/06/">June 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/04/">April 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/03/">March 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/02/">February 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/12/">December 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/11/">November 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/10/">October 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/09/">September 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/08/">August 2015</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/07/">July 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/06/">June 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/05/">May 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/04/">April 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/03/">March 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/02/">February 2015</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/01/">January 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/12/">December 2014</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/11/">November 2014</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/10/">October 2014</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/09/">September 2014</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/08/">August 2014</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/07/">July 2014</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/06/">June 2014</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/05/">May 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/04/">April 2014</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/03/">March 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/02/">February 2014</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/01/">January 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/12/">December 2013</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/11/">November 2013</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/10/">October 2013</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/09/">September 2013</a><span class="archive-list-count">10</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="../using-ts-aliases-in-cypress-tests/">Using TypeScript aliases in Cypress tests</a>
+          </li>
+        
+          <li>
+            <a href="../code-coverage-for-e2e-tests/">Code Coverage for End-to-end Tests</a>
+          </li>
+        
+          <li>
+            <a href="../stub-navigator-api/">Stub navigator API in end-to-end tests</a>
+          </li>
+        
+          <li>
+            <a href="../chainsaws/">Testing an online chainsaw store using Cypress.io</a>
+          </li>
+        
+          <li>
+            <a href="../npm-install-with-just-github/">NPM Install with just GitHub</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Gleb Bahmutov<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'betterworldbybettersoftware';
+  
+  var disqus_url = 'https://glebbahmutov.com/blog/large-web-app-development/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="../fancybox/jquery.fancybox.css">
+  <script src="../fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="../js/script.js"></script>
+
+  </div>
+  <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
+<script>
+(function centerMainOnAsideScroll () {
+  // when aside side bar scrolls outside the view
+  // it centers the main content.
+  const main = document.querySelector('#main')
+  const aside = document.querySelector('aside#sidebar')
+  console.assert(main, 'could not get #main')
+  console.assert(aside, 'could not get aside')
+  // initially the aside sidebar is visible
+  let asideVisible = true
+
+  function centerMain () {
+    console.log('adding class center-main')
+    main.classList.add('center-main')
+  }
+  function leftMain () {
+    main.classList.remove('center-main')
+  }
+
+  function callWhenAsideScrollsUp (becameInvisible, becameVisible) {
+    return function () {
+      const border = 50
+      const rect = aside.getBoundingClientRect()
+      if (asideVisible && rect.bottom < -border) {
+        asideVisible = false
+        becameInvisible()
+      }
+
+      if (!asideVisible && window.scrollY < border) {
+        asideVisible = true
+        becameVisible()
+      }
+    }
+  }
+  const throttleWaitMs = 250
+  const onScroll = _.throttle(
+    callWhenAsideScrollsUp(centerMain, leftMain),
+    throttleWaitMs
+  )
+  window.addEventListener('scroll', onScroll)
+}())
+</script>
+
+</body>
+</html>

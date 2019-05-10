@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Testing Vue CLI reload | Better world by better software</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Vue-cli testRecently I came across vue-cli server reload test. The test uses Puppeteer to verify that vue-cli scaffolds a project correctly, that dev server is serving a Vue app, and that changing the">
+<meta name="keywords" content="testing,cypress,vuejs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Testing Vue CLI reload">
+<meta property="og:url" content="https://glebbahmutov.com/blog/testing-vue-cli-reload/index.html">
+<meta property="og:site_name" content="Better world by better software">
+<meta property="og:description" content="Vue-cli testRecently I came across vue-cli server reload test. The test uses Puppeteer to verify that vue-cli scaffolds a project correctly, that dev server is serving a Vue app, and that changing the">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/test-vue-cli/scaffold.png">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/test-vue-cli/first-test.png">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/test-vue-cli/updated.png">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/test-vue-cli/contains.png">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/test-vue-cli/read-file.png">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/test-vue-cli/failed.png">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/test-vue-cli/two-tests.png">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/test-vue-cli/nasa.png">
+<meta property="og:updated_time" content="2018-02-14T02:33:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Testing Vue CLI reload">
+<meta name="twitter:description" content="Vue-cli testRecently I came across vue-cli server reload test. The test uses Puppeteer to verify that vue-cli scaffolds a project correctly, that dev server is serving a Vue app, and that changing the">
+<meta name="twitter:image" content="https://glebbahmutov.com/blog/images/test-vue-cli/scaffold.png">
+<meta name="twitter:creator" content="@bahmutov">
+  
+    <link rel="alternative" href="/blog/atom.xml" title="Better world by better software" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="preload" href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" as="style">
+  <link rel="stylesheet" href="../css/style.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-59999353-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <!-- <div id="banner"></div> -->
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../index.html" id="logo">Better world by better software</a>
+      </h1>
+      <!--
+      
+        <h2 id="subtitle-wrap">
+          <a href="../index.html" id="subtitle">Gleb Bahmutov PhD</a>
+        </h2>
+      
+      -->
+      <!-- <span class="no-mobile">Software advice from</span> -->
+      <h2 id="subtitle-wrap">
+        <span class="subtitle">
+          <a id="subtitle" href="http://glebbahmutov.com">Gleb Bahmutov PhD</a>
+        </span>
+      </h2>
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <a id="nav-house-link" class="nav-icon" href="/" title="Home"></a>
+        
+          <a id="nav-rss-link" class="nav-icon" href="/blog/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://glebbahmutov.com/blog"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-testing-vue-cli-reload" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="" class="article-date">
+  <time datetime="2018-01-07T05:00:00.000Z" itemprop="datePublished">Jan 7 2018</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="../categories/products/">products</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Testing Vue CLI reload
+    </h1>
+
+    <h2 class="article-title" itemprop="name">
+      Testing dev server hot reload using Cypress.
+    </h2>
+
+  
+
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2><span id="vue-cli-test">Vue-cli test</span></h2><p>Recently I came across <a href="https://github.com/vuejs/vue-cli/blob/15c2c78481ba15402c1b1e089961f4443e1aa6c9/packages/%40vue/cli-service/lib/__tests__/serve.spec.js" target="_blank" rel="noopener">vue-cli server reload test</a>. The test uses <a href="https://github.com/GoogleChrome/puppeteer#readme" target="_blank" rel="noopener">Puppeteer</a> to verify that vue-cli scaffolds a project correctly, that dev server is serving a Vue app, and that changing the app&#39;s source file reloads the page, and it shows updated text. Here is the main part of that test.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> runTest = <span class="keyword">async</span> (url) =&gt; &#123;</span><br><span class="line">  <span class="comment">// some setup code omitted</span></span><br><span class="line">  <span class="keyword">const</span> browser = activeBrowser = <span class="keyword">await</span> puppeteer.launch(opts)</span><br><span class="line">  <span class="keyword">const</span> page = <span class="keyword">await</span> browser.newPage()</span><br><span class="line">  <span class="keyword">await</span> page.goto(url)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> assertText = <span class="keyword">async</span> (selector, text) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> value = <span class="keyword">await</span> page.evaluate(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">document</span>.querySelector(<span class="string">'h1'</span>).textContent</span><br><span class="line">    &#125;)</span><br><span class="line">    expect(value).toMatch(text)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> msg = <span class="string">`Welcome to Your Vue.js App`</span></span><br><span class="line">  <span class="keyword">await</span> assertText(<span class="string">'h1'</span>, msg)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// test hot reload</span></span><br><span class="line">  <span class="keyword">const</span> file = <span class="keyword">await</span> read(<span class="string">`src/App.vue`</span>)</span><br><span class="line">  <span class="keyword">await</span> write(<span class="string">`src/App.vue`</span>, file.replace(msg, <span class="string">`Updated`</span>))</span><br><span class="line"></span><br><span class="line">  <span class="keyword">await</span> nextUpdate() <span class="comment">// wait for child stdout update signal</span></span><br><span class="line">  <span class="keyword">await</span> sleep(<span class="number">1000</span>) <span class="comment">// give the client time to update, should happen in 1s</span></span><br><span class="line">  <span class="keyword">await</span> assertText(<span class="string">'h1'</span>, <span class="string">`Updated`</span>)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">await</span> browser.close()</span><br><span class="line">  activeBrowser = <span class="literal">null</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The above code certainly works. But even discounting all the code outside the function <code>runTest</code>, count how many lines of code are <em>related to the test</em> and how many lines of code are dealing with starting the browser, finding the element, waiting for the text and then cleaning up. Puppeteer is a great tool, but it is NOT a testing tool specifically; it is a general Chrome browser automation tool. Thus a tool <em>specifically designed</em> to be a testing tool around a real browser might be more convenient to use in this case.</p>
+<h2><span id="cypress">Cypress</span></h2><p>One such tool that specifically focuses on solving browser management, element selection, automated retries and other developer experience issues common during testing is <a href="https://www.cypress.io/" target="_blank" rel="noopener">Cypress.io</a> (full disclosure: I have joined Cypress team in 2017 after being a super happy user for almost a year). Let me try writing a similar server test using Cypress for comparison.</p>
+<p>I prefer working on a new project rather than forking <code>vue-cli</code> to avoid distractions of a large code base. Let us create a new Vue project to use as a test playground. After installing <code>vue-cli</code> globally, I need to scaffold a project with hot module reloading (you can find finished project at <a href="https://github.com/bahmutov/test-vue-cli" target="_blank" rel="noopener">bahmutov/test-vue-cli</a>).</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ vue list</span><br><span class="line"></span><br><span class="line">  Available official templates:</span><br><span class="line"></span><br><span class="line">  ★  browserify - A full-featured Browserify + vueify setup with hot-reload, linting &amp; unit testing.</span><br><span class="line">  ★  browserify-simple - A simple Browserify + vueify setup for quick prototyping.</span><br><span class="line">  ★  pwa - PWA template for vue-cli based on the webpack template</span><br><span class="line">  ★  simple - The simplest possible Vue setup in a single HTML file</span><br><span class="line">  ★  webpack - A full-featured Webpack + vue-loader setup with hot reload, linting, testing &amp; css extraction.</span><br><span class="line">  ★  webpack-simple - A simple Webpack + vue-loader setup for quick prototyping.</span><br></pre></td></tr></table></figure>
+<p>Pick <code>webpack-simple</code> and run <code>vue init</code> with full template name (to get around 404 response I am getting today) <a href="https://github.com/vuejs-templates/webpack-simple" target="_blank" rel="noopener">vuejs-templates/webpack-simple</a>.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ vue init vuejs-templates/webpack-simple</span><br><span class="line"></span><br><span class="line">? Generate project in current directory? Yes</span><br><span class="line">? Project name test-vue-cli</span><br><span class="line">? Project description A Vue.js project</span><br><span class="line">? Author Gleb Bahmutov</span><br><span class="line">? License MIT</span><br><span class="line">? Use sass? No</span><br><span class="line"></span><br><span class="line">   vue-cli · Generated &quot;test-vue-cli&quot;.</span><br><span class="line"></span><br><span class="line">   To get started:</span><br><span class="line"></span><br><span class="line">     npm install</span><br><span class="line">     npm run dev</span><br></pre></td></tr></table></figure>
+<p>The project has been bootstrapped in the current folder. Install NPM dependencies and here are the files in the current folder</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ ls -l</span><br><span class="line">total 32</span><br><span class="line">-rw-r--r--    1  staff    327 Jan  7 14:27 README.md</span><br><span class="line">-rw-r--r--    1  staff    206 Jan  7 14:27 index.html</span><br><span class="line">drwxr-xr-x  640  staff  21760 Jan  7 14:29 node_modules</span><br><span class="line">-rw-r--r--    1  staff    855 Jan  7 14:27 package.json</span><br><span class="line">drwxr-xr-x    5  staff    170 Jan  7 14:27 src</span><br><span class="line">-rw-r--r--    1  staff   1600 Jan  7 14:27 webpack.config.js</span><br></pre></td></tr></table></figure>
+<p>Install Cypress using <code>npm i -D cypress</code> and add two script commands.</p>
+<figure class="highlight json"><figcaption><span>package.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">    <span class="attr">"dev"</span>: <span class="string">"cross-env NODE_ENV=development webpack-dev-server --open --hot"</span>,</span><br><span class="line">    <span class="attr">"build"</span>: <span class="string">"cross-env NODE_ENV=production webpack --progress --hide-modules"</span>,</span><br><span class="line">    <span class="attr">"cypress:open"</span>: <span class="string">"cypress open"</span>,</span><br><span class="line">    <span class="attr">"cypress:run"</span>: <span class="string">"cypress run"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Open Cypress once with <code>npm run cypress:open</code> to scaffold its folder <code>cypress</code>.</p>
+<p><img src="/blog/images/test-vue-cli/scaffold.png" alt="Scaffolding Cypress on first run"></p>
+<p>I prefer deleting the created <code>example_spec.js</code> with many many examples of tests and starting from scratch. Let us verify that our default application shows the expected text &quot;Welcome to Your Vue.js App&quot; in element <code>h1</code>.</p>
+<figure class="highlight js"><figcaption><span>cypress/integration/spec.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">'serves'</span>, () =&gt; &#123;</span><br><span class="line">  cy.visit(<span class="string">'http://localhost:8080'</span>)</span><br><span class="line">  cy.contains(<span class="string">'h1'</span>, <span class="string">'Welcome to Your Vue.js App'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>Start the dev server with <code>npm run dev</code> and open Cypress with <code>npm run cypress:open</code>. We have a passing test!</p>
+<p><img src="/blog/images/test-vue-cli/first-test.png" alt="First test"></p>
+<p>Now let us read the <code>src/App.vue</code> file, change the message passed to the Vue component and check that the browser shows the updated message. We are going to use <a href="https://on.cypress.io/readfile" target="_blank" rel="noopener"><code>cy.readFile</code></a> and <a href="https://on.cypress.io/writefile" target="_blank" rel="noopener"><code>cy.writeFile</code></a> methods.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> message = <span class="string">'Welcome to Your Vue.js App'</span></span><br><span class="line"><span class="keyword">const</span> setNewText = <span class="function"><span class="params">source</span> =&gt;</span> source.replace(message, <span class="string">'Updated'</span>)</span><br><span class="line">it(<span class="string">'serves'</span>, () =&gt; &#123;</span><br><span class="line">  cy.visit(<span class="string">'http://localhost:8080'</span>)</span><br><span class="line">  cy.contains(<span class="string">'h1'</span>, message)</span><br><span class="line">  cy</span><br><span class="line">    .readFile(<span class="string">'src/App.vue'</span>)</span><br><span class="line">    .then(setNewText)</span><br><span class="line">    .then(<span class="function"><span class="params">source</span> =&gt;</span> cy.writeFile(<span class="string">'src/App.vue'</span>, source))</span><br><span class="line">  cy.contains(<span class="string">'h1'</span>, <span class="string">'Updated'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>The test passes, of course. We can see each step of the test in the command log on the left.</p>
+<p><img src="/blog/images/test-vue-cli/updated.png" alt="Updated text test"></p>
+<p>Here is the important part. Cypress is really optimized for testing. Do you want to see why the first assertion <code>cy.contains(&#39;h1&#39;, message)</code> passed? Hover over or click on step 2 to see the state of the DOM <em>at that moment</em>. We are finding the right text at the right location on the page - not accidentally matching some other text that might be on the page.</p>
+<p><img src="/blog/images/test-vue-cli/contains.png" alt="Contains text"></p>
+<p>Click on the next test command - <code>READFILE</code>. It shows a popup message &quot;Printed output to your console&quot;. Open the DevTools (Cypress is after all just an Electron app, or it can control Chrome browser) to see the file read and its contents.</p>
+<p><img src="/blog/images/test-vue-cli/read-file.png" alt="cy.readFile"></p>
+<p>Isn&#39;t this convenient during working with tests to see all data related to each step of the test?</p>
+<h2><span id="dealing-with-initial-state">Dealing with initial state</span></h2><p>There is one more note that I must make. You should strive to make each test independent from any other test, even independent from <em>its previous run</em>. In our case we have <em>changed</em> the file <code>src/App.vue</code>, and if we reload the test, it fails to find the original text &quot;Welcome to Your Vue.js App&quot;. Our previous run changed the source file, and our test did not start from the clean state.</p>
+<p><img src="/blog/images/test-vue-cli/failed.png" alt="Running test again fails"></p>
+<p>Again, the above screenshot shows the difference between a general browser automation tool and Cypress. The reason for the failure is communicated very clearly; Cypress team pays a lot of attention to good error messages. It should be enough to look at the screenshot to immediately see the problem. In this case the app shows &quot;Updated&quot; where &quot;Welcome ...&quot; text should have been.</p>
+<p>By the way, Cypress takes video of the entire test run by default, and screenshot after failures automatically when running on CI with <code>npm run cypress:run</code> command; there is nothing to configure.</p>
+<p>Ok, let us fix the test. We can modify the <code>App.vue</code> file <em>after</em> the test - but that is an <a href="https://on.cypress.io/best-practices#Using-after-or-afterEach-hooks" target="_blank" rel="noopener">anti-pattern to avoid</a>. You never know if the test failed or crashed - the clean up after the test is <em>not guaranteed</em>. So let us make sure the test starts with expected file.</p>
+<p>There are many things we could do in this case, but I pick using a fixture. Copy the original <code>src/App.vue</code> to <code>cypress/fixtures/App.vue</code>. Before our test, load the fixture and save it as <code>src/App.vue</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">beforeEach(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  cy.fixture(<span class="string">'App.vue'</span>)</span><br><span class="line">    .then(<span class="function"><span class="params">source</span> =&gt;</span> cy.writeFile(<span class="string">'src/App.vue'</span>, source))</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">const</span> message = <span class="string">'Welcome to Your Vue.js App'</span></span><br><span class="line"><span class="keyword">const</span> setNewText = <span class="function"><span class="params">source</span> =&gt;</span> source.replace(message, <span class="string">'Updated'</span>)</span><br><span class="line">it(<span class="string">'serves'</span>, () =&gt; &#123;</span><br><span class="line">  cy.visit(<span class="string">'http://localhost:8080'</span>)</span><br><span class="line">  cy.contains(<span class="string">'h1'</span>, message)</span><br><span class="line">  cy</span><br><span class="line">    .readFile(<span class="string">'src/App.vue'</span>)</span><br><span class="line">    .then(setNewText)</span><br><span class="line">    .then(<span class="function"><span class="params">source</span> =&gt;</span> cy.writeFile(<span class="string">'src/App.vue'</span>, source))</span><br><span class="line">  cy.contains(<span class="string">'h1'</span>, <span class="string">'Updated'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>The test reliably passes any time we run it. Even better, we can add back our very first original &quot;message&quot; test.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">describe(<span class="string">'Vue server'</span>, () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> message = <span class="string">'Welcome to Your Vue.js App'</span></span><br><span class="line">  <span class="keyword">const</span> setNewText = <span class="function"><span class="params">source</span> =&gt;</span> source.replace(message, <span class="string">'Updated'</span>)</span><br><span class="line">  <span class="keyword">const</span> saveSource = <span class="function"><span class="params">source</span> =&gt;</span> cy.writeFile(<span class="string">'src/App.vue'</span>, source)</span><br><span class="line">  beforeEach(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    cy.fixture(<span class="string">'App.vue'</span>).then(saveSource)</span><br><span class="line">    cy.visit(<span class="string">'http://localhost:8080'</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">  it(<span class="string">'serves'</span>, () =&gt; &#123;</span><br><span class="line">    cy.contains(<span class="string">'h1'</span>, message)</span><br><span class="line">  &#125;)</span><br><span class="line">  it(<span class="string">'reloads on change'</span>, () =&gt; &#123;</span><br><span class="line">    cy</span><br><span class="line">      .readFile(<span class="string">'src/App.vue'</span>)</span><br><span class="line">      .then(setNewText)</span><br><span class="line">      .then(saveSource)</span><br><span class="line">    cy.contains(<span class="string">'h1'</span>, <span class="string">'Updated'</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>This way we will know exactly which dev server feature is broken if a test fails. First test tells us if the dev server is serving the bundled application. Second test tells us if the hot module replacement is working.</p>
+<p><img src="/blog/images/test-vue-cli/two-tests.png" alt="Two tests"></p>
+<h2><span id="starting-the-server">Starting the server</span></h2><p>The <a href="https://github.com/vuejs/vue-cli/blob/15c2c78481ba15402c1b1e089961f4443e1aa6c9/packages/%40vue/cli-service/lib/__tests__/serve.spec.js" target="_blank" rel="noopener">original Vue test</a> also starts the dev server, grabs the output URL and runs the test. We believe starting and stopping server <em>inside</em> Cypress is an anti-pattern. Instead we recommend using <a href="https://github.com/bahmutov/start-server-and-test" target="_blank" rel="noopener">start-server-and-test</a> utility.</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"test"</span>: <span class="string">"start-server-and-test dev http://localhost:8080 cypress:run"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The <code>npm test</code> command starts the dev server, waits for the given url to respond with 200, then runs Cypress without GUI, and then shuts down the server. The url is hardcoded, but we could add extracting url from the first command&#39;s output to <code>start-server-and-test</code> tool if needed. For now I will just move the url from the spec file to <code>cypress.json</code> file.</p>
+<figure class="highlight js"><figcaption><span>spec.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">beforeEach(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  cy.fixture(<span class="string">'App.vue'</span>).then(saveSource)</span><br><span class="line">  cy.visit(<span class="string">'/'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"defaultCommandTimeout"</span>: <span class="number">10000</span>,</span><br><span class="line">  <span class="attr">"baseUrl"</span>: <span class="string">"http://localhost:8080"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>At runtime, we can even overwrite the base url using command line arguments or environment variable. For example, if the server is running at port 3000 we can run out tests against that port with this command.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CYPRESS_baseUrl=http://localhost:3000 npm run cypress:run</span><br></pre></td></tr></table></figure>
+<h2><span id="final-thoughts">Final thoughts</span></h2><p>The <a href="https://github.com/vuejs/vue-cli/blob/15c2c78481ba15402c1b1e089961f4443e1aa6c9/packages/%40vue/cli-service/lib/__tests__/serve.spec.js" target="_blank" rel="noopener">Vue test</a> has 60 lines, including several blank ones. Almost equivalent Cypress test is 20 lines. But I think the smaller test size does not tell the whole story.</p>
+<p>Puppeteer is a great general purpose Chrome automation tool, but lacks anything to make testing web applications easier. Cypress has smart selector API, automatic command retries, GUI with full interactive command history, server and object mocking, helpful errors, site blacklisting, command customization, plugins API, great CI support, screenshots and video recording, <a href="https://www.cypress.io/dashboard/" target="_blank" rel="noopener">central dashboard</a> and many other things currently on the <a href="https://on.cypress.io/roadmap" target="_blank" rel="noopener">roadmap</a>.</p>
+<p>Give Cypress 5 minutes, and I guarantee that you will not want to use any other tool for E2E testing. After all, here is what NASA <a href="https://twitter.com/CollinEstes/status/949382099722752000" target="_blank" rel="noopener">says about Cypress</a></p>
+<p><img src="/blog/images/test-vue-cli/nasa.png" alt="NASA tweets"></p>
+<h3><span id="where-to-start">Where to start</span></h3><ul>
+<li><a href="https://www.cypress.io/" target="_blank" rel="noopener">https://www.cypress.io/</a></li>
+<li><a href="https://on.cypress.io/intro" target="_blank" rel="noopener">https://on.cypress.io/intro</a></li>
+<li><a href="https://on.cypress.io/why-cypress" target="_blank" rel="noopener">https://on.cypress.io/why-cypress</a></li>
+<li><a href="https://on.cypress.io/tutorials" target="_blank" rel="noopener">https://on.cypress.io/tutorials</a></li>
+<li><a href="https://on.cypress.io/talks-media" target="_blank" rel="noopener">https://on.cypress.io/talks-media</a></li>
+<li><a href="https://on.cypress.io/key-differences" target="_blank" rel="noopener">https://on.cypress.io/key-differences</a></li>
+<li><a href="https://github.com/bahmutov/test-vue-cli" target="_blank" rel="noopener">https://github.com/bahmutov/test-vue-cli</a> has the source code for this blog post</li>
+</ul>
+
+      
+    </div>
+
+    
+      <footer class="article-footer personal-links">
+  Follow Gleb Bahmutov <a href="https://twitter.com/bahmutov">@bahmutov</a>,
+  see his projects at <a href="http://glebbahmutov.com">glebbahmutov.com</a>
+</footer>
+<script src="https://rawgit.com/toddmotto/linkjuice/702066a37124081e7ad1a972844a9a91115be05a/dist/linkjuice.js"></script>
+<script>
+function contentFn (node, icon) {
+  const s = '<a href="#' + node.id + '" class="linkjuice">' +
+    node.innerHTML + ' ' + icon + '</a>\n'
+  return s
+}
+linkjuice.init('.article-entry', {
+  selectors: ['h2 span'],
+  icon: '<span class="link-symbol">#</span>',
+  contentFn: contentFn
+});
+</script>
+
+    
+
+    <footer class="article-footer">
+      <a data-url="https://glebbahmutov.com/blog/testing-vue-cli-reload/" data-id="cjvi4bets018lx4ookn35by85" class="article-share-link">Share</a>
+      
+        <a href="https://glebbahmutov.com/blog/testing-vue-cli-reload/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../tags/cypress/">cypress</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../tags/testing/">testing</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../tags/vuejs/">vuejs</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="../drive-by-testing-array-explorer/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Drive-by Testing Array Explorer
+        
+      </div>
+    </a>
+  
+  
+    <a href="../quick-refactoring/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Quick functional refactoring</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    <style>
+#carbonads {
+  display: block;
+  overflow: hidden;
+  font-size: 11px;
+  font-family: Verdana, "Helvetica Neue", Helvetica, sans-serif;
+  line-height: 1.5;
+}
+
+#carbonads a {
+  color: #258fb8;
+  text-decoration: none;
+}
+
+#carbonads a:hover {
+  text-decoration: underline;
+}
+
+#carbonads span {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+
+.carbon-img {
+  float: left;
+  margin-right: 1em;
+}
+
+.carbon-img img { display: block; }
+
+.carbon-text {
+  display: block;
+  float: left;
+  text-align: left;
+  margin-top: 0.5em;
+}
+@media screen and (min-width: 1024px) {
+  .carbon-text {
+    max-width: calc(100% - 130px - 1em);
+  }
+}
+
+.carbon-poweredby {
+  /*position: absolute;
+  right: 0;
+  bottom: 0;*/
+  float: right;
+  display: block;
+  font-size: 11px;
+}
+</style>
+<div class="widget-wrap">
+  <div class="widget-title">&nbsp;</div>
+  <div class="widget">
+    <!-- Carbon Ads -->
+    <script async type="text/javascript"
+      src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=glebbahmutovcom"
+      id="_carbonads_js"></script>
+  </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="../categories/book-review/">book review</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="../categories/people/">people</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="../categories/process/">process</a><span class="category-list-count">108</span></li><li class="category-list-item"><a class="category-list-link" href="../categories/products/">products</a><span class="category-list-count">309</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../tags/QUnit/">QUnit</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/advice/">advice</a><span class="tag-list-count">100</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/angularjs/">angularjs</a><span class="tag-list-count">58</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/angularjs2/">angularjs2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/assertions/">assertions</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ast/">ast</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/boilerplate/">boilerplate</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/browser/">browser</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ci/">ci</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/concurrency/">concurrency</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/cyclejs/">cyclejs</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/cypress/">cypress</a><span class="tag-list-count">36</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/d3/">d3</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/db/">db</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/docker/">docker</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/es6/">es6</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/es7/">es7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/functional/">functional</a><span class="tag-list-count">68</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/generators/">generators</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/git/">git</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/github/">github</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/graphql/">graphql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/grunt/">grunt</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/gulp/">gulp</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/hyperapp/">hyperapp</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/immutable/">immutable</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/interview/">interview</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/jade/">jade</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/javascript/">javascript</a><span class="tag-list-count">160</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/jshint/">jshint</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/modular-development/">modular development</a><span class="tag-list-count">27</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/nodejs/">nodejs</a><span class="tag-list-count">76</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/performance/">performance</a><span class="tag-list-count">17</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/presentation/">presentation</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/promises/">promises</a><span class="tag-list-count">31</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/proposal/">proposal</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ramda/">ramda</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/reactive/">reactive</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/reactjs/">reactjs</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/screencast/">screencast</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/security/">security</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/sentry/">sentry</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/service-workers/">service workers</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/state-machine/">state machine</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/testing/">testing</a><span class="tag-list-count">89</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/tutorial/">tutorial</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/typescript/">typescript</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ui/">ui</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/vuejs/">vuejs</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/web-workers/">web workers</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/zeit/">zeit</a><span class="tag-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="../tags/QUnit/" style="font-size: 11.67px;">QUnit</a> <a href="../tags/advice/" style="font-size: 19.58px;">advice</a> <a href="../tags/angularjs/" style="font-size: 17.92px;">angularjs</a> <a href="../tags/angularjs2/" style="font-size: 10px;">angularjs2</a> <a href="../tags/assertions/" style="font-size: 13.33px;">assertions</a> <a href="../tags/ast/" style="font-size: 12.92px;">ast</a> <a href="../tags/boilerplate/" style="font-size: 15.42px;">boilerplate</a> <a href="../tags/browser/" style="font-size: 16.25px;">browser</a> <a href="../tags/ci/" style="font-size: 13.33px;">ci</a> <a href="../tags/concurrency/" style="font-size: 10px;">concurrency</a> <a href="../tags/cyclejs/" style="font-size: 12.5px;">cyclejs</a> <a href="../tags/cypress/" style="font-size: 17.5px;">cypress</a> <a href="../tags/d3/" style="font-size: 10.83px;">d3</a> <a href="../tags/db/" style="font-size: 14.17px;">db</a> <a href="../tags/docker/" style="font-size: 13.75px;">docker</a> <a href="../tags/es6/" style="font-size: 15px;">es6</a> <a href="../tags/es7/" style="font-size: 10px;">es7</a> <a href="../tags/functional/" style="font-size: 18.33px;">functional</a> <a href="../tags/generators/" style="font-size: 11.67px;">generators</a> <a href="../tags/git/" style="font-size: 15px;">git</a> <a href="../tags/github/" style="font-size: 11.25px;">github</a> <a href="../tags/graphql/" style="font-size: 10.83px;">graphql</a> <a href="../tags/grunt/" style="font-size: 12.5px;">grunt</a> <a href="../tags/gulp/" style="font-size: 10.83px;">gulp</a> <a href="../tags/hyperapp/" style="font-size: 12.5px;">hyperapp</a> <a href="../tags/immutable/" style="font-size: 11.67px;">immutable</a> <a href="../tags/interview/" style="font-size: 10.83px;">interview</a> <a href="../tags/jade/" style="font-size: 11.25px;">jade</a> <a href="../tags/javascript/" style="font-size: 20px;">javascript</a> <a href="../tags/jshint/" style="font-size: 10.83px;">jshint</a> <a href="../tags/modular-development/" style="font-size: 16.67px;">modular development</a> <a href="../tags/nodejs/" style="font-size: 18.75px;">nodejs</a> <a href="../tags/performance/" style="font-size: 15.83px;">performance</a> <a href="../tags/presentation/" style="font-size: 11.25px;">presentation</a> <a href="../tags/promises/" style="font-size: 17.08px;">promises</a> <a href="../tags/proposal/" style="font-size: 10.42px;">proposal</a> <a href="../tags/ramda/" style="font-size: 10px;">ramda</a> <a href="../tags/reactive/" style="font-size: 14.58px;">reactive</a> <a href="../tags/reactjs/" style="font-size: 10.83px;">reactjs</a> <a href="../tags/screencast/" style="font-size: 10px;">screencast</a> <a href="../tags/security/" style="font-size: 12.5px;">security</a> <a href="../tags/sentry/" style="font-size: 13.75px;">sentry</a> <a href="../tags/service-workers/" style="font-size: 12.08px;">service workers</a> <a href="../tags/state-machine/" style="font-size: 10px;">state machine</a> <a href="../tags/testing/" style="font-size: 19.17px;">testing</a> <a href="../tags/tutorial/" style="font-size: 13.75px;">tutorial</a> <a href="../tags/typescript/" style="font-size: 11.67px;">typescript</a> <a href="../tags/ui/" style="font-size: 10.42px;">ui</a> <a href="../tags/vuejs/" style="font-size: 11.25px;">vuejs</a> <a href="../tags/web-workers/" style="font-size: 12.08px;">web workers</a> <a href="../tags/zeit/" style="font-size: 12.08px;">zeit</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/05/">May 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/04/">April 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/03/">March 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/01/">January 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/12/">December 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/11/">November 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/10/">October 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/09/">September 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/08/">August 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/06/">June 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/04/">April 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/03/">March 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/12/">December 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/08/">August 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/07/">July 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/06/">June 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/04/">April 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/03/">March 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/02/">February 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/01/">January 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/11/">November 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/09/">September 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/08/">August 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/07/">July 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/06/">June 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/04/">April 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/03/">March 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/02/">February 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/12/">December 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/11/">November 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/10/">October 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/09/">September 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/08/">August 2015</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/07/">July 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/06/">June 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/05/">May 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/04/">April 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/03/">March 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/02/">February 2015</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/01/">January 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/12/">December 2014</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/11/">November 2014</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/10/">October 2014</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/09/">September 2014</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/08/">August 2014</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/07/">July 2014</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/06/">June 2014</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/05/">May 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/04/">April 2014</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/03/">March 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/02/">February 2014</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/01/">January 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/12/">December 2013</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/11/">November 2013</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/10/">October 2013</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/09/">September 2013</a><span class="archive-list-count">10</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="../using-ts-aliases-in-cypress-tests/">Using TypeScript aliases in Cypress tests</a>
+          </li>
+        
+          <li>
+            <a href="../code-coverage-for-e2e-tests/">Code Coverage for End-to-end Tests</a>
+          </li>
+        
+          <li>
+            <a href="../stub-navigator-api/">Stub navigator API in end-to-end tests</a>
+          </li>
+        
+          <li>
+            <a href="../chainsaws/">Testing an online chainsaw store using Cypress.io</a>
+          </li>
+        
+          <li>
+            <a href="../npm-install-with-just-github/">NPM Install with just GitHub</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Gleb Bahmutov<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'betterworldbybettersoftware';
+  
+  var disqus_url = 'https://glebbahmutov.com/blog/testing-vue-cli-reload/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="../fancybox/jquery.fancybox.css">
+  <script src="../fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="../js/script.js"></script>
+
+  </div>
+  <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
+<script>
+(function centerMainOnAsideScroll () {
+  // when aside side bar scrolls outside the view
+  // it centers the main content.
+  const main = document.querySelector('#main')
+  const aside = document.querySelector('aside#sidebar')
+  console.assert(main, 'could not get #main')
+  console.assert(aside, 'could not get aside')
+  // initially the aside sidebar is visible
+  let asideVisible = true
+
+  function centerMain () {
+    console.log('adding class center-main')
+    main.classList.add('center-main')
+  }
+  function leftMain () {
+    main.classList.remove('center-main')
+  }
+
+  function callWhenAsideScrollsUp (becameInvisible, becameVisible) {
+    return function () {
+      const border = 50
+      const rect = aside.getBoundingClientRect()
+      if (asideVisible && rect.bottom < -border) {
+        asideVisible = false
+        becameInvisible()
+      }
+
+      if (!asideVisible && window.scrollY < border) {
+        asideVisible = true
+        becameVisible()
+      }
+    }
+  }
+  const throttleWaitMs = 250
+  const onScroll = _.throttle(
+    callWhenAsideScrollsUp(centerMain, leftMain),
+    throttleWaitMs
+  )
+  window.addEventListener('scroll', onScroll)
+}())
+</script>
+
+</body>
+</html>
