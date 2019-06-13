@@ -5,22 +5,22 @@
   
   <title>Combined End-to-end and Unit Test Coverage | Better world by better software</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="E2E code coverage overview The missing 4% Combined coverage   E2E code coverage overviewIn my previous blog post &amp;quot;Stub navigator API in end-to-end tests&amp;quot; I have introduced an application t">
+  <meta name="description" content="E2E code coverage overview The missing 4% Combined coverage See also   E2E code coverage overviewIn my previous blog post &amp;quot;Stub navigator API in end-to-end tests&amp;quot; I have introduced an appl">
 <meta name="keywords" content="testing,cypress">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Combined End-to-end and Unit Test Coverage">
 <meta property="og:url" content="https://glebbahmutov.com/blog/combined-end-to-end-and-unit-test-coverage/index.html">
 <meta property="og:site_name" content="Better world by better software">
-<meta property="og:description" content="E2E code coverage overview The missing 4% Combined coverage   E2E code coverage overviewIn my previous blog post &amp;quot;Stub navigator API in end-to-end tests&amp;quot; I have introduced an application t">
+<meta property="og:description" content="E2E code coverage overview The missing 4% Combined coverage See also   E2E code coverage overviewIn my previous blog post &amp;quot;Stub navigator API in end-to-end tests&amp;quot; I have introduced an appl">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/battery-coverage/missed-line.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/combined-cc/to-time-coverage.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/combined-cc/unit-coverage.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/combined-cc/full-coverage.png">
-<meta property="og:updated_time" content="2019-05-21T02:46:50.000Z">
+<meta property="og:updated_time" content="2019-06-13T13:37:18.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Combined End-to-end and Unit Test Coverage">
-<meta name="twitter:description" content="E2E code coverage overview The missing 4% Combined coverage   E2E code coverage overviewIn my previous blog post &amp;quot;Stub navigator API in end-to-end tests&amp;quot; I have introduced an application t">
+<meta name="twitter:description" content="E2E code coverage overview The missing 4% Combined coverage See also   E2E code coverage overviewIn my previous blog post &amp;quot;Stub navigator API in end-to-end tests&amp;quot; I have introduced an appl">
 <meta name="twitter:image" content="https://glebbahmutov.com/blog/images/battery-coverage/missed-line.png">
 <meta name="twitter:creator" content="@bahmutov">
   
@@ -129,6 +129,7 @@ ga('send', 'pageview');
 <li><a href="#e2e-code-coverage-overview">E2E code coverage overview</a></li>
 <li><a href="#the-missing-4">The missing 4%</a></li>
 <li><a href="#combined-coverage">Combined coverage</a></li>
+<li><a href="#see-also">See also</a></li>
 </ul>
 <!-- tocstop -->
 <h2><span id="e2e-code-coverage-overview">E2E code coverage overview</span></h2><p>In my previous blog post <a href="../stub-navigator-api/">&quot;Stub navigator API in end-to-end tests&quot;</a> I have introduced an application that uses navigator browser API to show the battery charge percentage. While exploring the ways to test this application using <a href="https://www.cypress.io" target="_blank" rel="noopener">Cypress.io</a> we have discovered an edge case that caused that web application to crash when running in any browser but Chrome. The edge case is shown below - the application crashes if the <code>battery</code> variable remains undefined by the time <code>window.load</code> tries to attach an event listener.</p>
@@ -158,6 +159,10 @@ ga('send', 'pageview');
 <p>What about the rest of the code? Everything gets covered - the DOM updates and battery API code get covered by end-to-end tests, while individual little functions are covered by the unit tests. When <code>cypress-istanbul</code> combines the coverage, it saves the report showing full 100% code coverage.</p>
 <p><img src="/blog/images/combined-cc/full-coverage.png" alt="Full coverage"></p>
 <p>You can also see this coverage report at <a href="https://coveralls.io/github/bahmutov/demo-battery-api?branch=cover-unit-tests-3" target="_blank" rel="noopener">coveralls.io/github/bahmutov/demo-battery-api?branch=cover-unit-tests-3</a>, the coverage information is set by the CI build job. You can find the source code at <a href="https://github.com/bahmutov/demo-battery-api/tree/cover-unit-tests-3" target="_blank" rel="noopener">bahmutov/demo-battery-api</a> repo in branch &quot;cover-unit-tests-3&quot;.</p>
+<h2><span id="see-also">See also</span></h2><ul>
+<li><a href="https://github.com/bahmutov/code-coverage-webpack-dev-server" target="_blank" rel="noopener">Code coverage using webpack-dev-server example</a></li>
+<li><a href="https://on.cypress.io/code-coverage" target="_blank" rel="noopener">Cypress.io code coverage guide</a></li>
+</ul>
 
       
     </div>
@@ -184,7 +189,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/combined-end-to-end-and-unit-test-coverage/" data-id="cjvxajgmx011zigooyjyh0shk" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/combined-end-to-end-and-unit-test-coverage/" data-id="cjwupu2mf006sv0oo2yq7oq5h" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/combined-end-to-end-and-unit-test-coverage/#disqus_thread" class="article-comment-link">Comments</a>
       
