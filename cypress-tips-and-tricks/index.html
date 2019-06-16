@@ -5,20 +5,21 @@
   
   <title>Cypress tips and tricks | Better world by better software</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="We have been successfully using Cypress to verify our websites and web apps for a while. Here are some tips &amp;amp; tricks we have learned. Even this blog is tested using Cypress :) Read the docsCypress">
+  <meta name="description" content="Read the docs Run Cypress on your own CI Record success and failure videos Move common code into utility package Separate tests into bundles Make JavaScript crashes useful Use test names when creati">
 <meta name="keywords" content="testing,cypress">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Cypress tips and tricks">
 <meta property="og:url" content="https://glebbahmutov.com/blog/cypress-tips-and-tricks/index.html">
 <meta property="og:site_name" content="Better world by better software">
-<meta property="og:description" content="We have been successfully using Cypress to verify our websites and web apps for a while. Here are some tips &amp;amp; tricks we have learned. Even this blog is tested using Cypress :) Read the docsCypress">
+<meta property="og:description" content="Read the docs Run Cypress on your own CI Record success and failure videos Move common code into utility package Separate tests into bundles Make JavaScript crashes useful Use test names when creati">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://raw.githubusercontent.com/bahmutov/send-test-info/master/images/sentry-view.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/bahmutov/send-test-info/master/images/cypress-breadcrumbs.png">
-<meta property="og:updated_time" content="2018-10-11T19:05:39.000Z">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/cy-tips-and-tricks/skip-service-worker-registration.png">
+<meta property="og:updated_time" content="2019-06-16T13:38:44.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Cypress tips and tricks">
-<meta name="twitter:description" content="We have been successfully using Cypress to verify our websites and web apps for a while. Here are some tips &amp;amp; tricks we have learned. Even this blog is tested using Cypress :) Read the docsCypress">
+<meta name="twitter:description" content="Read the docs Run Cypress on your own CI Record success and failure videos Move common code into utility package Separate tests into bundles Make JavaScript crashes useful Use test names when creati">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/bahmutov/send-test-info/master/images/sentry-view.png">
 <meta name="twitter:creator" content="@bahmutov">
   
@@ -122,7 +123,27 @@ ga('send', 'pageview');
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>We have been successfully using Cypress to verify our websites and
+        <!-- toc -->
+<ul>
+<li><a href="#read-the-docs">Read the docs</a></li>
+<li><a href="#run-cypress-on-your-own-ci">Run Cypress on your own CI</a></li>
+<li><a href="#record-success-and-failure-videos">Record success and failure videos</a></li>
+<li><a href="#move-common-code-into-utility-package">Move common code into utility package</a></li>
+<li><a href="#separate-tests-into-bundles">Separate tests into bundles</a></li>
+<li><a href="#make-javascript-crashes-useful">Make JavaScript crashes useful</a></li>
+<li><a href="#use-test-names-when-creating-data">Use test names when creating data</a></li>
+<li><a href="#explore-the-environment">Explore the environment</a></li>
+<li><a href="#run-all-spec-files-locally">Run all spec files locally</a></li>
+<li><a href="#get-command-log-on-failure">Get command log on failure</a></li>
+<li><a href="#wait-on-the-right-thing">Wait on the right thing</a></li>
+<li><a href="#write-and-read-files">Write and read files</a></li>
+<li><a href="#conditional-logic">Conditional logic</a></li>
+<li><a href="#customize-cypress-test-runner-colors">Customize Cypress test runner colors</a></li>
+<li><a href="#shorten-assertions">Shorten assertions</a></li>
+<li><a href="#disable-serviceworker">Disable ServiceWorker</a></li>
+</ul>
+<!-- tocstop -->
+<p>We have been successfully using Cypress to verify our websites and
 web apps for a while. Here are some tips &amp; tricks we have learned.</p>
 <p>Even this blog is tested using Cypress :)</p>
 <h2><span id="read-the-docs">Read the docs</span></h2><p><a href="https://www.cypress.io/" target="_blank" rel="noopener">Cypress</a> has excellent documentation at
@@ -307,6 +328,16 @@ the proxied jQuery function
 <p>Every Cypress command is automatically inserted into the queue, so you can iterate over the items and use Cypress commands, everything will be queued correctly.</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">inputs.forEach(<span class="function"><span class="params">input</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; element, text, error &#125; = input;</span><br><span class="line"></span><br><span class="line">  cy.getByTestId(element)</span><br><span class="line">    .type(text)</span><br><span class="line">    .should(<span class="string">'have.value'</span>, text);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 <p>I prefer <a href="https://on.cypress.io/first" target="_blank" rel="noopener"><code>cy.first()</code></a> to <code>cy.eq(0)</code>.</p>
+<h2><span id="disable-serviceworker">Disable ServiceWorker</span></h2><p>ServiceWorkers are great - but they can really affect your end-to-end tests by introducing caching and coupling tests. If you want to disable the service worker caching you need to remove or delete <code>navigator.serviceWorker</code> when visiting the page with <a href="https://on.cypress.io/visit" target="_blank" rel="noopener"><code>cy.visit</code></a>.</p>
+<p>First, here is the way that <strong>does not</strong> work - simply deleting the property from the <code>navigator</code> object.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">'disables it'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  cy.visit(<span class="string">'index.html'</span>, &#123;</span><br><span class="line">    onBeforeLoad (win) &#123;</span><br><span class="line">      <span class="keyword">delete</span> win.navigator.serviceWorker</span><br><span class="line">      <span class="comment">// nope, win.navigator.serviceWorker is still there</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>The reason for this is that we are deleting the property from the wrong object. The <code>serviceWorker</code> is NOT defined on the <code>navigator</code>, it is defined on its prototype. You can confirm this by using <code>Object.getOwnPropertyDescriptor</code> method:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.getOwnPropertyDescriptor(win.navigator, <span class="string">'serviceWorker'</span>)</span><br><span class="line"><span class="comment">// undefined</span></span><br><span class="line"><span class="built_in">Object</span>.getOwnPropertyDescriptor(win.navigator.__proto__, <span class="string">'serviceWorker'</span>)</span><br><span class="line"><span class="comment">// &#123;set: undefined, enumerable: true, configurable: true, get: ƒ&#125;</span></span><br></pre></td></tr></table></figure>
+<p>After we delete the property from the right object, the application code will no longer think it can register the service worker.</p>
+<figure class="highlight js"><figcaption><span>cypress/integration/spec.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">'disables it'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  cy.visit(<span class="string">'index.html'</span>, &#123;</span><br><span class="line">    onBeforeLoad (win) &#123;</span><br><span class="line">      <span class="keyword">delete</span> win.navigator.__proto__.serviceWorker</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><figcaption><span>index.html</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">    <span class="keyword">if</span> (<span class="string">'serviceWorker'</span> <span class="keyword">in</span> navigator) &#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">console</span>.log(<span class="string">'registering service worker'</span>)</span></span><br><span class="line"><span class="javascript">    &#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">console</span>.log(<span class="string">'skipping sw registration'</span>)</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><img src="/blog/images/cy-tips-and-tricks/skip-service-worker-registration.png" alt="Service worker is no longer registered"></p>
+<p>Read also <a href="../stub-navigator-api/">&quot;Stub navigator API in end-to-end tests&quot;</a> for another example.</p>
 
       
     </div>
@@ -333,7 +364,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/cypress-tips-and-tricks/" data-id="cjwupu2nb008pv0ookijldhtq" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/cypress-tips-and-tricks/" data-id="cjwyzyu0r008d1ooo9boc96ga" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/cypress-tips-and-tricks/#disqus_thread" class="article-comment-link">Comments</a>
       
