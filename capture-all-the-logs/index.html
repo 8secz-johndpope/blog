@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="Better world by better software">
 <meta property="og:description" content="In this blog post I will show how to intercept messages logged by a Node process using a pre-loaded module. You can find the source code for these examples in bahmutov/capture-logs-example repository.">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-06T13:49:20.000Z">
+<meta property="og:updated_time" content="2019-07-09T18:09:55.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Capture all the logs">
 <meta name="twitter:description" content="In this blog post I will show how to intercept messages logged by a Node process using a pre-loaded module. You can find the source code for these examples in bahmutov/capture-logs-example repository.">
@@ -143,11 +143,22 @@ ga('send', 'pageview');
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">$ DEBUG=verbose node -r ./log ./index-debug.js</span><br><span class="line">this is console log message ✅</span><br><span class="line">this is console warn ⚠️</span><br><span class="line">this is console error 🔥</span><br><span class="line">  verbose this is verbose debug = 42 +0ms</span><br><span class="line">*** printing saved messages ***</span><br><span class="line">log: this is console log message ✅</span><br><span class="line">warn: this is console warn ⚠️</span><br><span class="line">error: this is console error 🔥</span><br><span class="line">debug:   verbose this is verbose debug = 42 +0ms</span><br><span class="line"></span><br><span class="line">$ node -r ./log ./index-debug.js</span><br><span class="line">this is console log message ✅</span><br><span class="line">this is console warn ⚠️</span><br><span class="line">this is console error 🔥</span><br><span class="line">*** printing saved messages ***</span><br><span class="line">log: this is console log message ✅</span><br><span class="line">warn: this is console warn ⚠️</span><br><span class="line">error: this is console error 🔥</span><br><span class="line">debug:   verbose this is verbose debug = 42 +0ms</span><br></pre></td></tr></table></figure>
 <p>Beautiful - we have all the logs we might need, yet the &quot;normal&quot; terminal output only shows top level messages. We are now free to do anything with the verbose logs. For example we could show all the logs ONLY if something goes wrong, avoiding double test runs like <a href="https://github.com/bahmutov/locha" target="_blank" rel="noopener">locha</a> does.</p>
 <h2><span id="see-also">See also</span></h2><ul>
+<li>I have released the log interception in <a href="https://github.com/bahmutov/all-logs" target="_blank" rel="noopener"><code>@bahmutov/all-logs</code></a> NPM module. It can collect all<ul>
+<li><code>console.{log, warn, error}</code> messages</li>
+<li>all messages via <code>debug</code> module</li>
+<li>all messages via <code>util.debuglog</code> (see the update below)</li>
+</ul>
+</li>
 <li><a href="../good-logging/">Good logging</a></li>
 <li><a href="../oo-vs-fp-log-example/">OO vs FP console log example</a></li>
 <li><a href="https://github.com/visionmedia/debug" target="_blank" rel="noopener"><code>debug</code></a> module</li>
 <li>Source code for this blog post is in the <a href="https://github.com/bahmutov/capture-logs-example" target="_blank" rel="noopener">bahmutov/capture-logs-example</a> repository.</li>
 </ul>
+<h2><span id="update-1-utildebuglog">Update 1 - <code>util.debuglog</code></span></h2><p>In Node, there is built-in <code>NODE_DEBUG=&lt;namespace&gt;</code> mechanism for verbose logs, see <a href="https://nodejs.org/api/util.html#util_util_debuglog_section" target="_blank" rel="noopener"><code>util.debuglog</code></a>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> util = <span class="built_in">require</span>(<span class="string">'util'</span>);</span><br><span class="line"><span class="keyword">const</span> debuglog = util.debuglog(<span class="string">'foo'</span>);</span><br><span class="line">debuglog(<span class="string">'hello from foo [%d]'</span>, <span class="number">123</span>);</span><br></pre></td></tr></table></figure>
+<p>If you run the above piece of code with <code>NODE_DEBUG=foo</code> it will show the namespace (uppercased) and process id</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FOO 3245: hello from foo [123]</span><br></pre></td></tr></table></figure>
+<p>One can intercept these log messages by overwriting <code>util.debuglog</code> method.</p>
 
       
     </div>
@@ -174,7 +185,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/capture-all-the-logs/" data-id="cjxrl4vpm0054i9oowvhwkvh8" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/capture-all-the-logs/" data-id="cjxw4qw1u0052klooy0j5ykgi" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/capture-all-the-logs/#disqus_thread" class="article-comment-link">Comments</a>
       
