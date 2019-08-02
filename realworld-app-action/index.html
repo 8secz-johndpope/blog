@@ -5,13 +5,13 @@
   
   <title>How to write end-to-end test using app and api actions | Better world by better software</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Note: the source code for this blog post is in repo cypress-io/cypress-example-realworld in the pull request #55.   First test Second test App action Api action   End-to-end browser tests do not have">
+  <meta name="description" content="Note: the source code for this blog post is in repo cypress-io/cypress-example-realworld in the pull request #55.   First test Second test Page object App action Api action   End-to-end browser tests">
 <meta name="keywords" content="testing,cypress">
 <meta property="og:type" content="article">
 <meta property="og:title" content="How to write end-to-end test using app and api actions">
 <meta property="og:url" content="https://glebbahmutov.com/blog/realworld-app-action/index.html">
 <meta property="og:site_name" content="Better world by better software">
-<meta property="og:description" content="Note: the source code for this blog post is in repo cypress-io/cypress-example-realworld in the pull request #55.   First test Second test App action Api action   End-to-end browser tests do not have">
+<meta property="og:description" content="Note: the source code for this blog post is in repo cypress-io/cypress-example-realworld in the pull request #55.   First test Second test Page object App action Api action   End-to-end browser tests">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/realworld/new-post.gif">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/realworld/coverage.png">
@@ -20,10 +20,10 @@
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/realworld/article-reducer-with-add-comment.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/realworld/app-action.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/realworld/post-article.png">
-<meta property="og:updated_time" content="2019-08-02T12:00:49.000Z">
+<meta property="og:updated_time" content="2019-08-02T13:32:06.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="How to write end-to-end test using app and api actions">
-<meta name="twitter:description" content="Note: the source code for this blog post is in repo cypress-io/cypress-example-realworld in the pull request #55.   First test Second test App action Api action   End-to-end browser tests do not have">
+<meta name="twitter:description" content="Note: the source code for this blog post is in repo cypress-io/cypress-example-realworld in the pull request #55.   First test Second test Page object App action Api action   End-to-end browser tests">
 <meta name="twitter:image" content="https://glebbahmutov.com/blog/images/realworld/new-post.gif">
 <meta name="twitter:creator" content="@bahmutov">
   
@@ -132,6 +132,7 @@ ga('send', 'pageview');
 <ul>
 <li><a href="#first-test">First test</a></li>
 <li><a href="#second-test">Second test</a></li>
+<li><a href="#page-object">Page object</a></li>
 <li><a href="#app-action">App action</a></li>
 <li><a href="#api-action">Api action</a></li>
 </ul>
@@ -157,8 +158,17 @@ ga('send', 'pageview');
 <p>We can see the new lines covered in the &quot;Article&quot; reducer, the &quot;ADD_COMMENT&quot; action has been covered by the new commands.</p>
 <p><img src="/blog/images/realworld/article-reducer-with-add-comment.png" alt="Additional line covered by the test"></p>
 <p>Nice.</p>
-<h2><span id="app-action">App action</span></h2><p>Yet, there is a problem. The second test &quot;writes a post and comments on it&quot; is exactly 70% line for line matching the first test &quot;writes a post&quot;. We are creating the post by clicking and typing on the page - repeating <em>exactly the same page actions</em> as the first test. What have we learned from about 2 seconds it takes to type the new post (just like a real user would type character by character), that we don&#39;t know already from the first test?</p>
+<h2><span id="page-object">Page object</span></h2><p>Yet, there is a problem. The second test &quot;writes a post and comments on it&quot; is exactly 70% line for line matching the first test &quot;writes a post&quot;. We are creating the post by clicking and typing on the page - repeating <em>exactly the same page actions</em> as the first test. What have we learned from about 2 seconds it takes to type the new post (just like a real user would type character by character), that we don&#39;t know already from the first test?</p>
 <p>Nothing.</p>
+<p>So to remove the duplicate lines, people write Page Objects, a wrapper around the HTML and the elements of the a particular page. We avoid the code duplication by having our tests call into the Page Object wrapper. In our case, the test would be</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">'writes a post (via page object) and comments on it'</span>, () =&gt; &#123;</span><br><span class="line">  <span class="comment">// page object encapsulating code for writing a post</span></span><br><span class="line">  <span class="comment">// by executing page commands = DOM actions</span></span><br><span class="line">  <span class="keyword">const</span> editor = &#123;</span><br><span class="line">    writeArticle () &#123;</span><br><span class="line">      cy.get(<span class="string">'[data-cy=new-post]'</span>).click()</span><br><span class="line"></span><br><span class="line">      cy.get(<span class="string">'[data-cy=title]'</span>).type(<span class="string">'my title'</span>)</span><br><span class="line">      cy.get(<span class="string">'[data-cy=about]'</span>).type(<span class="string">'about X'</span>)</span><br><span class="line">      cy.get(<span class="string">'[data-cy=article]'</span>).type(<span class="string">'this post is **important**.'</span>)</span><br><span class="line">      cy.get(<span class="string">'[data-cy=tags]'</span>).type(<span class="string">'test&#123;enter&#125;'</span>)</span><br><span class="line">      cy.get(<span class="string">'[data-cy=publish]'</span>).click()</span><br><span class="line"></span><br><span class="line">      <span class="comment">// changed url means the post was successfully created</span></span><br><span class="line">      cy.location(<span class="string">'pathname'</span>).should(<span class="string">'equal'</span>, <span class="string">'/article/my-title'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// use "Editor" page wrapper to write a new post</span></span><br><span class="line">  editor.writeArticle()</span><br><span class="line"></span><br><span class="line">  <span class="comment">// comment on the post</span></span><br><span class="line">  cy.get(<span class="string">'[data-cy=comment-text]'</span>).type(<span class="string">'great post 👍'</span>)</span><br><span class="line">  cy.get(<span class="string">'[data-cy=post-comment]'</span>).click()</span><br><span class="line"></span><br><span class="line">  cy.contains(<span class="string">'[data-cy=comment]'</span>, <span class="string">'great post 👍'</span>).should(<span class="string">'be.visible'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>The above test works, and removes code duplication. Every time you need an article to test commenting on it, or to test how an article can be deleted, or how a user can like it - every test can just call <code>editor.writeArticle()</code> and be done.</p>
+<h2><span id="app-action">App action</span></h2><p>Let&#39;s see why the Page Object is less than ideal.</p>
+<ul>
+<li>The commands going through the DOM are slow. We will see how to avoid it later.</li>
+<li>Opening the editor and typing into the input boxes again and again from <em>every</em> test does not help us test better, because it is just redundant commands that do the same thing over and over.</li>
+<li>The Page Object is an extra layer of code that does not benefit the users and is built on top of the HTML, and can be only tested at runtime without any static tools help</li>
+</ul>
 <p>Once we have &quot;writes a post&quot; test that goes through the DOM to confirm that a user can write a new article, there is no point doing it again. Instead we can directly create an article by accessing the underlying application code and calling its methods - I call this approach &quot;app actions&quot;, and argue in the blog post <a href="https://www.cypress.io/blog/2019/01/03/stop-using-page-objects-and-start-using-app-actions/" target="_blank" rel="noopener">Stop using Page Objects and Start using App Actions</a> that this approach saves you time and removes an unnecessary level of code sitting on top of the HTML. And this is not about code duplication - yes, you could factor out writing the post into a single reusable function (this would be a Page method). The point is that we want to avoid going through the DOM completely to perform an action that we have already tested!</p>
 <p>In practice, this means we need to access the underlying web application to create the post somehow. This is how we do it.</p>
 <p>First, study the application code to see how the UI components trigger actions. In our case the <code>Editor.js</code> component submits an article via an &quot;agent&quot; object reference.</p>
@@ -210,7 +220,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/realworld-app-action/" data-id="cjyu246y800qfsooo0l179clh" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/realworld-app-action/" data-id="cjyu5fpyh00qhkdoo2yskzge0" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/realworld-app-action/#disqus_thread" class="article-comment-link">Comments</a>
       
