@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Run Angular digest cycle in web worker | Better world by better software</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Right now I am excited about two things:  Optimizing web app performance bottlenecks Web workers, browser support  When thinking about browser performance, I always go back to the basic fact:  Client">
+<meta name="keywords" content="javascript,angularjs,performance,web workers">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Run Angular digest cycle in web worker">
+<meta property="og:url" content="https://glebbahmutov.com/blog/run-angular-digest-cycle-in-web-worker/index.html">
+<meta property="og:site_name" content="Better world by better software">
+<meta property="og:description" content="Right now I am excited about two things:  Optimizing web app performance bottlenecks Web workers, browser support  When thinking about browser performance, I always go back to the basic fact:  Client">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://raw.githubusercontent.com/bahmutov/digest-cycle-in-web-worker/master/digest-then-dom.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/bahmutov/digest-cycle-in-web-worker/master/digest-then-dom-timeline.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/bahmutov/digest-cycle-in-web-worker/master/set-foo-diagram.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/bahmutov/digest-cycle-in-web-worker/master/full-cycle-diagram.png">
+<meta property="og:updated_time" content="2018-02-14T02:33:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Run Angular digest cycle in web worker">
+<meta name="twitter:description" content="Right now I am excited about two things:  Optimizing web app performance bottlenecks Web workers, browser support  When thinking about browser performance, I always go back to the basic fact:  Client">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/bahmutov/digest-cycle-in-web-worker/master/digest-then-dom.png">
+<meta name="twitter:creator" content="@bahmutov">
+  
+    <link rel="alternative" href="/blog/atom.xml" title="Better world by better software" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="preload" href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" as="style">
+  <link rel="stylesheet" href="../css/style.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-59999353-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <!-- <div id="banner"></div> -->
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../index.html" id="logo">Better world by better software</a>
+      </h1>
+      <!--
+      
+        <h2 id="subtitle-wrap">
+          <a href="../index.html" id="subtitle">Gleb Bahmutov PhD</a>
+        </h2>
+      
+      -->
+      <!-- <span class="no-mobile">Software advice from</span> -->
+      <h2 id="subtitle-wrap">
+        <span class="subtitle">
+          <a id="subtitle" href="http://glebbahmutov.com">Gleb Bahmutov PhD</a>
+        </span>
+      </h2>
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <a id="nav-house-link" class="nav-icon" href="/" title="Home"></a>
+        
+          <a id="nav-rss-link" class="nav-icon" href="/blog/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://glebbahmutov.com/blog"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-run-angular-digest-cycle-in-web-worker" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="" class="article-date">
+  <time datetime="2014-10-29T04:00:00.000Z" itemprop="datePublished">Oct 29 2014</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="../categories/products/">products</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Run Angular digest cycle in web worker
+    </h1>
+
+    <h2 class="article-title" itemprop="name">
+      An experiment in offloading AngularJs dirty checking and model updates to a separate browser thread.
+    </h2>
+
+  
+
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Right now I am excited about two things:</p>
+<ul>
+<li><a href="../improving-angular-web-app-performance-example/">Optimizing web app performance bottlenecks</a></li>
+<li><a href="http://www.html5rocks.com/en/tutorials/workers/basics/" target="_blank" rel="noopener">Web workers</a>, <a href="http://caniuse.com/#feat=webworkers" target="_blank" rel="noopener">browser support</a></li>
+</ul>
+<p>When thinking about browser performance, I always go back to the basic fact:</p>
+<blockquote>
+<p>Client code and the browser user events / layout / rendering / painting all happen in turns
+in a <em>single</em> thread. When your code runs for too long, user&#39;s interaction is blocked.</p>
+</blockquote>
+<p>When your code takes too long the user cannot even scroll!</p>
+<p>Angular is my framework of choice right now, and its slowest part is often the <a href="http://stackoverflow.com/questions/9682092/databinding-in-angularjs/9693933#9693933" target="_blank" rel="noopener">digest cycle</a>.
+During the digest cycle, the angular engine looks at every object attached to its scopes
+to see if anything has changed since the last cycle. If anything has changed, things
+happen: model data is updated with new values, which in turn updates the DOM, etc. 
+Under the hood, every scope has <em>watchers</em> - functions
+that return values that the engine can check against previous ones. This is called <em>dirty checking</em>
+and can be quite slow if there are lots of objects to compare. It can also be slow if <em>listener</em>
+functions that run on data changes take long to finish.</p>
+<p>In this experiment, I will improve the page responsiveness by offloading the digest cycle to the
+separate thread via web worker. I plan to show how to achieve this in several steps:</p>
+<ol>
+<li>Implement a <em>micro</em> angular feature set with just scopes, watchers and digest cycle.</li>
+<li>Use the micro angular implementation to compute lots of prime numbers to slow down the digest cycle.</li>
+<li>I will render the results to the DOM and profile the page&#39;s performance (it will be slow!)</li>
+<li>The entire application can be moved to the web worker, but this completely changes the application&#39;s nature.</li>
+<li>I will step back and will show how to move only the micro angular code to the web worker<ul>
+<li>I will move scopes, watcher functions and digest cycle, leaving Angular-like application in the main context.</li>
+<li>Same application that finds primes will run without freezing the browser</li>
+</ul>
+</li>
+<li>Bonus 1: I will restore the original plain JavaScript syntax used to update scopes using <code>Object.observe</code></li>
+<li>Bonus 2: I will propose using virtual DOM to speed up browser updates.</li>
+</ol>
+<p>Each step will be described in enough detail to follow, but you can always grab the example repo and
+try it for yourself.</p>
+<h2><span id="digest-cycle-in-a-few-lines-of-code">Digest cycle in a few lines of code</span></h2><p>Let us create a micro AngularJs library that can keep track of scopes and implements dirty checking.
+Then we will speed things up by <strong>moving the digest cycle and dirty checking into separate thread</strong>.</p>
+<p>I created a sample git repo <a href="https://github.com/bahmutov/digest-cycle-in-web-worker" target="_blank" rel="noopener">bahmutov/digest-cycle-in-web-worker</a>
+that you can clone and run locally. Different steps are tagged step-1, step-2, etc.</p>
+<pre><code>git clone git@github.com:bahmutov/primes.git
+cd primes
+git checkout step-1
+open index.html
+</code></pre><p>We can make scopes and keep track of the watchers ourselves in just a few lines of code</p>
+<figure class="highlight js"><figcaption><span>micro-angular.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Scope</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.$$watchers = [];</span><br><span class="line">&#125;</span><br><span class="line">Scope.prototype.$watch = <span class="function"><span class="keyword">function</span>(<span class="params">watchFn, listenerFn</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> watcher = &#123;</span><br><span class="line">    watchFn: watchFn,</span><br><span class="line">    listenerFn: listenerFn || <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">this</span>.$$watchers.push(watcher);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>We can implement the digest cycle ourselves in a few lines of code.
+I grabbed code for a single digest cycle from the excellent <a href="http://teropa.info/blog/2013/11/03/make-your-own-angular-part-1-scopes-and-digest.html" target="_blank" rel="noopener">Make Your Own AngularJs</a>. </p>
+<figure class="highlight js"><figcaption><span>micro-angular.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Scope.prototype.$digest = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> self = <span class="keyword">this</span>;</span><br><span class="line">  <span class="keyword">this</span>.$$watchers.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">watch</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> newValue = watch.watchFn(self);</span><br><span class="line">    <span class="keyword">var</span> oldValue = watch.last;</span><br><span class="line">    <span class="keyword">if</span> (newValue !== oldValue) &#123;</span><br><span class="line">      watch.listenerFn(newValue, oldValue, self);</span><br><span class="line">      watch.last = newValue;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>We can use the above code like this</p>
+<figure class="highlight html"><figcaption><span>index.html</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript"><span class="keyword">var</span> scope = <span class="keyword">new</span> Scope();</span></span><br><span class="line"><span class="javascript">scope.$watch(<span class="function"><span class="keyword">function</span> <span class="title">watcherFn</span>(<span class="params">scope</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">return</span> scope.foo;</span></span><br><span class="line"><span class="javascript">&#125;, <span class="function"><span class="keyword">function</span> <span class="title">listenerFn</span>(<span class="params">newValue, oldValue, scope</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">if</span> (newValue)</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(<span class="string">'new foo value'</span>, newValue);</span></span><br><span class="line"><span class="undefined">&#125;);</span></span><br><span class="line"><span class="undefined">scope.$digest();</span></span><br><span class="line"><span class="javascript"><span class="comment">// nothing happens</span></span></span><br><span class="line"><span class="undefined">scope.foo = 42;</span></span><br><span class="line"><span class="undefined">scope.$digest();</span></span><br><span class="line"><span class="javascript"><span class="comment">// 'new foo value 42'</span></span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>You can find this code at tag <a href="https://github.com/bahmutov/digest-cycle-in-web-worker/releases/tag/step-1" target="_blank" rel="noopener">step-1</a></p>
+<h2><span id="long-digest-cycle">Long digest cycle</span></h2><p>Let us introduce code to significantly slow down the digest cycle. We can slow down the watcher
+function or the listener function. If we slow down the watcher function, we will slow down
+EVERY digest cycle, even if nothing has changed. This is often the reasoning for using fewer
+and simpler watchers in your application. If we slow down the listener function instead, 
+then it will only affect the application if something has changed.</p>
+<p>I will slow down the listener function by finding first N primes if the user set <code>scope.n</code>.
+The implementation is slow on purpose, and finding even a couple of thousand primes
+takes seconds.</p>
+<figure class="highlight js"><figcaption><span>scope watch example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> scope = <span class="keyword">new</span> Scope();</span><br><span class="line">scope.$watch(<span class="function"><span class="keyword">function</span> <span class="title">watcherFn</span>(<span class="params">scope</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> scope.n;</span><br><span class="line">&#125;, <span class="function"><span class="keyword">function</span> <span class="title">listenerFn</span>(<span class="params">newValue, oldValue, scope</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (newValue) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'finding'</span>, newValue, <span class="string">'primes'</span>);</span><br><span class="line">    <span class="built_in">console</span>.timeline(<span class="string">'finding primes'</span>);</span><br><span class="line">    scope.primes = findPrimes(newValue);</span><br><span class="line">    <span class="built_in">console</span>.timelineEnd(<span class="string">'finding primes'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line">scope.n = <span class="number">5000</span>;</span><br><span class="line">scope.$digest();</span><br></pre></td></tr></table></figure>
+<p>When I load the page, it is initially frozen, while the listener function runs. The output is</p>
+<pre><code>finding 5000 primes index.html:24
+finding primes: 8599.160ms
+</code></pre><p>The digest cycle froze the browser for almost 9 seconds! You can try the code for yourself
+at <a href="https://github.com/bahmutov/digest-cycle-in-web-worker/releases/tag/step-2" target="_blank" rel="noopener">step-2</a></p>
+<h2><span id="rendering-results">Rendering results</span></h2><p>Let us add render the found primes. For now, we can just form HTML markup and stick it into DOM
+after the digest cycle finishes. We can separate rendering by passing a callback into the <code>$digest</code>
+function that will only be called if the model is dirty.</p>
+<figure class="highlight js"><figcaption><span>micro-angular.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Scope.prototype.$digest = <span class="function"><span class="keyword">function</span>(<span class="params">cb</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> self = <span class="keyword">this</span>;</span><br><span class="line">  <span class="keyword">var</span> dirty = <span class="keyword">this</span>.$$watchers.some(<span class="function"><span class="keyword">function</span> (<span class="params">watch</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> newValue = watch.watchFn(self);</span><br><span class="line">    <span class="keyword">var</span> oldValue = watch.last;</span><br><span class="line">    <span class="keyword">if</span> (newValue !== oldValue) &#123;</span><br><span class="line">      watch.listenerFn(newValue, oldValue, self);</span><br><span class="line">      watch.last = newValue;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">  dirty &amp;&amp; cb &amp;&amp; cb(<span class="keyword">this</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>We can now render the generated primes</p>
+<figure class="highlight html"><figcaption><span>index.html</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">scope.n = 1500;</span></span><br><span class="line"><span class="javascript">scope.$digest(<span class="function"><span class="keyword">function</span> <span class="title">afterDigest</span>(<span class="params">scope</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">  <span class="keyword">var</span> n = scope.n;</span></span><br><span class="line"><span class="javascript">  <span class="keyword">var</span> str = <span class="string">'&lt;ul&gt;'</span>;</span></span><br><span class="line"><span class="javascript">  <span class="keyword">for</span> (k = <span class="number">0</span>; k &lt; n; k += <span class="number">1</span>) &#123;</span></span><br><span class="line"><span class="javascript">    str += <span class="string">'&lt;li&gt;'</span> + (k + <span class="number">1</span>) + <span class="string">' prime '</span> + scope.primes[k] + <span class="string">'&lt;/li&gt;'</span>;</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="javascript">  str += <span class="string">'&lt;/ul&gt;'</span>;</span></span><br><span class="line"><span class="javascript">  <span class="built_in">document</span>.getElementById(<span class="string">'primes'</span>).innerHTML = str;</span></span><br><span class="line"><span class="undefined">&#125;);</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2><span id="profiling-digest-cycle-and-dom-update">Profiling digest cycle and DOM update</span></h2><p>To better understand the performance of our code, let us profile the digest cycle and DOM update
+using Chrome DevTools CPU profiler. We will start the profile before the digest cycle
+and will finish the profile after the browser updates the DOM nodes and repaints.
+We will achieve this by setting a timeout call after setting the HTML markup. </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.profile(<span class="string">'finding primes'</span>);</span><br><span class="line">scope.$digest(<span class="function"><span class="keyword">function</span> <span class="title">afterDigest</span>(<span class="params">scope</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// form markup</span></span><br><span class="line">  <span class="built_in">document</span>.getElementById(<span class="string">'primes'</span>).innerHTML = str;</span><br><span class="line">  setTimeout(<span class="function"><span class="keyword">function</span> <span class="title">stopProfile</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.profileEnd(<span class="string">'finding primes'</span>);</span><br><span class="line">  &#125;, <span class="number">0</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>Because the client code and the browser repainting happen in the same code the following steps
+actually happen in the above code</p>
+<ol>
+<li>digest cycle code runs</li>
+<li>function <code>afterDigest</code> kicks off</li>
+<li>we set <code>innerHTML</code> property<ol>
+<li>browser schedules DOM update, layout, rendering, painting to be run after current event queue is empty.</li>
+</ol>
+</li>
+<li>we schedule <code>stopProfile</code> function.<ol>
+<li><code>stopProfile</code> goes to the end of the event queue, behind DOM update, layout, etc.</li>
+</ol>
+</li>
+<li>function <code>afterDigest</code> finishes</li>
+<li>DOM is updated, layout is recomputed, it is rendered and painted</li>
+<li>function <code>stopProfile</code> runs, stopping profiling</li>
+</ol>
+<p>When computing first 5000 primes, we get the following CPU usage</p>
+<p><img src="https://raw.githubusercontent.com/bahmutov/digest-cycle-in-web-worker/master/digest-then-dom.png" alt="digest-then-dom"></p>
+<p>The tiny gray rectangle on the right shows DOM layout + rendering + painting execution step, which
+takes 72 ms. We can see this better by increasing length of markup string appended to the DOM</p>
+<pre><code>document.getElementById(&apos;primes&apos;).innerHTML = str + str + str + str + str;
+</code></pre><p>Even better, let us collect the timeline events instead of profiling just the JavaScript code.</p>
+<p><img src="https://raw.githubusercontent.com/bahmutov/digest-cycle-in-web-worker/master/digest-then-dom-timeline.png" alt="digest then dom timeline"></p>
+<p>You can see in the red rectangle around the browser layout, rendering and painting steps.
+The code is at tag <a href="https://github.com/bahmutov/digest-cycle-in-web-worker/releases/tag/step-3" target="_blank" rel="noopener">step-3</a>.</p>
+<h2><span id="move-all-code-to-web-worker">Move ALL code to web worker</span></h2><p>Let us kick off another browser thread and move our micro angular implementation (and prime computation)
+from the main browser thread to the web worker. The main thread and the web worker can communicate 
+via messages. </p>
+<figure class="highlight js"><figcaption><span>worker.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">importScripts(<span class="string">'micro-angular.js'</span>, <span class="string">'primes.js'</span>);</span><br><span class="line">onmessage = <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'worker received message:'</span>, e.data);</span><br><span class="line">  <span class="keyword">switch</span> (e.data.cmd) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'primes'</span>:</span><br><span class="line">      <span class="keyword">var</span> scope = <span class="keyword">new</span> Scope();</span><br><span class="line">      scope.$watch(<span class="function"><span class="keyword">function</span> <span class="title">watcherFn</span>(<span class="params">scope</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> scope.n;</span><br><span class="line">      &#125;, <span class="function"><span class="keyword">function</span> <span class="title">listenerFn</span>(<span class="params">newValue, oldValue, scope</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (newValue) &#123;</span><br><span class="line">          <span class="built_in">console</span>.log(<span class="string">'finding'</span>, newValue, <span class="string">'primes'</span>);</span><br><span class="line">          scope.primes = findPrimes(newValue);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">      scope.n = e.data.n;</span><br><span class="line">      scope.$digest(<span class="function"><span class="keyword">function</span> <span class="title">afterDigest</span>(<span class="params">scope</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> n = scope.n;</span><br><span class="line">        <span class="keyword">var</span> str = <span class="string">'&lt;ul&gt;'</span>;</span><br><span class="line">        <span class="keyword">for</span> (k = <span class="number">0</span>; k &lt; n; k += <span class="number">1</span>) &#123;</span><br><span class="line">          str += <span class="string">'&lt;li&gt;'</span> + (k + <span class="number">1</span>) + <span class="string">' prime '</span> + scope.primes[k] + <span class="string">'&lt;/li&gt;'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        str += <span class="string">'&lt;/ul&gt;'</span>;</span><br><span class="line">        postMessage(&#123;</span><br><span class="line">          html: str</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;);</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>The main page can use this code to compute primes without freezing like this</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> worker = <span class="keyword">new</span> Worker(<span class="string">'worker.js'</span>);</span><br><span class="line">worker.onmessage = <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> str = e.data.html;</span><br><span class="line">  <span class="built_in">document</span>.getElementById(<span class="string">'primes'</span>).innerHTML = str;</span><br><span class="line">&#125;;</span><br><span class="line">worker.postMessage(&#123;</span><br><span class="line">  cmd: <span class="string">'primes'</span>,</span><br><span class="line">  n: <span class="number">5000</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>You can see the code at <a href="https://github.com/bahmutov/digest-cycle-in-web-worker/releases/tag/step-4" target="_blank" rel="noopener">step-4</a> but you will need simple http server
+to serve the page and the worker javascript. I usually use <a href="https://github.com/nodeapps/http-server" target="_blank" rel="noopener">http-server</a>.</p>
+<h2><span id="moving-scopes-to-the-web-worker">Moving scopes to the web worker</span></h2><p>The browser behavior is much nicer when the computation is offloaded to the web worker.
+The user can interact with the page while the code runs. This also mimics the desktop 
+GUI libraries where the drawing / events thread is separate from the application&#39;s thread.</p>
+<p>Yet, I look at the code and cannot recognize it. It is no longer an AngularJs application,
+my micro angular engine is only running in the worker, and the client code has no idea
+what is going on. I would like to write an Angular application and only run the 
+<em>digest cycle in the worker</em>.</p>
+<p>If we move the digest cycle into the web worker, then we have to store the data model
+there too, otherwise shipping the data back and forth is too expensive. Here
+is the conceptual separation between the main page and the worker:</p>
+<pre><code>    main context (index.html)    |       worker
+---------------------------------|-------------------------------------------
+   loads mock-angular.js         |    loads micro-angular.js and primes.js
+   client uses mockScopes        |          actual scopes
+</code></pre><p>All our operations on the scope&#39;s data then become messages from the main script to the worker.
+For example, creating a scope and setting <code>scope.foo</code> from the client becomes the following sequence</p>
+<p><img src="https://raw.githubusercontent.com/bahmutov/digest-cycle-in-web-worker/master/set-foo-diagram.png" alt="set foo"></p>
+<p>I used <a href="http://bramp.github.io/js-sequence-diagrams/" target="_blank" rel="noopener">js-sequence-diagrams</a> to render the above picture.</p>
+<p>Let us look at the code. First the application code is back to Angular-like (except for using <code>.set</code>)</p>
+<figure class="highlight html"><figcaption><span>index.html</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"mock-scopes.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">  <span class="keyword">var</span> scope = <span class="keyword">new</span> Scope();</span></span><br><span class="line"><span class="javascript">  scope.set(<span class="string">'foo'</span>, <span class="number">42</span>);</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>Our <code>mock-scopes.js</code> provides this Angular-like API to the client code, but it only sends messages
+to the web worker.</p>
+<figure class="highlight js"><figcaption><span>mock-scopes.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> <span class="title">initMockScopes</span>(<span class="params">root</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> digestWorker = <span class="keyword">new</span> Worker(<span class="string">'./micro-angular-worker.js'</span>);</span><br><span class="line">  <span class="keyword">var</span> scopes = <span class="number">0</span>;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">Scope</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.id = <span class="string">'$'</span> + scopes;</span><br><span class="line">    scopes += <span class="number">1</span>;</span><br><span class="line">    digestWorker.postMessage(&#123;</span><br><span class="line">      cmd: <span class="string">'Scope'</span>,</span><br><span class="line">      id: <span class="keyword">this</span>.id</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'created mock scope'</span>, <span class="keyword">this</span>.id);</span><br><span class="line">  &#125;</span><br><span class="line">  Scope.prototype.set = <span class="function"><span class="keyword">function</span> (<span class="params">name, value</span>) </span>&#123;</span><br><span class="line">    digestWorker.postMessage(&#123;</span><br><span class="line">      cmd: <span class="string">'set'</span>,</span><br><span class="line">      id: <span class="keyword">this</span>.id,</span><br><span class="line">      name: name,</span><br><span class="line">      value: value</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'set mock scope'</span>, <span class="keyword">this</span>.id, <span class="string">'property'</span>, name, <span class="string">'='</span>, value);</span><br><span class="line">  &#125;;</span><br><span class="line">  root.Scope = Scope;</span><br><span class="line">&#125;(<span class="keyword">this</span>));</span><br></pre></td></tr></table></figure>
+<p>Finally, our <code>micro-angular-worker.js</code> receives messages in the web worker and actually
+updates the scopes.</p>
+<figure class="highlight js"><figcaption><span>micro-angular-worker.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">importScripts(<span class="string">'micro-angular.js'</span>, <span class="string">'primes.js'</span>);</span><br><span class="line"><span class="keyword">var</span> scopes = &#123;&#125;;</span><br><span class="line">onmessage = <span class="function"><span class="keyword">function</span> <span class="title">digestOnMessage</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'micro-angular-worker received:'</span>, e.data);</span><br><span class="line">  <span class="keyword">switch</span> (e.data.cmd) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'Scope'</span>:</span><br><span class="line">      scopes[e.data.id] = <span class="keyword">new</span> Scope(e.data.id);</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'set'</span>:</span><br><span class="line">      scopes[e.data.id][e.data.name] = e.data.value;</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>When we run this code, it produces the following output</p>
+<pre><code>created mock scope $0 mock-scopes.js:13
+set mock scope $0 property foo = 42 mock-scopes.js:23
+micro-angular-worker received: Object {cmd: &quot;Scope&quot;, id: &quot;$0&quot;} micro-angular-worker.js:6
+micro-angular-worker received: Object {cmd: &quot;set&quot;, id: &quot;$0&quot;, name: &quot;foo&quot;, value: 42} 
+// web worker has correct Scope instance { foo: 42 }
+</code></pre><p>You can find this code at <a href="https://github.com/bahmutov/digest-cycle-in-web-worker/releases/tag/step-5" target="_blank" rel="noopener">step-5</a> tag.</p>
+<h2><span id="moving-watchers-to-the-web-worker">Moving watchers to the web worker</span></h2><p>Our digest cycle depends on the user-defined watcher and listener functions. How do we add
+these functions from the client&#39;s context to the scopes that reside in the web worker?
+By serializing and shipping the function&#39;s code of course!</p>
+<figure class="highlight js"><figcaption><span>index.html</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> scope = <span class="keyword">new</span> Scope();</span><br><span class="line">scope.set(<span class="string">'foo'</span>, <span class="number">42</span>);</span><br><span class="line">scope.$watch(<span class="function"><span class="keyword">function</span> (<span class="params">scope</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> scope.foo;</span><br><span class="line">&#125;, <span class="function"><span class="keyword">function</span> (<span class="params">newVal, oldVal, scope</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'new scope.foo'</span>, newVal);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>Here is <code>mock-scopes.js</code> implementation of <code>scope.$watch</code> method</p>
+<figure class="highlight js"><figcaption><span>mock-scopes.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Scope.prototype.$watch = <span class="function"><span class="keyword">function</span> (<span class="params">watchFn, listenerFn</span>) </span>&#123;</span><br><span class="line">  digestWorker.postMessage(&#123;</span><br><span class="line">    cmd: <span class="string">'$watch'</span>,</span><br><span class="line">    id: <span class="keyword">this</span>.id,</span><br><span class="line">    watchFn: watchFn.toString(),</span><br><span class="line">    listenerFn: listenerFn &amp;&amp; listenerFn.toString()</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>The key point is that we serialize the function&#39;s code using <code>.toString</code> method and ship
+it across the web worker context boundary, where we recreate it using <code>eval</code>.</p>
+<figure class="highlight js"><figcaption><span>micro-angular-worker.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> <span class="string">'$watch'</span>:</span><br><span class="line">  <span class="comment">// e.data.watchFn = watchFn.toString()</span></span><br><span class="line">  <span class="comment">// e.data.listenerFn = listenerFn.toString()</span></span><br><span class="line">  scopes[e.data.id].$watch(</span><br><span class="line">    <span class="built_in">eval</span>(<span class="string">'('</span> + e.data.watchFn + <span class="string">')'</span>),</span><br><span class="line">    e.data.listenerFn &amp;&amp; <span class="built_in">eval</span>(<span class="string">'('</span> + e.data.listenerFn + <span class="string">')'</span>)</span><br><span class="line">  );</span><br><span class="line"><span class="keyword">break</span>;</span><br></pre></td></tr></table></figure>
+<p>We restored and registered both watcher and listener functions, but since they no longer used from
+where they are declared, we cannot access variables that are normally accessible through the
+<a href="http://mark-story.com/posts/view/picking-up-javascript-closures-and-lexical-scoping" target="_blank" rel="noopener">lexical scope</a>. For example:</p>
+<figure class="highlight js"><figcaption><span>index.html</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> scope = <span class="keyword">new</span> Scope();</span><br><span class="line"><span class="keyword">var</span> bar = <span class="string">'need this value'</span>;</span><br><span class="line">scope.$watch(<span class="function"><span class="keyword">function</span> <span class="title">watchFn</span>(<span class="params">scope</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> bar; </span><br><span class="line">  <span class="comment">// ReferenceError: watchFn will execute in web worker, not here!</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>Instead, you should only use variables attached to the scope inside the watch and listener functions.</p>
+<figure class="highlight js"><figcaption><span>index.html</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> scope = <span class="keyword">new</span> Scope();</span><br><span class="line">scope.set(<span class="string">'bar'</span>, <span class="string">'need this value'</span>);</span><br><span class="line">scope.$watch(<span class="function"><span class="keyword">function</span> <span class="title">watchFn</span>(<span class="params">scope</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> scope.bar; </span><br><span class="line">  <span class="comment">// works fine because scope = &#123; bar: 'need this value' &#125; is passed to the function</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>You can try this code at tag <a href="https://github.com/bahmutov/digest-cycle-in-web-worker/releases/tag/step-6" target="_blank" rel="noopener">step-6</a></p>
+<h2><span id="move-digest-cycle-to-the-web-worker">Move digest cycle to the web worker</span></h2><p>Finally, let us move the digest cycle to the worker code. We also need to send
+the updated HTML markup string from the web worker back to the client code after
+the dirty digest cycle.</p>
+<figure class="highlight js"><figcaption><span>index.html</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">render</span>(<span class="params">str</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">document</span>.getElementById(<span class="string">'foo'</span>).innerHTML = str;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// set foo and watcher</span></span><br><span class="line">scope.$digest(<span class="function"><span class="keyword">function</span> <span class="title">compile</span>(<span class="params">scope</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">'&lt;b&gt;scope.foo = '</span> + scope.foo + <span class="string">'&lt;/b&gt;'</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>Here is the client-side <code>$digest</code> mock. Again we are shipping a function to be
+called from main context to the web worker using <code>toString</code> method.</p>
+<figure class="highlight js"><figcaption><span>mock-scopes.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// we will render html received from the worker, if there is a hook</span></span><br><span class="line"><span class="keyword">var</span> digestWorker = <span class="keyword">new</span> Worker(<span class="string">'./micro-angular-worker.js'</span>);</span><br><span class="line">digestWorker.onmessage = <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">  root.render &amp;&amp; root.render(e.data.html);</span><br><span class="line">&#125;;</span><br><span class="line">Scope.prototype.$digest = <span class="function"><span class="keyword">function</span> (<span class="params">$compile</span>) </span>&#123;</span><br><span class="line">  digestWorker.postMessage(&#123;</span><br><span class="line">    cmd: <span class="string">'$digest'</span>,</span><br><span class="line">    id: <span class="keyword">this</span>.id,</span><br><span class="line">    $compile: $compile &amp;&amp; $compile.toString()</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>Here is the worker <code>$digest</code> implementation.</p>
+<figure class="highlight js"><figcaption><span>micro-angular-worker.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> <span class="string">'$digest'</span>:</span><br><span class="line">  scopes[e.data.id].$digest(<span class="function"><span class="keyword">function</span> <span class="title">digestFinished</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> $compile, scope, html;</span><br><span class="line">    <span class="keyword">if</span> (e.data.$compile) &#123;</span><br><span class="line">      $compile = <span class="built_in">eval</span>(<span class="string">'('</span> + e.data.$compile + <span class="string">')'</span>);</span><br><span class="line">      scope = scopes[e.data.id];</span><br><span class="line">      html = $compile(scope);</span><br><span class="line">    &#125;</span><br><span class="line">    postMessage(&#123;</span><br><span class="line">      cmd: <span class="string">'digestFinished'</span>,</span><br><span class="line">      html: html</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line"><span class="keyword">break</span>;</span><br></pre></td></tr></table></figure>
+<p>We are running micro-angular <code>$digest</code> cycle, and if there were any changes to the model
+(based on watchers), listeners will run, and then <code>digestFinished</code> evaluates the <code>$compile</code>
+function and posts a message that goes back to the client context, including the produced HTML string.</p>
+<p><img src="https://raw.githubusercontent.com/bahmutov/digest-cycle-in-web-worker/master/full-cycle-diagram.png" alt="full sequnce"></p>
+<p>The page shows <strong>scope.foo = 42</strong> in bold font after the code completes.
+You can find this code at <a href="https://github.com/bahmutov/digest-cycle-in-web-worker/releases/tag/step-7" target="_blank" rel="noopener">step-7</a></p>
+<h2><span id="finding-primes-example">Finding primes example</span></h2><p>Let us go back to our initial example: finding first 5000 primes. Now we can code the
+application using the same Angular-like approach (except for <code>scope.set(&#39;n&#39;, 5000);</code> nonsense).</p>
+<figure class="highlight js"><figcaption><span>index.html</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">render</span>(<span class="params">str</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">document</span>.getElementById(<span class="string">'primes'</span>).innerHTML = str;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> scope = <span class="keyword">new</span> Scope();</span><br><span class="line">scope.set(<span class="string">'n'</span>, <span class="number">5000</span>);</span><br><span class="line">scope.$watch(<span class="function"><span class="keyword">function</span> (<span class="params">scope</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> scope.n;</span><br><span class="line">&#125;, <span class="function"><span class="keyword">function</span> (<span class="params">newVal, oldVal, scope</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'finding first'</span>, newVal, <span class="string">'primes'</span>);</span><br><span class="line">  scope.primes = findPrimes(scope.n);</span><br><span class="line">&#125;);</span><br><span class="line">scope.$digest(<span class="function"><span class="keyword">function</span> <span class="title">compile</span>(<span class="params">scope</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> n = scope.n;</span><br><span class="line">  <span class="keyword">var</span> str = <span class="string">'&lt;ul&gt;'</span>;</span><br><span class="line">  <span class="keyword">for</span> (k = <span class="number">0</span>; k &lt; n; k += <span class="number">1</span>) &#123;</span><br><span class="line">    str += <span class="string">'&lt;li&gt;'</span> + (k + <span class="number">1</span>) + <span class="string">' prime '</span> + scope.primes[k] + <span class="string">'&lt;/li&gt;'</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  str += <span class="string">'&lt;/ul&gt;'</span>;</span><br><span class="line">  <span class="keyword">return</span> str;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>We can now capture the page&#39;s timeline, and try scrolling while the primes are being generated
+inside the digest cycle. Everything works. You can try the code at <a href="https://github.com/bahmutov/digest-cycle-in-web-worker/releases/tag/step-8" target="_blank" rel="noopener">step-8</a>.</p>
+<h2><span id="bonus-use-objectobserve-to-restore-plain-angular-syntax">Bonus - use Object.observe to restore plain Angular syntax</span></h2><p>The fact that the client code has to use <code>scope.set(&#39;n&#39;, 5000);</code> and not plain JavaScript
+<code>scope.n = 5000;</code> upsets me. So let us make it work by using <a href="http://www.html5rocks.com/en/tutorials/es7/observe/" target="_blank" rel="noopener">Object.observe</a> </p>
+<ul>
+<li>a feature already available in the Chrome browser.</li>
+</ul>
+<figure class="highlight js"><figcaption><span>index.html</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> scope = <span class="keyword">new</span> Scope();</span><br><span class="line">scope.n = <span class="number">5</span>;</span><br></pre></td></tr></table></figure>
+<p>Our mock scopes code will just observe each created mock scope instance, and will send messages
+on any changes to the web worker.</p>
+<figure class="highlight js"><figcaption><span>mock-scopes.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Scope</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.id = <span class="string">'$'</span> + scopes;</span><br><span class="line">  scopes += <span class="number">1</span>;</span><br><span class="line">  digestWorker.postMessage(&#123;</span><br><span class="line">    cmd: <span class="string">'Scope'</span>,</span><br><span class="line">    id: <span class="keyword">this</span>.id</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">var</span> self = <span class="keyword">this</span>;</span><br><span class="line">  <span class="built_in">Object</span>.observe(<span class="keyword">this</span>, <span class="function"><span class="keyword">function</span> <span class="title">changed</span>(<span class="params">changes</span>) </span>&#123;</span><br><span class="line">    changes.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">change</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">switch</span> (change.type) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'add'</span>:</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'update'</span>:</span><br><span class="line">          self.set(change.name, change.object[change.name]);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>There is slight problem: the messages to the web worker arrive in the wrong order</p>
+<pre><code>var scope = new Scope();
+scope.n = 5000;
+scope.$digest();
+// web worker messages
+micro-angular-worker received: Object {cmd: &quot;Scope&quot;, id: &quot;$0&quot;}
+micro-angular-worker received: Object {cmd: &quot;$digest&quot;, ...}
+micro-angular-worker received: Object {cmd: &quot;set&quot;, id: &quot;$0&quot;, name: &quot;n&quot;, value: 5}
+</code></pre><p>Hmm, why do we start the digest cycle before setting <code>n</code> property? 
+Our <code>Object.observe</code> callback runs asynchronously by scheduling the <code>changed</code> callback
+onto the event loop.
+To fix the message order we need to change <code>$digest</code> to schedule the postMessage via event loop too.</p>
+<figure class="highlight js"><figcaption><span>mock-scopes.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Scope.prototype.$digest = <span class="function"><span class="keyword">function</span> (<span class="params">$compile</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> self = <span class="keyword">this</span>;</span><br><span class="line">  setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    digestWorker.postMessage(&#123;</span><br><span class="line">      cmd: <span class="string">'$digest'</span>,</span><br><span class="line">      id: self.id,</span><br><span class="line">      $compile: $compile &amp;&amp; $compile.toString()</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;, <span class="number">0</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>Problem solved!</p>
+<p>You can try the code at <a href="https://github.com/bahmutov/digest-cycle-in-web-worker/releases/tag/step-9" target="_blank" rel="noopener">step-9</a> in the Chrome browser.</p>
+<h2><span id="bonus-optimize-dom-update">Bonus - optimize DOM update</span></h2><p>When generating new HTML markup, we are just replacing the current <code>innerHTML</code> contents with
+new string. This is very inefficient, if the generated markup only differs a little from the
+current DOM. A better approach would be to generate a <a href="https://github.com/Matt-Esch/virtual-dom" target="_blank" rel="noopener">virtual dom tree</a> in the web worker
+and ship only the difference back to the main context via <code>postMessage</code>. 
+Then the DOM can be efficiently updated a patch function.</p>
+<figure class="highlight js"><figcaption><span>web worker</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> diff = <span class="built_in">require</span>(<span class="string">'virtual-dom/diff'</span>);</span><br><span class="line"><span class="keyword">var</span> prevTree = initial virtual tree;</span><br><span class="line">$digest(<span class="function"><span class="keyword">function</span> <span class="title">afterDigest</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> newTree = $compile(scope);</span><br><span class="line">    <span class="keyword">var</span> patches = diff(prevTree, newTree);</span><br><span class="line">    postMessage(patches); <span class="comment">// we can even release patches!</span></span><br><span class="line">    prevTree = newTree;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// index.html</span></span><br><span class="line"><span class="keyword">var</span> patch = <span class="built_in">require</span>(<span class="string">'virtual-dom/patch'</span>);</span><br><span class="line"><span class="keyword">var</span> rootNode = <span class="built_in">document</span>.getElementById(<span class="string">'primes'</span>);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">render</span>(<span class="params">patches</span>) </span>&#123;</span><br><span class="line">    rootNode = patch(rootNode, patches);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>I tried using just a diff and patch library <a href="https://github.com/kof/diff-renderer" target="_blank" rel="noopener">diff-renderer</a>, but it is crushing for any
+non-trivial markup (like a list with a few items).</p>
+<p><strong>Update 1</strong> For <a href="http://www.ng-conf.org/" target="_blank" rel="noopener">ng-conf</a> I created simpler repo with just a few demo steps, see
+<a href="https://github.com/bahmutov/web-worker-digest-demo" target="_blank" rel="noopener">repo2</a>. The slides presented at the conference are at <a href="https://slides.com/bahmutov/run-digest-cycle-in-web-worker" target="_blank" rel="noopener">bahmutov/run-digest-cycle-in-web-worker</a>.</p>
+
+      
+    </div>
+
+    
+      <footer class="article-footer personal-links">
+  Follow Gleb Bahmutov <a href="https://twitter.com/bahmutov">@bahmutov</a>,
+  see his projects at <a href="http://glebbahmutov.com">glebbahmutov.com</a>
+</footer>
+<script src="https://rawgit.com/toddmotto/linkjuice/702066a37124081e7ad1a972844a9a91115be05a/dist/linkjuice.js"></script>
+<script>
+function contentFn (node, icon) {
+  const s = '<a href="#' + node.id + '" class="linkjuice">' +
+    node.innerHTML + ' ' + icon + '</a>\n'
+  return s
+}
+linkjuice.init('.article-entry', {
+  selectors: ['h2 span'],
+  icon: '<span class="link-symbol">#</span>',
+  contentFn: contentFn
+});
+</script>
+
+    
+
+    <footer class="article-footer">
+      <a data-url="https://glebbahmutov.com/blog/run-angular-digest-cycle-in-web-worker/" data-id="ck0ch2t3600twpzood5x2cjiy" class="article-share-link">Share</a>
+      
+        <a href="https://glebbahmutov.com/blog/run-angular-digest-cycle-in-web-worker/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../tags/angularjs/">angularjs</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../tags/javascript/">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../tags/performance/">performance</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../tags/web-workers/">web workers</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="../do-not-break-dependant-modules/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Do not break dependant modules.
+        
+      </div>
+    </a>
+  
+  
+    <a href="../improving-angular-web-app-performance-example/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Improving Angular web app performance example.</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    <style>
+#carbonads {
+  display: block;
+  overflow: hidden;
+  font-size: 11px;
+  font-family: Verdana, "Helvetica Neue", Helvetica, sans-serif;
+  line-height: 1.5;
+}
+
+#carbonads a {
+  color: #258fb8;
+  text-decoration: none;
+}
+
+#carbonads a:hover {
+  text-decoration: underline;
+}
+
+#carbonads span {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+
+.carbon-img {
+  float: left;
+  margin-right: 1em;
+}
+
+.carbon-img img { display: block; }
+
+.carbon-text {
+  display: block;
+  float: left;
+  text-align: left;
+  margin-top: 0.5em;
+}
+@media screen and (min-width: 1024px) {
+  .carbon-text {
+    max-width: calc(100% - 130px - 1em);
+  }
+}
+
+.carbon-poweredby {
+  /*position: absolute;
+  right: 0;
+  bottom: 0;*/
+  float: right;
+  display: block;
+  font-size: 11px;
+}
+</style>
+<div class="widget-wrap">
+  <div class="widget-title">&nbsp;</div>
+  <div class="widget">
+    <!-- Carbon Ads -->
+    <script async type="text/javascript"
+      src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=glebbahmutovcom"
+      id="_carbonads_js"></script>
+  </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="../categories/book-review/">book review</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="../categories/people/">people</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="../categories/process/">process</a><span class="category-list-count">113</span></li><li class="category-list-item"><a class="category-list-link" href="../categories/products/">products</a><span class="category-list-count">319</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../tags/QUnit/">QUnit</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/a11y/">a11y</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/advice/">advice</a><span class="tag-list-count">100</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/angularjs/">angularjs</a><span class="tag-list-count">58</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/angularjs2/">angularjs2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/assertions/">assertions</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ast/">ast</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/boilerplate/">boilerplate</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/browser/">browser</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ci/">ci</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/concurrency/">concurrency</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/cyclejs/">cyclejs</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/cypress/">cypress</a><span class="tag-list-count">46</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/d3/">d3</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/db/">db</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/docker/">docker</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/es6/">es6</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/es7/">es7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/functional/">functional</a><span class="tag-list-count">68</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/generators/">generators</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/git/">git</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/github/">github</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/graphql/">graphql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/grunt/">grunt</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/gulp/">gulp</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/hyperapp/">hyperapp</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/immutable/">immutable</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/interview/">interview</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/jade/">jade</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/javascript/">javascript</a><span class="tag-list-count">161</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/jshint/">jshint</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/modular-development/">modular development</a><span class="tag-list-count">27</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/nodejs/">nodejs</a><span class="tag-list-count">79</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/performance/">performance</a><span class="tag-list-count">17</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/presentation/">presentation</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/promises/">promises</a><span class="tag-list-count">31</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/proposal/">proposal</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ramda/">ramda</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/react/">react</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/reactive/">reactive</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/reactjs/">reactjs</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/screencast/">screencast</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/security/">security</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/sentry/">sentry</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/service-workers/">service workers</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/state-machine/">state machine</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/testing/">testing</a><span class="tag-list-count">97</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/tutorial/">tutorial</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/typescript/">typescript</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ui/">ui</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/vuejs/">vuejs</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/web-workers/">web workers</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/zeit/">zeit</a><span class="tag-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="../tags/QUnit/" style="font-size: 11.67px;">QUnit</a> <a href="../tags/a11y/" style="font-size: 10px;">a11y</a> <a href="../tags/advice/" style="font-size: 19.58px;">advice</a> <a href="../tags/angularjs/" style="font-size: 17.92px;">angularjs</a> <a href="../tags/angularjs2/" style="font-size: 10px;">angularjs2</a> <a href="../tags/assertions/" style="font-size: 13.33px;">assertions</a> <a href="../tags/ast/" style="font-size: 12.92px;">ast</a> <a href="../tags/boilerplate/" style="font-size: 15.42px;">boilerplate</a> <a href="../tags/browser/" style="font-size: 16.25px;">browser</a> <a href="../tags/ci/" style="font-size: 13.33px;">ci</a> <a href="../tags/concurrency/" style="font-size: 10px;">concurrency</a> <a href="../tags/cyclejs/" style="font-size: 12.5px;">cyclejs</a> <a href="../tags/cypress/" style="font-size: 17.5px;">cypress</a> <a href="../tags/d3/" style="font-size: 10.83px;">d3</a> <a href="../tags/db/" style="font-size: 14.17px;">db</a> <a href="../tags/docker/" style="font-size: 14.17px;">docker</a> <a href="../tags/es6/" style="font-size: 15px;">es6</a> <a href="../tags/es7/" style="font-size: 10px;">es7</a> <a href="../tags/functional/" style="font-size: 18.33px;">functional</a> <a href="../tags/generators/" style="font-size: 11.67px;">generators</a> <a href="../tags/git/" style="font-size: 15px;">git</a> <a href="../tags/github/" style="font-size: 11.25px;">github</a> <a href="../tags/graphql/" style="font-size: 10.83px;">graphql</a> <a href="../tags/grunt/" style="font-size: 12.5px;">grunt</a> <a href="../tags/gulp/" style="font-size: 10.83px;">gulp</a> <a href="../tags/hyperapp/" style="font-size: 12.5px;">hyperapp</a> <a href="../tags/immutable/" style="font-size: 11.67px;">immutable</a> <a href="../tags/interview/" style="font-size: 10.83px;">interview</a> <a href="../tags/jade/" style="font-size: 11.25px;">jade</a> <a href="../tags/javascript/" style="font-size: 20px;">javascript</a> <a href="../tags/jshint/" style="font-size: 10.83px;">jshint</a> <a href="../tags/modular-development/" style="font-size: 16.67px;">modular development</a> <a href="../tags/nodejs/" style="font-size: 18.75px;">nodejs</a> <a href="../tags/performance/" style="font-size: 15.83px;">performance</a> <a href="../tags/presentation/" style="font-size: 11.25px;">presentation</a> <a href="../tags/promises/" style="font-size: 17.08px;">promises</a> <a href="../tags/proposal/" style="font-size: 10.42px;">proposal</a> <a href="../tags/ramda/" style="font-size: 10px;">ramda</a> <a href="../tags/react/" style="font-size: 10px;">react</a> <a href="../tags/reactive/" style="font-size: 14.58px;">reactive</a> <a href="../tags/reactjs/" style="font-size: 10.83px;">reactjs</a> <a href="../tags/screencast/" style="font-size: 10px;">screencast</a> <a href="../tags/security/" style="font-size: 12.5px;">security</a> <a href="../tags/sentry/" style="font-size: 13.75px;">sentry</a> <a href="../tags/service-workers/" style="font-size: 12.08px;">service workers</a> <a href="../tags/state-machine/" style="font-size: 10px;">state machine</a> <a href="../tags/testing/" style="font-size: 19.17px;">testing</a> <a href="../tags/tutorial/" style="font-size: 14.17px;">tutorial</a> <a href="../tags/typescript/" style="font-size: 11.67px;">typescript</a> <a href="../tags/ui/" style="font-size: 10.42px;">ui</a> <a href="../tags/vuejs/" style="font-size: 11.25px;">vuejs</a> <a href="../tags/web-workers/" style="font-size: 12.08px;">web workers</a> <a href="../tags/zeit/" style="font-size: 12.08px;">zeit</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/09/">September 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/08/">August 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/07/">July 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/06/">June 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/05/">May 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/04/">April 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/03/">March 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/01/">January 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/12/">December 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/11/">November 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/10/">October 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/09/">September 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/08/">August 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/06/">June 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/04/">April 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/03/">March 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/12/">December 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/08/">August 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/07/">July 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/06/">June 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/04/">April 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/03/">March 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/02/">February 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/01/">January 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/11/">November 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/09/">September 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/08/">August 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/07/">July 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/06/">June 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/04/">April 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/03/">March 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/02/">February 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/12/">December 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/11/">November 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/10/">October 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/09/">September 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/08/">August 2015</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/07/">July 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/06/">June 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/05/">May 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/04/">April 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/03/">March 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/02/">February 2015</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/01/">January 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/12/">December 2014</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/11/">November 2014</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/10/">October 2014</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/09/">September 2014</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/08/">August 2014</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/07/">July 2014</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/06/">June 2014</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/05/">May 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/04/">April 2014</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/03/">March 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/02/">February 2014</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/01/">January 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/12/">December 2013</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/11/">November 2013</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/10/">October 2013</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/09/">September 2013</a><span class="archive-list-count">10</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="../configure-prettier-in-vscode/">How to configure Prettier and VSCode</a>
+          </li>
+        
+          <li>
+            <a href="../cypress-using-child-window/">Cypress using child window</a>
+          </li>
+        
+          <li>
+            <a href="../patching-cypress-cli-npm-module/">Patching Cypress CLI NPM module</a>
+          </li>
+        
+          <li>
+            <a href="../fix-low-contrast-with-cypress/">Fix low contrast with Cypress</a>
+          </li>
+        
+          <li>
+            <a href="../filter-mocha-tests/">Filtering Mocha tests</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Gleb Bahmutov<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'betterworldbybettersoftware';
+  
+  var disqus_url = 'https://glebbahmutov.com/blog/run-angular-digest-cycle-in-web-worker/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="../fancybox/jquery.fancybox.css">
+  <script src="../fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="../js/script.js"></script>
+
+  </div>
+  <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
+<script>
+(function centerMainOnAsideScroll () {
+  // when aside side bar scrolls outside the view
+  // it centers the main content.
+  const main = document.querySelector('#main')
+  const aside = document.querySelector('aside#sidebar')
+  console.assert(main, 'could not get #main')
+  console.assert(aside, 'could not get aside')
+  // initially the aside sidebar is visible
+  let asideVisible = true
+
+  function centerMain () {
+    console.log('adding class center-main')
+    main.classList.add('center-main')
+  }
+  function leftMain () {
+    main.classList.remove('center-main')
+  }
+
+  function callWhenAsideScrollsUp (becameInvisible, becameVisible) {
+    return function () {
+      const border = 50
+      const rect = aside.getBoundingClientRect()
+      if (asideVisible && rect.bottom < -border) {
+        asideVisible = false
+        becameInvisible()
+      }
+
+      if (!asideVisible && window.scrollY < border) {
+        asideVisible = true
+        becameVisible()
+      }
+    }
+  }
+  const throttleWaitMs = 250
+  const onScroll = _.throttle(
+    callWhenAsideScrollsUp(centerMain, leftMain),
+    throttleWaitMs
+  )
+  window.addEventListener('scroll', onScroll)
+}())
+</script>
+
+</body>
+</html>

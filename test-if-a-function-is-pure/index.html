@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Test if a function is pure | Better world by better software</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Pure function: the output of a function is completely determined by its inputs. Running pure function has no side effects.  Example of pure function 1function add(a, b) &amp;#123; return a + b; &amp;#125; Ex">
+<meta name="keywords" content="functional,javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Test if a function is pure">
+<meta property="og:url" content="https://glebbahmutov.com/blog/test-if-a-function-is-pure/index.html">
+<meta property="og:site_name" content="Better world by better software">
+<meta property="og:description" content="Pure function: the output of a function is completely determined by its inputs. Running pure function has no side effects.  Example of pure function 1function add(a, b) &amp;#123; return a + b; &amp;#125; Ex">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-02-14T02:33:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Test if a function is pure">
+<meta name="twitter:description" content="Pure function: the output of a function is completely determined by its inputs. Running pure function has no side effects.  Example of pure function 1function add(a, b) &amp;#123; return a + b; &amp;#125; Ex">
+<meta name="twitter:creator" content="@bahmutov">
+  
+    <link rel="alternative" href="/blog/atom.xml" title="Better world by better software" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="preload" href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" as="style">
+  <link rel="stylesheet" href="../css/style.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-59999353-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <!-- <div id="banner"></div> -->
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../index.html" id="logo">Better world by better software</a>
+      </h1>
+      <!--
+      
+        <h2 id="subtitle-wrap">
+          <a href="../index.html" id="subtitle">Gleb Bahmutov PhD</a>
+        </h2>
+      
+      -->
+      <!-- <span class="no-mobile">Software advice from</span> -->
+      <h2 id="subtitle-wrap">
+        <span class="subtitle">
+          <a id="subtitle" href="http://glebbahmutov.com">Gleb Bahmutov PhD</a>
+        </span>
+      </h2>
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <a id="nav-house-link" class="nav-icon" href="/" title="Home"></a>
+        
+          <a id="nav-rss-link" class="nav-icon" href="/blog/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://glebbahmutov.com/blog"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-test-if-a-function-is-pure" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="" class="article-date">
+  <time datetime="2014-11-12T17:30:00.000Z" itemprop="datePublished">Nov 12 2014</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="../categories/products/">products</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Test if a function is pure
+    </h1>
+
+    <h2 class="article-title" itemprop="name">
+      Test function for purity using lexical scope and runtime context.
+    </h2>
+
+  
+
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>Pure function: the output of a function is completely determined by its inputs.
+Running pure function has no side effects.</p>
+</blockquote>
+<p>Example of pure function</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a, b</span>) </span>&#123; <span class="keyword">return</span> a + b; &#125;</span><br></pre></td></tr></table></figure>
+<p>Example of non-pure function</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> two = <span class="number">2</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add2</span>(<span class="params">a</span>) </span>&#123; <span class="keyword">return</span> a + two; &#125;</span><br></pre></td></tr></table></figure>
+<p>Can we determine if a function is pure by inspecting the source code? No, this is equivalent to the halting problem.
+Instead we can test if a function behaves like a pure one when running the function against 
+the given set of unit tests. </p>
+<h2><span id="test-engine">Test engine</span></h2><p>To unit test functions, we will the following simple test engine. First we will collect each test function using
+<code>test(name, cb)</code> method, then we will run all collected unit tests. We will use <code>console.assert</code> statements
+to verify functionality inside each unit test.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// individual unit tests</span></span><br><span class="line"><span class="keyword">var</span> tests = [];</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params">name, cb</span>) </span>&#123;</span><br><span class="line">  tests.push(&#123;</span><br><span class="line">    name: name,</span><br><span class="line">    cb: cb</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// running unit tests</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">runTests</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> failed = <span class="number">0</span>;</span><br><span class="line">  tests.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">test</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      test.cb();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'test'</span>, test.name, <span class="string">'failed!'</span>);</span><br><span class="line">      <span class="built_in">console</span>.log(err.message);</span><br><span class="line">      failed += <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">return</span> failed;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isWorking</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> failed = !!runTests();</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'is working?'</span>, !failed);</span><br><span class="line">  <span class="keyword">return</span> !failed;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>We can test functions <code>add</code> and <code>add2</code> like this:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">test(<span class="string">'add'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.assert(add(<span class="number">2</span>, <span class="number">3</span>) === <span class="number">5</span>);</span><br><span class="line">&#125;);</span><br><span class="line">test(<span class="string">'add2'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.assert(add2(<span class="number">3</span>) === <span class="number">5</span>);</span><br><span class="line">&#125;);</span><br><span class="line">isWorking();</span><br><span class="line"><span class="comment">// prints</span></span><br><span class="line">is working? <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>If we change the value of variable <code>two</code> and run unit tests again, we see them failing</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">two = <span class="number">10</span>;</span><br><span class="line">isWorking();</span><br><span class="line">test add2 failed!</span><br><span class="line"><span class="literal">false</span> == <span class="literal">true</span></span><br><span class="line">is working? <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<p>Can we determine which function is pure and which is not without changing variable <code>two</code> manually?</p>
+<p>To do this we will modify a function using several transforms. To be able to test the modified function
+we need to first change the way we reference the function inside the unit tests. Then we can apply
+lexical scope and execution context tests.</p>
+<h2><span id="changing-function-under-test">Changing function under test</span></h2><p>Let us refactor the code a little before proceeding. JavaScript uses lexical scope to find variables.
+For example inside our unit tests for add function, <code>add</code> variable is located by looking up and outside the
+unit test&#39;s scope (<code>testAdd</code> function)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a, b</span>) </span>&#123; <span class="keyword">return</span> a + b; &#125;</span><br><span class="line">test(<span class="string">'add'</span>, <span class="function"><span class="keyword">function</span> <span class="title">testAdd</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// what is add?</span></span><br><span class="line">  <span class="comment">// lexical scope search from this place up </span></span><br><span class="line">  <span class="comment">// to above source lines to find it</span></span><br><span class="line">  <span class="built_in">console</span>.assert(add(<span class="number">2</span>, <span class="number">3</span>) === <span class="number">5</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>Instead of using functions inside unit tests via lexical scope, let us pass all functions to be tested
+via <code>context</code> object</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">runTests</span>(<span class="params">context</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> failed = <span class="number">0</span>;</span><br><span class="line">  tests.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">test</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      test.cb(context);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'test'</span>, test.name, <span class="string">'failed!'</span>);</span><br><span class="line">      <span class="built_in">console</span>.log(err.message);</span><br><span class="line">      failed += <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">return</span> failed;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isWorking</span>(<span class="params">context</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> failed = !!runTests(context);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'is working?'</span>, !failed);</span><br><span class="line">  <span class="keyword">return</span> !failed;</span><br><span class="line">&#125;</span><br><span class="line">test(<span class="string">'add'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">context</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.assert(context.add(<span class="number">2</span>, <span class="number">3</span>) === <span class="number">5</span>);</span><br><span class="line">&#125;);</span><br><span class="line">test(<span class="string">'add2'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">context</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.assert(context.add2(<span class="number">3</span>) === <span class="number">5</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>Our tests then initialize the <code>context</code> object before testing</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> context = &#123;</span><br><span class="line">  add: add,</span><br><span class="line">  add2: add2</span><br><span class="line">&#125;;</span><br><span class="line">isWorking(context);</span><br><span class="line"><span class="comment">// prints</span></span><br><span class="line">is working? <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>We can now replace / change the function and test if it still works using the following function</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isPure</span>(<span class="params">context, functionName</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'checking if function'</span>, functionName, <span class="string">'is pure'</span>);</span><br><span class="line">  <span class="built_in">console</span>.assert(<span class="keyword">typeof</span> context[functionName] === <span class="string">'function'</span>, <span class="string">'cannot find function'</span>, functionName);</span><br><span class="line">  <span class="keyword">var</span> before = isWorking(context);</span><br><span class="line">  <span class="built_in">console</span>.assert(before, <span class="string">'tests are not working before testing'</span>, functionName);</span><br><span class="line">  <span class="keyword">var</span> backup = context[functionName];</span><br><span class="line">  <span class="comment">// TODO modify context[functionName] somehow</span></span><br><span class="line">  <span class="keyword">var</span> after = isWorking(context);</span><br><span class="line">  <span class="built_in">console</span>.assert(after, <span class="string">'tests are not working after testing'</span>, functionName);</span><br><span class="line">  context[functionName] = backup; <span class="comment">// restore original function</span></span><br><span class="line">&#125;</span><br><span class="line">isPure(context, <span class="string">'add'</span>);</span><br><span class="line">isPure(context, <span class="string">'add2'</span>);</span><br><span class="line"><span class="comment">// prints</span></span><br><span class="line">checking <span class="keyword">if</span> <span class="function"><span class="keyword">function</span> <span class="title">add</span> <span class="title">is</span> <span class="title">pure</span></span></span><br><span class="line"><span class="function"><span class="title">checking</span> <span class="title">if</span> <span class="title">function</span> <span class="title">add2</span> <span class="title">is</span> <span class="title">pure</span></span></span><br></pre></td></tr></table></figure>
+<h2><span id="move-the-function-out-of-the-lexical-scope">Move the function out of the lexical scope</span></h2><p>The first test of function&#39;s purity is to take it out of its lexical scope. We can do this
+by reconstructing it in a new global lexical scope using <code>new Function</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">destroyLexicalScope</span>(<span class="params">fn</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Function</span>(<span class="string">'return ('</span> + fn.toString() + <span class="string">').apply(null, arguments);'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>This returns a new function that evaluates the given function&#39;s <em>source code</em> in new lexical scope.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a, b</span>) </span>&#123; <span class="keyword">return</span> a + b; &#125;</span><br><span class="line"><span class="built_in">console</span>.log(destroyLexicalScope(add).toString());</span><br><span class="line"><span class="comment">// prints</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">anonymous</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a, b</span>) </span>&#123; <span class="keyword">return</span> a + b; &#125;).apply(<span class="literal">null</span>, <span class="built_in">arguments</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The returned function has no access to any variables that used to be accessible to the original function
+via lexical scope</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> two = <span class="number">2</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add2</span>(<span class="params">a</span>) </span>&#123; <span class="keyword">return</span> a + two; &#125;</span><br><span class="line"><span class="keyword">var</span> add2destroyed = destroyLexicalScope(add2);</span><br><span class="line"><span class="built_in">console</span>.log(add2(<span class="number">3</span>));</span><br><span class="line"><span class="built_in">console</span>.log(add2destroyed(<span class="number">3</span>));</span><br><span class="line"><span class="comment">// prints</span></span><br><span class="line"><span class="number">5</span></span><br><span class="line"><span class="literal">undefined</span>:<span class="number">2</span></span><br><span class="line"><span class="keyword">return</span> (<span class="function"><span class="keyword">function</span> <span class="title">add2</span>(<span class="params">a</span>) </span>&#123; <span class="keyword">return</span> a + two; &#125;).apply(<span class="literal">null</span>, <span class="built_in">arguments</span>); </span><br><span class="line">                                      ^</span><br><span class="line"><span class="built_in">ReferenceError</span>: two is not defined</span><br><span class="line">    at add2 (<span class="built_in">eval</span> at destroyLexicalScope (<span class="regexp">/src/i</span>ndex.js:<span class="number">53</span>:<span class="number">10</span>), &lt;anonymous&gt;:<span class="number">2</span>:<span class="number">39</span>)</span><br></pre></td></tr></table></figure>
+<p>Let us modify the function by changing its lexical scope and running unit tests</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isPure</span>(<span class="params">context, functionName</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// same as above</span></span><br><span class="line">    context[functionName] = destroyLexicalScope(backup);</span><br><span class="line">    <span class="comment">// run unit tests again</span></span><br><span class="line">    <span class="keyword">var</span> after = isWorking(context);</span><br><span class="line">    <span class="comment">// console.assert(after, 'tests are not working after testing', functionName);</span></span><br><span class="line">    <span class="keyword">if</span> (!after) &#123;</span><br><span class="line">      <span class="built_in">console</span>.error(<span class="string">'function'</span>, functionName, <span class="string">'is not pure'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    context[functionName] = backup; <span class="comment">// restore original function</span></span><br><span class="line">    <span class="keyword">return</span> after;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// $ node index.js prints</span></span><br><span class="line">checking <span class="keyword">if</span> <span class="function"><span class="keyword">function</span> <span class="title">add</span> <span class="title">is</span> <span class="title">pure</span></span></span><br><span class="line"><span class="function"><span class="title">checking</span> <span class="title">if</span> <span class="title">function</span> <span class="title">add2</span> <span class="title">is</span> <span class="title">pure</span></span></span><br><span class="line"><span class="function"><span class="title">test</span> <span class="title">add2</span> <span class="title">failed</span>!</span></span><br><span class="line"><span class="function"><span class="title">two</span> <span class="title">is</span> <span class="title">not</span> <span class="title">defined</span></span></span><br><span class="line"><span class="function"><span class="title">function</span> <span class="title">add2</span> <span class="title">is</span> <span class="title">not</span> <span class="title">pure</span></span></span><br></pre></td></tr></table></figure>
+<p>We can make <code>add2</code> pure by moving all used variables inside the function</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add2</span>(<span class="params">a</span>) </span>&#123; </span><br><span class="line">  <span class="keyword">var</span> two = <span class="number">2</span>;</span><br><span class="line">  <span class="keyword">return</span> a + two; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2><span id="change-function39s-context">Change function&#39;s context</span></h2><p>Imaging we are testing methods instead of functions</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> sum = &#123;</span><br><span class="line">  add: <span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a, b</span>) </span>&#123; <span class="keyword">return</span> a + b; &#125;,</span><br><span class="line">  add2: <span class="function"><span class="keyword">function</span> <span class="title">add2</span>(<span class="params">a</span>) </span>&#123; <span class="keyword">return</span> <span class="keyword">this</span>.add(a, <span class="number">2</span>); &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>We would like to detect <code>this.add</code> usage. We can detect this by changing the function&#39;s execution
+context using <code>Function.prototype.bind</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">destroyContext</span>(<span class="params">fn</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> fn.bind(&#123;&#125;);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isPure</span>(<span class="params">context, functionName</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// same as above</span></span><br><span class="line">    <span class="keyword">var</span> backup = context[functionName];</span><br><span class="line">    context[functionName] = destroyContext(backup);</span><br><span class="line">    <span class="keyword">var</span> after = isWorking(context);</span><br><span class="line">    <span class="keyword">if</span> (!after) &#123;</span><br><span class="line">        <span class="built_in">console</span>.error(<span class="string">'function'</span>, functionName, <span class="string">'is not pure'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    context[functionName] = backup; <span class="comment">// restore original function</span></span><br><span class="line">    <span class="keyword">return</span> after;</span><br><span class="line">&#125;</span><br><span class="line">isPure(context, <span class="string">'add'</span>);</span><br><span class="line">isPure(context, <span class="string">'add2'</span>);</span><br><span class="line"><span class="comment">// prints</span></span><br><span class="line">checking <span class="keyword">if</span> <span class="function"><span class="keyword">function</span> <span class="title">add</span> <span class="title">is</span> <span class="title">pure</span></span></span><br><span class="line"><span class="function"><span class="title">checking</span> <span class="title">if</span> <span class="title">function</span> <span class="title">add2</span> <span class="title">is</span> <span class="title">pure</span></span></span><br><span class="line"><span class="function"><span class="title">test</span> <span class="title">add2</span> <span class="title">failed</span>!</span></span><br><span class="line"><span class="function"><span class="title">Object</span> #&lt;<span class="title">Object</span>&gt; <span class="title">has</span> <span class="title">no</span> <span class="title">method</span> '<span class="title">add</span>'</span></span><br><span class="line"><span class="function"><span class="title">function</span> <span class="title">add2</span> <span class="title">is</span> <span class="title">not</span> <span class="title">pure</span></span></span><br></pre></td></tr></table></figure>
+<p>We can make <code>add2</code> pure by avoiding <code>this.add</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> sum = &#123;</span><br><span class="line">  add: <span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a, b</span>) </span>&#123; <span class="keyword">return</span> a + b; &#125;,</span><br><span class="line">  add2: <span class="function"><span class="keyword">function</span> <span class="title">add2</span>(<span class="params">a</span>) </span>&#123; <span class="keyword">return</span> a + <span class="number">2</span>; &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2><span id="test-against-modifying-input-parameters">Test against modifying input parameters</span></h2><p>One of the possible side effects for non-pure function is modifying its input arguments passed by reference
+(objects, arrays, functions). For example, the following function <code>addNumbers</code> has side effects because it
+modifies the passed object.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addNumbers</span>(<span class="params">numbers</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> sum = numbers.a + numbers.b;</span><br><span class="line">  numbers.a = <span class="number">100</span>;</span><br><span class="line">  <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>It is hard to detect such modifications, even by looking at the code coverage after unit tests. A typical unit test
+would look like this</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">test(<span class="string">'add numbers'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> numbers = &#123;<span class="attr">a</span>: <span class="number">10</span>, <span class="attr">b</span>: <span class="number">2</span>&#125;;</span><br><span class="line">  <span class="built_in">console</span>.assert(addNumbers(numbers) === <span class="number">12</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>The unit test <code>add numbers</code> covers every line of the <code>addNumbers</code> function, yet does not detect the change to <code>numbers</code>
+input. In order to detect changed <code>numbers</code> object, we need to call <code>addNumbers</code> several times</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">test(<span class="string">'add numbers'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> numbers = &#123;<span class="attr">a</span>: <span class="number">10</span>, <span class="attr">b</span>: <span class="number">2</span>&#125;;</span><br><span class="line">  <span class="built_in">console</span>.assert(addNumbers(numbers) === <span class="number">12</span>);</span><br><span class="line">  <span class="built_in">console</span>.assert(addNumbers(numbers) === <span class="number">12</span>); <span class="comment">// will detect the problem</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>For our pure test code, we can devise the following strategy: we will <em>deep clone and freeze</em> each argument passed 
+to the function under test. This will test if the function tries to modify the external state via arguments.</p>
+<p>I am using recursive <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze" target="_blank" rel="noopener">deepFreeze</a> and <a href="https://lodash.com/docs#cloneDeep" target="_blank" rel="noopener">_.cloneDeep</a> functions as utilities.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// taken from </span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">deepFreeze</span>(<span class="params">o</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> o !== <span class="string">'object'</span>) &#123; <span class="keyword">return</span> o; &#125;</span><br><span class="line">  <span class="keyword">var</span> prop, propKey;</span><br><span class="line">  <span class="built_in">Object</span>.freeze(o); <span class="comment">// First freeze the object.</span></span><br><span class="line">  <span class="keyword">for</span> (propKey <span class="keyword">in</span> o) &#123;</span><br><span class="line">    prop = o[propKey];</span><br><span class="line">    <span class="keyword">if</span> (!o.hasOwnProperty(propKey) || !(<span class="keyword">typeof</span> prop === <span class="string">'object'</span>) || <span class="built_in">Object</span>.isFrozen(prop)) &#123;</span><br><span class="line">      <span class="comment">// If the object is on the prototype, not an object, or is already frozen,</span></span><br><span class="line">      <span class="comment">// skip it. Note that this might leave an unfrozen reference somewhere in the</span></span><br><span class="line">      <span class="comment">// object if there is an already frozen object containing an unfrozen object.</span></span><br><span class="line">      <span class="keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    deepFreeze(prop); <span class="comment">// Recursively call deepFreeze.</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> o;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> _ = <span class="built_in">require</span>(<span class="string">'lodash'</span>);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">destroyReferences</span>(<span class="params">fn</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">cutReferences</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> args = _.toArray(<span class="built_in">arguments</span>)</span><br><span class="line">      .map(_.cloneDeep)</span><br><span class="line">      .map(deepFreeze);</span><br><span class="line">    <span class="keyword">return</span> fn.apply(<span class="literal">null</span>, args);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// testing engine</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isPure</span>(<span class="params">context, functionName</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> backup = context[functionName];</span><br><span class="line">  context[functionName] = destroyReferences(backup);</span><br><span class="line">  <span class="keyword">var</span> after = isWorking(context);</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>output</p>
+<pre><code>checking if function add is pure
+checking if function add2 is pure
+checking if function addNumbers is pure
+done
+</code></pre><p>Hmm, nothing bad happens, but we know <code>addNumbers</code> tries to modify the frozen object. In order
+for v8 to actually throw an error, we need to declare the strict mode <em>inside addNumbers or as first line in the 
+outer lexical scope</em>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">'use strict'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addNumbers</span>(<span class="params">numbers</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> sum = numbers.a + numbers.b;</span><br><span class="line">  numbers.a = <span class="number">100</span>;</span><br><span class="line">  <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>output</p>
+<pre><code>checking if function add is pure
+checking if function add2 is pure
+checking if function addNumbers is pure
+test add numbers failed!
+Cannot assign to read only property &apos;a&apos; of #&lt;Object&gt;
+function addNumbers is not pure
+done
+</code></pre><p>We cannot assume that a function under test is running in the strict mode, thus it is up to us to detect
+the modifications to the cloned arguments. We can do this by comparing the objects passed into the function
+and their state after the function finishes. We only need to clone the arguments without freezing them, since
+we want the function under test to actualy modify its values.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// function addNumbers does NOT use strict mode</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkChangedArguments</span>(<span class="params">fn</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">comparedArguments</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> args = _.toArray(<span class="built_in">arguments</span>);</span><br><span class="line">    <span class="keyword">var</span> passed = args.map(_.cloneDeep);</span><br><span class="line">    <span class="keyword">var</span> result = fn.apply(<span class="literal">null</span>, passed);</span><br><span class="line">    <span class="keyword">var</span> changed = !_.isEqual(args, passed);</span><br><span class="line">    <span class="keyword">if</span> (changed) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Function '</span> + fn.name + <span class="string">' modifies its arguments'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>output</p>
+<pre><code>checking if function add is pure
+checking if function add2 is pure
+checking if function addNumbers is pure
+test add numbers failed!
+Function addNumbers modifies its arguments
+function addNumbers is not pure
+done
+</code></pre><h2><span id="the-combined-purity-test">The combined purity test</span></h2><p>Here is the code for applying a list of transformations to a function and running the test again.
+We have a list of functions that modify the given function by breaking its environment, or passed
+arguments. We apply each test individually and run the unit tests. If any tests fail, the function
+is not pure against the unit test set.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> testers = [destroyLexicalScope, destroyContext, destroyReferences, checkChangedArguments];</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isPure</span>(<span class="params">context, functionName</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'checking if function'</span>, functionName, <span class="string">'is pure'</span>);</span><br><span class="line">  <span class="keyword">var</span> backup = context[functionName];</span><br><span class="line">  <span class="keyword">var</span> pureTestFailed = testers.some(<span class="function"><span class="keyword">function</span> (<span class="params">tester</span>) </span>&#123;</span><br><span class="line">    context[functionName] = tester(backup);</span><br><span class="line">    <span class="keyword">var</span> after = isWorking(context);</span><br><span class="line">    <span class="keyword">if</span> (!after) &#123;</span><br><span class="line">      <span class="built_in">console</span>.error(<span class="string">'function'</span>, functionName, <span class="string">'is not pure under test'</span>, tester.name);</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">  context[functionName] = backup; <span class="comment">// restore original function</span></span><br><span class="line">  <span class="keyword">return</span> pureTestFailed;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>output</p>
+<pre><code>checking if function add is pure
+checking if function add2 is pure
+test add2 failed!
+add is not defined
+function add2 is not pure under test destroyLexicalScope
+checking if function addNumbers is pure
+test add numbers failed!
+Function addNumbers modifies its arguments
+function addNumbers is not pure under test checkChangedArguments
+done
+</code></pre><p>We could better target the unit tests to a particular function by using code coverage information,
+for example see <a href="https://github.com/bahmutov/untested" target="_blank" rel="noopener">bahmutov/untested</a>.</p>
+<h2><span id="higher-order-functions">Higher order functions</span></h2><p>Unfortunately, the lexical scope test does not work with higher order functions. A higher order function is
+a function composed from other functions, for example, a partially applied function is a new function 
+composed wrapping around a given function. For simplicity, let us write <code>partial1</code> function
+that applies a single argument</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">partial1</span>(<span class="params">fn, a</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">partiallyApplied</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> rightArguments = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">var</span> args = [a].concat(rightArguments);</span><br><span class="line">    <span class="keyword">return</span> fn.apply(<span class="literal">null</span>, args);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> add10 = partial1(add, <span class="number">10</span>);</span><br><span class="line"><span class="built_in">console</span>.log(add10(<span class="number">2</span>)); <span class="comment">// 12</span></span><br><span class="line">test(<span class="string">'add10'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">context</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.assert(context.add10(<span class="number">2</span>) === <span class="number">12</span>);</span><br><span class="line">  <span class="built_in">console</span>.assert(context.add10(<span class="number">-1</span>) === <span class="number">9</span>);</span><br><span class="line">&#125;);</span><br><span class="line">isPure(context, <span class="string">'add10'</span>);</span><br></pre></td></tr></table></figure>
+<p>output</p>
+<pre><code>checking if function add10 is pure
+test add10 failed!
+a is not defined
+function add10 is NOT pure under test destroyLexicalScope
+function add10 is pure under test destroyContext
+function add10 is pure under test destroyReferences
+function add10 is pure under test checkChangedArguments
+done
+</code></pre><p>Why does <code>add10</code> not pass destroyLexicalScope test? Just like other higher order functions,
+it relies on the the closure variables to work. Notice that the function returned from <code>partial1(add, 10)</code>
+is the inner part <code>partiallyApplied</code>. This function needs to access variables <code>a</code> and <code>fn</code> 
+declared in <code>function partial1</code> in order to work. The destroyLexicalScope test is created to specifically
+detect this case. If we knew the necessary lexical scope from <code>partial1</code> implementation, we could probably 
+pass it into our test, but this is a question for another day.</p>
+<h2><span id="conclusion">Conclusion</span></h2><p>Of course this is very simplistic testing. For example, I would like to apply transitivity: functions that
+only use pure functions are pure themselves. Unfortunately our lexical scope test only copies a single function,
+destroying the original link to other pure functions. Maybe we can call these functions &quot;pure stand alone functions&quot;.</p>
+<p>While I cannot check every function yet, I think the above approach can identify lots of small functions that 
+are pure under the given test set. This has value to the developer as this is a measurable number that can be
+increased via code refactoring.</p>
+<p>Looking how some functions passed only some of our tests, we can talk about a purity hierarchy. 
+Some functions will pass all the tests, achieving the purest status.
+These functions can be safely used anywhere, passed around, etc. Maybe it is hard or impossible
+to move every function to the purest status. Instead we can drive more functions to achieve some
+purity. This will lower the coupling in our code, increasing its quality. 
+Then we can keep refactoring functions to move them to the next purity level.</p>
+<h2><span id="update">Update</span></h2><p>We could fake lexical scope, see <a href=".../faking-lexical-scope/">this blog post</a>.</p>
+
+      
+    </div>
+
+    
+      <footer class="article-footer personal-links">
+  Follow Gleb Bahmutov <a href="https://twitter.com/bahmutov">@bahmutov</a>,
+  see his projects at <a href="http://glebbahmutov.com">glebbahmutov.com</a>
+</footer>
+<script src="https://rawgit.com/toddmotto/linkjuice/702066a37124081e7ad1a972844a9a91115be05a/dist/linkjuice.js"></script>
+<script>
+function contentFn (node, icon) {
+  const s = '<a href="#' + node.id + '" class="linkjuice">' +
+    node.innerHTML + ' ' + icon + '</a>\n'
+  return s
+}
+linkjuice.init('.article-entry', {
+  selectors: ['h2 span'],
+  icon: '<span class="link-symbol">#</span>',
+  contentFn: contentFn
+});
+</script>
+
+    
+
+    <footer class="article-footer">
+      <a data-url="https://glebbahmutov.com/blog/test-if-a-function-is-pure/" data-id="ck0ch2t5r00ydpzooo6j3pv9k" class="article-share-link">Share</a>
+      
+        <a href="https://glebbahmutov.com/blog/test-if-a-function-is-pure/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../tags/functional/">functional</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../tags/javascript/">javascript</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="../combine-promises-with-maybe-functors/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Combine promises with Maybe functors
+        
+      </div>
+    </a>
+  
+  
+    <a href="../avoid-side-effects-with-immutable-data-structures/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Avoid side effects with immutable data structures</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    <style>
+#carbonads {
+  display: block;
+  overflow: hidden;
+  font-size: 11px;
+  font-family: Verdana, "Helvetica Neue", Helvetica, sans-serif;
+  line-height: 1.5;
+}
+
+#carbonads a {
+  color: #258fb8;
+  text-decoration: none;
+}
+
+#carbonads a:hover {
+  text-decoration: underline;
+}
+
+#carbonads span {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+
+.carbon-img {
+  float: left;
+  margin-right: 1em;
+}
+
+.carbon-img img { display: block; }
+
+.carbon-text {
+  display: block;
+  float: left;
+  text-align: left;
+  margin-top: 0.5em;
+}
+@media screen and (min-width: 1024px) {
+  .carbon-text {
+    max-width: calc(100% - 130px - 1em);
+  }
+}
+
+.carbon-poweredby {
+  /*position: absolute;
+  right: 0;
+  bottom: 0;*/
+  float: right;
+  display: block;
+  font-size: 11px;
+}
+</style>
+<div class="widget-wrap">
+  <div class="widget-title">&nbsp;</div>
+  <div class="widget">
+    <!-- Carbon Ads -->
+    <script async type="text/javascript"
+      src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=glebbahmutovcom"
+      id="_carbonads_js"></script>
+  </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="../categories/book-review/">book review</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="../categories/people/">people</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="../categories/process/">process</a><span class="category-list-count">113</span></li><li class="category-list-item"><a class="category-list-link" href="../categories/products/">products</a><span class="category-list-count">319</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../tags/QUnit/">QUnit</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/a11y/">a11y</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/advice/">advice</a><span class="tag-list-count">100</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/angularjs/">angularjs</a><span class="tag-list-count">58</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/angularjs2/">angularjs2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/assertions/">assertions</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ast/">ast</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/boilerplate/">boilerplate</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/browser/">browser</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ci/">ci</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/concurrency/">concurrency</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/cyclejs/">cyclejs</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/cypress/">cypress</a><span class="tag-list-count">46</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/d3/">d3</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/db/">db</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/docker/">docker</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/es6/">es6</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/es7/">es7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/functional/">functional</a><span class="tag-list-count">68</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/generators/">generators</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/git/">git</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/github/">github</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/graphql/">graphql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/grunt/">grunt</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/gulp/">gulp</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/hyperapp/">hyperapp</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/immutable/">immutable</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/interview/">interview</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/jade/">jade</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/javascript/">javascript</a><span class="tag-list-count">161</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/jshint/">jshint</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/modular-development/">modular development</a><span class="tag-list-count">27</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/nodejs/">nodejs</a><span class="tag-list-count">79</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/performance/">performance</a><span class="tag-list-count">17</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/presentation/">presentation</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/promises/">promises</a><span class="tag-list-count">31</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/proposal/">proposal</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ramda/">ramda</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/react/">react</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/reactive/">reactive</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/reactjs/">reactjs</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/screencast/">screencast</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/security/">security</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/sentry/">sentry</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/service-workers/">service workers</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/state-machine/">state machine</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/testing/">testing</a><span class="tag-list-count">97</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/tutorial/">tutorial</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/typescript/">typescript</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ui/">ui</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/vuejs/">vuejs</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/web-workers/">web workers</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/zeit/">zeit</a><span class="tag-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="../tags/QUnit/" style="font-size: 11.67px;">QUnit</a> <a href="../tags/a11y/" style="font-size: 10px;">a11y</a> <a href="../tags/advice/" style="font-size: 19.58px;">advice</a> <a href="../tags/angularjs/" style="font-size: 17.92px;">angularjs</a> <a href="../tags/angularjs2/" style="font-size: 10px;">angularjs2</a> <a href="../tags/assertions/" style="font-size: 13.33px;">assertions</a> <a href="../tags/ast/" style="font-size: 12.92px;">ast</a> <a href="../tags/boilerplate/" style="font-size: 15.42px;">boilerplate</a> <a href="../tags/browser/" style="font-size: 16.25px;">browser</a> <a href="../tags/ci/" style="font-size: 13.33px;">ci</a> <a href="../tags/concurrency/" style="font-size: 10px;">concurrency</a> <a href="../tags/cyclejs/" style="font-size: 12.5px;">cyclejs</a> <a href="../tags/cypress/" style="font-size: 17.5px;">cypress</a> <a href="../tags/d3/" style="font-size: 10.83px;">d3</a> <a href="../tags/db/" style="font-size: 14.17px;">db</a> <a href="../tags/docker/" style="font-size: 14.17px;">docker</a> <a href="../tags/es6/" style="font-size: 15px;">es6</a> <a href="../tags/es7/" style="font-size: 10px;">es7</a> <a href="../tags/functional/" style="font-size: 18.33px;">functional</a> <a href="../tags/generators/" style="font-size: 11.67px;">generators</a> <a href="../tags/git/" style="font-size: 15px;">git</a> <a href="../tags/github/" style="font-size: 11.25px;">github</a> <a href="../tags/graphql/" style="font-size: 10.83px;">graphql</a> <a href="../tags/grunt/" style="font-size: 12.5px;">grunt</a> <a href="../tags/gulp/" style="font-size: 10.83px;">gulp</a> <a href="../tags/hyperapp/" style="font-size: 12.5px;">hyperapp</a> <a href="../tags/immutable/" style="font-size: 11.67px;">immutable</a> <a href="../tags/interview/" style="font-size: 10.83px;">interview</a> <a href="../tags/jade/" style="font-size: 11.25px;">jade</a> <a href="../tags/javascript/" style="font-size: 20px;">javascript</a> <a href="../tags/jshint/" style="font-size: 10.83px;">jshint</a> <a href="../tags/modular-development/" style="font-size: 16.67px;">modular development</a> <a href="../tags/nodejs/" style="font-size: 18.75px;">nodejs</a> <a href="../tags/performance/" style="font-size: 15.83px;">performance</a> <a href="../tags/presentation/" style="font-size: 11.25px;">presentation</a> <a href="../tags/promises/" style="font-size: 17.08px;">promises</a> <a href="../tags/proposal/" style="font-size: 10.42px;">proposal</a> <a href="../tags/ramda/" style="font-size: 10px;">ramda</a> <a href="../tags/react/" style="font-size: 10px;">react</a> <a href="../tags/reactive/" style="font-size: 14.58px;">reactive</a> <a href="../tags/reactjs/" style="font-size: 10.83px;">reactjs</a> <a href="../tags/screencast/" style="font-size: 10px;">screencast</a> <a href="../tags/security/" style="font-size: 12.5px;">security</a> <a href="../tags/sentry/" style="font-size: 13.75px;">sentry</a> <a href="../tags/service-workers/" style="font-size: 12.08px;">service workers</a> <a href="../tags/state-machine/" style="font-size: 10px;">state machine</a> <a href="../tags/testing/" style="font-size: 19.17px;">testing</a> <a href="../tags/tutorial/" style="font-size: 14.17px;">tutorial</a> <a href="../tags/typescript/" style="font-size: 11.67px;">typescript</a> <a href="../tags/ui/" style="font-size: 10.42px;">ui</a> <a href="../tags/vuejs/" style="font-size: 11.25px;">vuejs</a> <a href="../tags/web-workers/" style="font-size: 12.08px;">web workers</a> <a href="../tags/zeit/" style="font-size: 12.08px;">zeit</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/09/">September 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/08/">August 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/07/">July 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/06/">June 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/05/">May 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/04/">April 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/03/">March 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/01/">January 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/12/">December 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/11/">November 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/10/">October 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/09/">September 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/08/">August 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/06/">June 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/04/">April 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/03/">March 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/12/">December 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/08/">August 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/07/">July 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/06/">June 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/04/">April 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/03/">March 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/02/">February 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/01/">January 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/11/">November 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/09/">September 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/08/">August 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/07/">July 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/06/">June 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/04/">April 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/03/">March 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/02/">February 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/12/">December 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/11/">November 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/10/">October 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/09/">September 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/08/">August 2015</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/07/">July 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/06/">June 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/05/">May 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/04/">April 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/03/">March 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/02/">February 2015</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/01/">January 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/12/">December 2014</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/11/">November 2014</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/10/">October 2014</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/09/">September 2014</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/08/">August 2014</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/07/">July 2014</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/06/">June 2014</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/05/">May 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/04/">April 2014</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/03/">March 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/02/">February 2014</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/01/">January 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/12/">December 2013</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/11/">November 2013</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/10/">October 2013</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/09/">September 2013</a><span class="archive-list-count">10</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="../configure-prettier-in-vscode/">How to configure Prettier and VSCode</a>
+          </li>
+        
+          <li>
+            <a href="../cypress-using-child-window/">Cypress using child window</a>
+          </li>
+        
+          <li>
+            <a href="../patching-cypress-cli-npm-module/">Patching Cypress CLI NPM module</a>
+          </li>
+        
+          <li>
+            <a href="../fix-low-contrast-with-cypress/">Fix low contrast with Cypress</a>
+          </li>
+        
+          <li>
+            <a href="../filter-mocha-tests/">Filtering Mocha tests</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Gleb Bahmutov<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'betterworldbybettersoftware';
+  
+  var disqus_url = 'https://glebbahmutov.com/blog/test-if-a-function-is-pure/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="../fancybox/jquery.fancybox.css">
+  <script src="../fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="../js/script.js"></script>
+
+  </div>
+  <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
+<script>
+(function centerMainOnAsideScroll () {
+  // when aside side bar scrolls outside the view
+  // it centers the main content.
+  const main = document.querySelector('#main')
+  const aside = document.querySelector('aside#sidebar')
+  console.assert(main, 'could not get #main')
+  console.assert(aside, 'could not get aside')
+  // initially the aside sidebar is visible
+  let asideVisible = true
+
+  function centerMain () {
+    console.log('adding class center-main')
+    main.classList.add('center-main')
+  }
+  function leftMain () {
+    main.classList.remove('center-main')
+  }
+
+  function callWhenAsideScrollsUp (becameInvisible, becameVisible) {
+    return function () {
+      const border = 50
+      const rect = aside.getBoundingClientRect()
+      if (asideVisible && rect.bottom < -border) {
+        asideVisible = false
+        becameInvisible()
+      }
+
+      if (!asideVisible && window.scrollY < border) {
+        asideVisible = true
+        becameVisible()
+      }
+    }
+  }
+  const throttleWaitMs = 250
+  const onScroll = _.throttle(
+    callWhenAsideScrollsUp(centerMain, leftMain),
+    throttleWaitMs
+  )
+  window.addEventListener('scroll', onScroll)
+}())
+</script>
+
+</body>
+</html>

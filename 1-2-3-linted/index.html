@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>1, 2, 3, linted | Better world by better software</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="JavaScript is very dynamic language, and a silly mistake is simple to make but hard to catch. A misspelled variable can be undiscovered and crash the website in production. Exhaustive unit testing is">
+<meta name="keywords" content="testing,nodejs,tutorial">
+<meta property="og:type" content="article">
+<meta property="og:title" content="1, 2, 3, linted">
+<meta property="og:url" content="https://glebbahmutov.com/blog/1-2-3-linted/index.html">
+<meta property="og:site_name" content="Better world by better software">
+<meta property="og:description" content="JavaScript is very dynamic language, and a silly mistake is simple to make but hard to catch. A misspelled variable can be undiscovered and crash the website in production. Exhaustive unit testing is">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://cdn.rawgit.com/feross/standard/master/badge.svg">
+<meta property="og:image" content="https://img.shields.io/badge/code%20style-standard-brightgreen.svg">
+<meta property="og:updated_time" content="2018-02-14T02:33:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="1, 2, 3, linted">
+<meta name="twitter:description" content="JavaScript is very dynamic language, and a silly mistake is simple to make but hard to catch. A misspelled variable can be undiscovered and crash the website in production. Exhaustive unit testing is">
+<meta name="twitter:image" content="https://cdn.rawgit.com/feross/standard/master/badge.svg">
+<meta name="twitter:creator" content="@bahmutov">
+  
+    <link rel="alternative" href="/blog/atom.xml" title="Better world by better software" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="preload" href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" as="style">
+  <link rel="stylesheet" href="../css/style.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-59999353-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <!-- <div id="banner"></div> -->
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="../index.html" id="logo">Better world by better software</a>
+      </h1>
+      <!--
+      
+        <h2 id="subtitle-wrap">
+          <a href="../index.html" id="subtitle">Gleb Bahmutov PhD</a>
+        </h2>
+      
+      -->
+      <!-- <span class="no-mobile">Software advice from</span> -->
+      <h2 id="subtitle-wrap">
+        <span class="subtitle">
+          <a id="subtitle" href="http://glebbahmutov.com">Gleb Bahmutov PhD</a>
+        </span>
+      </h2>
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <a id="nav-house-link" class="nav-icon" href="/" title="Home"></a>
+        
+          <a id="nav-rss-link" class="nav-icon" href="/blog/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://glebbahmutov.com/blog"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-1-2-3-linted" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="" class="article-date">
+  <time datetime="2015-12-02T05:00:00.000Z" itemprop="datePublished">Dec 2 2015</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="../categories/products/">products</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      1, 2, 3, linted
+    </h1>
+
+    <h2 class="article-title" itemprop="name">
+      Preventing easy to catch JavaScript bugs using linters.
+    </h2>
+
+  
+
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>JavaScript is very dynamic language, and a silly mistake is simple to make but hard to catch.
+A misspelled variable can be undiscovered and crash the website in production.
+Exhaustive unit testing is <em>exhaustive</em>.
+Luckily many common errors are easily spotted using static source analysis tools commonly called
+<em>linters</em>. There are 3 popular ones</p>
+<ul>
+<li><a href="https://github.com/jshint/jshint" target="_blank" rel="noopener">jshint</a> - a modern replacement for the obsolete jslint</li>
+<li><a href="https://github.com/eslint/eslint" target="_blank" rel="noopener">eslint</a> - EcmaScript linter</li>
+<li><a href="https://github.com/jscs-dev/node-jscs" target="_blank" rel="noopener">jscs</a> - JavaScript code style checker</li>
+</ul>
+<p>These three tools are very popular: more than 3k GitHub stars each. JsHint is the oldest, with
+very stable API and large set of rules it can check. ESLint is newer, with a very flexible API based
+on the processing the syntax tree rather than the raw code. This allows one to write custom
+rules, for example here is my set: <a href="https://github.com/bahmutov/eslint-rules" target="_blank" rel="noopener">eslint-rules</a>.
+Finally, <code>jscs</code> is more a style checker than a linter. It allows to enforce a common style
+on your code base, making sure the developers can read code written by others with ease.</p>
+<p>All tools are implemented using NodeJS and can be installed using <code>npm</code> commands.</p>
+<h2><span id="getting-started">Getting started</span></h2><p>I wrote a small example you can use to follow these steps along. Just grab the
+<a href="https://github.com/bahmutov/1-2-3-linted" target="_blank" rel="noopener">bahmutov/1-2-3-linted</a> repo</p>
+<pre><code>git clone git@github.com:bahmutov/1-2-3-linted.git
+cd 1-2-3-linted
+npm install
+git checkout initial
+</code></pre><p>We have a single file <code>index.js</code> showing a pretty mediocre JavaScript</p>
+<figure class="highlight js"><figcaption><span>index.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">foo = <span class="string">'foo'</span>;</span><br><span class="line"><span class="keyword">if</span>(foo==<span class="string">'foo'</span>) &#123;</span><br><span class="line">  alert(<span class="string">'foo is ok'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>There is a variable <code>foo</code> we have forgotten to declare, making it global. The whitespacing
+is inconsistent, and the script uses <code>alert</code> to show a message, which is annoying. It also
+uses non-strict comparison operator <code>==</code> that can <a href="https://javascriptweblog.wordpress.com/2011/02/07/truth-equality-and-javascript/" target="_blank" rel="noopener">later lead to hard to debug bugs</a>.
+Let us detect these problems.</p>
+<h2><span id="linting-using-npm-scripts">Linting using NPM scripts</span></h2><p>I now prefer linting my code directly from an NPM script. Let us install <code>eslint</code> and
+start linting.</p>
+<pre><code>npm install --save-dev eslint
+</code></pre><p>There are several ways to <a href="http://eslint.org/docs/user-guide/configuring.html" target="_blank" rel="noopener">configure eslint</a>.
+I prefer creating a separate configuration file. We can let <code>eslint</code> create one for us
+by answering a few questions</p>
+<pre><code>$ ./node_modules/.bin/eslint --init
+? How would you like to configure ESLint? Use a popular style guide
+? Which style guide do you want to follow? AirBnB
+? What format do you want your config file to be in? JSON
+Successfully created .eslintrc.json file in /git/1-2-3-linted
+Installing additional dependencies
+</code></pre><p>I picked output JSON format and there is a new file <code>.eslintrc.json</code> in the current folder.</p>
+<figure class="highlight json"><figcaption><span>.eslintrc.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"extends"</span>: <span class="string">"airbnb"</span>,</span><br><span class="line">  <span class="attr">"plugins"</span>: [</span><br><span class="line">    <span class="string">"react"</span></span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Becase we are reusing <a href="https://github.com/airbnb/javascript" target="_blank" rel="noopener">AirBnB JS style guide</a>, the <code>.eslintrc.json</code>
+file is very bare. We can still add separate rules as we go along. For now, let us
+setup the <code>lint</code> script in the <code>package.json</code>. Since there are no unit tests at all, let us
+also set <code>npm test</code> to run the linter. Some linting will be better than no testing at the start.</p>
+<figure class="highlight"><figcaption><span>package.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">"scripts": &#123;</span><br><span class="line">  "test": "npm run lint",</span><br><span class="line">  "lint": "eslint index.js"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Let us run the linter using either <code>npm run lint</code> or <code>npm test</code>, or if you are using
+<a href="https://github.com/bahmutov/npm-quick-run" target="_blank" rel="noopener">npm-quick-run</a> using <code>nr l</code> command.</p>
+<pre><code>$ nr l
+running prefix l
+spawning test process npm [ &apos;run&apos;, &apos;lint&apos; ]
+&gt; 1-2-3-linted@1.0.0 lint /1-2-3-linted
+&gt; eslint index.js
+/1-2-3-linted/index.js
+  1:1  error    &quot;foo&quot; is not defined                         no-undef
+  2:3  error    Keyword &quot;if&quot; must be followed by whitespace  space-after-keywords
+  2:4  error    &quot;foo&quot; is not defined                         no-undef
+  2:7  error    Expected &apos;===&apos; and instead saw &apos;==&apos;          eqeqeq
+  2:7  error    Infix operators must be spaced               space-infix-ops
+  3:3  warning  Unexpected alert                             no-alert
+✖ 6 problems (5 errors, 1 warning)
+</code></pre><p>All the problems in the source code have been discovered. You can see the problems yourself
+by running the command from the following tag</p>
+<pre><code>git checkout eslint
+npm run lint
+</code></pre><h2><span id="configuring-rules">Configuring rules</span></h2><p>Let us say that we are ok with the missing space after the <code>if</code> keyword. Can we disable the
+corresponding eslint error? Yes, by ignoring this specific rule (the name of the rule is
+in the last column of the default eslint reporter).
+Change the <code>.eslintrc.json</code> and set the rule to <code>0</code> - meaning to ignore it.</p>
+<figure class="highlight json"><figcaption><span>.eslintrc.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"extends"</span>: <span class="string">"airbnb"</span>,</span><br><span class="line">  <span class="attr">"plugins"</span>: [</span><br><span class="line">    <span class="string">"react"</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">"rules"</span>: &#123;</span><br><span class="line">    <span class="attr">"space-after-keywords"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"no-alert"</span>: <span class="number">2</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>I also changed the rule <code>no-alert</code> from default (<code>1 - warning</code>) to be <code>2 - error</code>, because I really
+do want to catch all <code>alert</code> calls in my code. Run the linter again to see the changes.</p>
+<pre><code>&gt; 1-2-3-linted@1.0.0 lint /1-2-3-linted
+&gt; eslint index.js
+/1-2-3-linted/index.js
+1:1  error  &quot;foo&quot; is not defined                 no-undef
+2:4  error  &quot;foo&quot; is not defined                 no-undef
+2:7  error  Expected &apos;===&apos; and instead saw &apos;==&apos;  eqeqeq
+2:7  error  Infix operators must be spaced       space-infix-ops
+3:3  error  Unexpected alert                     no-alert
+✖ 5 problems (5 errors, 0 warnings)
+</code></pre><h2><span id="autofixing-some-problems">Autofixing some problems</span></h2><p>ESLint and JSCS have a great new feature - they can fix some problems automatically.
+Let us see what they can do for us right now. Let us configure an NPM script to fix our source</p>
+<figure class="highlight"><figcaption><span>package.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">"scripts": &#123;</span><br><span class="line">  "lint": "eslint index.js",</span><br><span class="line">  "fix": "eslint --fix index.js"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>When we run it using <code>npm run fix</code> or <code>nr f</code> we see the following</p>
+<pre><code>/1-2-3-linted/index.js
+1:1  error  &quot;foo&quot; is not defined            no-undef
+2:4  error  &quot;foo&quot; is not defined            no-undef
+2:7  error  Infix operators must be spaced  space-infix-ops
+3:3  error  Unexpected alert                no-alert
+✖ 4 problems (4 errors, 0 warnings)
+</code></pre><p>As you can see, there are only 4 problems, rather than 5. The ESlint has been able to
+fix the problem <code>eqeqeq</code>, <code>Expected &#39;===&#39; and instead saw &#39;==&#39;</code> by automatically replacing
+<code>if(foo == &#39;foo&#39;)</code> with <code>if(foo === &#39;foo&#39;)</code> expression. In general the autofixing is a very conservative
+operation and does not modify the code too much.</p>
+<p>Related: <a href="../perfect-code-zero-effort/">Autofix JavaScript style issues using jscs</a></p>
+<h2><span id="using-linters-on-commit">Using linters on commit</span></h2><p>You should never have to remember to run testing and linting commands manually, what is this - the 18th century?
+Instead, we want to try to make sure the code is linted automatically before it gets committed into
+the repository. This will make sure that any commit in your master branch is pointing at nice working code;
+the <a href="../never-break-master-by-accident/">master branch should be very clean</a>.</p>
+<p>If you already have NPM lint command, it is very simple to run it on each commit. Let us install
+a Git hook module</p>
+<pre><code>npm install --save-dev pre-git
+</code></pre><p>The <code>pre-git</code> module adds a <code>config</code> object to the <code>package.json</code> file. Let us add <code>npm run lint</code>
+command to the list of commands to execute before each commit is allowed to go through.</p>
+<figure class="highlight"><figcaption><span>package.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">"config": &#123;</span><br><span class="line">  "pre-git": &#123;</span><br><span class="line">    "commit-msg": "validate-commit-msg",</span><br><span class="line">    "pre-commit": ["npm run lint"],</span><br><span class="line">    "pre-push": [],</span><br><span class="line">    "post-commit": [],</span><br><span class="line">    "post-merge": []</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Let us try to land a commit - it should fail because we have not fixed the lint errors.</p>
+<pre><code>$ git commit -m &quot;landing bad code&quot;
+executing task &quot;npm run lint&quot;
+&gt; 1-2-3-linted@1.0.0 lint /1-2-3-linted
+&gt; eslint index.js
+/1-2-3-linted/index.js
+  1:1  error  &quot;foo&quot; is not defined            no-undef
+  2:4  error  &quot;foo&quot; is not defined            no-undef
+  2:7  error  Infix operators must be spaced  space-infix-ops
+  3:3  error  Unexpected alert                no-alert
+✖ 4 problems (4 errors, 0 warnings)
+...
+pre-commit You&apos;ve failed to pass all the hooks.
+pre-commit
+pre-commit The &quot;npm run lint&quot; script failed.
+pre-commit
+pre-commit You can skip the git pre-commit hook by running:
+pre-commit
+pre-commit    git commit -n (--no-verify)
+pre-commit
+pre-commit But this is not advised as your tests are obviously failing.
+</code></pre><p>The pre-commit script warns that the test commands have failed, but gives a work around.
+If you really need to land this code, you can skip the checks using <code>git commit -n</code> command line option.</p>
+<h2><span id="using-linters-from-a-build-script">Using linters from a build script</span></h2><p>If you already are using a build tool, like <a href="http://gruntjs.com/" target="_blank" rel="noopener">grunt</a>, <a href="http://gulpjs.com/" target="_blank" rel="noopener">gulp</a> or <a href="https://github.com/broccolijs/broccoli" target="_blank" rel="noopener">broccoli</a>,
+you can easily plug in a linter via a plugin. For example, there is
+<a href="https://github.com/gruntjs/grunt-contrib-jshint" target="_blank" rel="noopener">grunt-contrib-jshint</a> for people who are using
+<a href="http://gruntjs.com/" target="_blank" rel="noopener">grunt</a>; and there is <a href="https://github.com/adametry/gulp-eslint" target="_blank" rel="noopener">gulp-eslint</a>
+for those who prefer <a href="http://gulpjs.com/" target="_blank" rel="noopener">gulp</a>.</p>
+<p>There is even <a href="https://github.com/bahmutov/gulp-lint-everything" target="_blank" rel="noopener">gulp-lint-everything</a>
+that I wrote that allows one to use all 3 linters at once without configuring each one separately.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// gulpfile.js</span></span><br><span class="line"><span class="keyword">var</span> gulp = <span class="built_in">require</span>(<span class="string">'gulp'</span>);</span><br><span class="line"><span class="keyword">var</span> lintAll = <span class="built_in">require</span>(<span class="string">'gulp-lint-everything'</span>)(&#123;</span><br><span class="line">  jshint: <span class="string">'./configs/jshint.json'</span>,</span><br><span class="line">  eslint: <span class="string">'./configs/eslint.json'</span>,</span><br><span class="line">  eslintRulePaths: [<span class="string">'./node_modules/eslint-rules'</span>],</span><br><span class="line">  jscs: <span class="string">'./configs/jscs.json'</span></span><br><span class="line">&#125;);</span><br><span class="line">gulp.task(<span class="string">'default'</span>, lintAll(<span class="string">'*.js'</span>));</span><br></pre></td></tr></table></figure>
+<h2><span id="additional-links">Additional links</span></h2><ul>
+<li>The example source code used in this blog post is at
+<a href="https://github.com/bahmutov/1-2-3-linted" target="_blank" rel="noopener">bahmutov/1-2-3-linted</a></li>
+<li><a href="../tightening-project-with-grunt-build/">Tightening project with grunt build</a></li>
+<li><a href="https://medium.com/@dan_abramov/lint-like-it-s-2015-6987d44c5b48#.sx2ywmi67" target="_blank" rel="noopener">Lint like it&#39;s 2015</a></li>
+<li><a href="../linting-js-inside-html/">Linting JavaScript inside HTML</a></li>
+</ul>
+<h2><span id="update-1-standard">Update 1 - standard</span></h2><p>I tried using a linter / style checker called <a href="https://github.com/feross/standard" target="_blank" rel="noopener">standard</a>
+that is built on top of ESLint. The installation is very very simple.</p>
+<pre><code>npm install --save-dev standard
+</code></pre><p>Then use <code>standard</code> just like you used <code>eslint</code> in the package script tag</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">"scripts": &#123;</span><br><span class="line">  "lint": "standard index.js"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>In our case the standard linter reports more errors - mostly because it does not allow semicolons
+(there is also same standard that allows semicolons, called
+<a href="https://github.com/Flet/semistandard" target="_blank" rel="noopener">semistandard</a>).</p>
+<pre><code>&gt; 1-2-3-linted@1.0.0 standard /1-2-3-linted
+&gt; standard index.js
+standard: Use JavaScript Standard Style (https://github.com/feross/standard)
+  /1-2-3-linted/index.js:1:1: &quot;foo&quot; is not defined.
+  /1-2-3-linted/index.js:1:12: Extra semicolon.
+  /1-2-3-linted/index.js:2:1: Keyword &quot;if&quot; must be followed by whitespace.
+  /1-2-3-linted/index.js:2:4: &quot;foo&quot; is not defined.
+  /1-2-3-linted/index.js:2:7: Infix operators must be spaced.
+  /1-2-3-linted/index.js:3:3: &quot;alert&quot; is not defined.
+  /1-2-3-linted/index.js:3:21: Extra semicolon.
+</code></pre><p>By adding <code>--verbose</code> flag, you can also see the names of the errors, making it simple
+to ignore certain ones. For example, to ignore a particular error on a particular line,
+add a comment</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">demo</span> (<span class="params"></span>) </span>&#123; <span class="comment">// eslint-disable-line no-unused-vars</span></span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>It also has a rule that rubs me in a wrong way a little: a named function should have space after the name</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> (<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="string">'foo'</span> &#125;</span><br><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="string">'foo'</span> &#125;</span><br></pre></td></tr></table></figure>
+<p>Aside from this, the Standard is pretty similar to what I like, and the
+<a href="https://github.com/feross/standard#faq" target="_blank" rel="noopener">additional configuration</a>
+is possible because under the covers it is ESLint.</p>
+<p>You can let everyone know that your project follows this code style <em>standard</em> by
+using one of the two badges:</p>
+<p><img src="https://cdn.rawgit.com/feross/standard/master/badge.svg" alt="badge1">
+<img src="https://img.shields.io/badge/code%20style-standard-brightgreen.svg" alt="badge2"></p>
+<p>I <a href="../project-status-badges/">love badges</a>!</p>
+<h2><span id="update-2-automatic-formatting">Update 2 - Automatic formatting</span></h2><p>When using <a href="https://github.com/feross/standard" target="_blank" rel="noopener">standard</a>, a good companion is automatic reformatter released by the same author
+<a href="https://github.com/maxogden/standard-format" target="_blank" rel="noopener">standard-format</a>. Just install it together and add the command to reformat before
+linting.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev standard standard-format</span><br></pre></td></tr></table></figure>
+<p>Then setup the scripts in the <code>package.json</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">"scripts": &#123;</span><br><span class="line">  "test": "mocha test/*-spec.js",</span><br><span class="line">  "lint": "standard --verbose index.js test/*.js",</span><br><span class="line">  "format": "standard-format -w index.js test/*.js",</span><br><span class="line">  "pretest": "npm run format &amp;&amp; npm run lint"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Every time we run <code>npm test</code>, the tools will fix simple linting issues and will show any remaining
+ones. If there are no lint errors, the tests are run. You can also add common global variable
+names to the list. Just add the names to the <code>package.json</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"standard"</span>: &#123;</span><br><span class="line">    <span class="attr">"globals"</span>: [<span class="string">"describe"</span>, <span class="string">"it"</span>, <span class="string">"beforeEach"</span>]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>To hide a <a href="https://github.com/feross/standard#how-do-i-hide-a-certain-warning" target="_blank" rel="noopener">specific warning</a>
+you can add a comment in a single file <code>/*eslint-disable no-eval */</code> or at a specific line</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">eval</span>(source)  <span class="comment">// eslint-disable-line no-eval</span></span><br></pre></td></tr></table></figure>
+<p>See a project using this <a href="https://github.com/bahmutov/obind" target="_blank" rel="noopener">obind</a>.</p>
+<h2><span id="update-3-automatic-css-formatting-and-linting">Update 3 - Automatic CSS formatting and linting</span></h2><p>In addition to the automatic JavaScript formatting, I have started using similar tools for linting
+my CSS with <a href="https://github.com/stylelint/stylelint#readme" target="_blank" rel="noopener">stylelint</a> and
+<a href="https://www.npmjs.com/package/stylefmt" target="_blank" rel="noopener">stylefmt</a>. I am using
+<a href="https://github.com/stylelint/stylelint-config-standard#readme" target="_blank" rel="noopener">stylelint-config-standard</a>
+that specifies the linting settings and is shared between the formatter and linter
+(via <code>package.json</code> property).</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev stylelint stylefmt stylelint-config-standard</span><br></pre></td></tr></table></figure>
+<p>and set the config and script commands in the <code>package.json</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">    <span class="attr">"stylelint"</span>: <span class="string">"stylelint src/*.css"</span>,</span><br><span class="line">    <span class="attr">"stylefmt"</span>: <span class="string">"stylefmt src/*.css"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"stylelint"</span>: &#123;</span><br><span class="line">    <span class="attr">"extends"</span>: <span class="string">"stylelint-config-standard"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Typically, my styles do not change very often, so I run CSS format and lint commands on
+each pre-commit hook, instead of running them before each test.</p>
+<h2><span id="update-4">Update 4</span></h2><p>I have described how I setup linting in August of 2017 in
+<a href="../linters-gonna-lint/">linters gonna lint</a></p>
+<h2><span id="update-5-shared-eslint-config">Update 5 - Shared ESLint config</span></h2><p>Assuming you have a lot of custom ESLint rules and settings, you probably want to share them
+among the projects. It is straightforward to move the settings into a separate NPM module,
+which you can then install as a dev dependency. For example, here is ESLint module with all
+linting rules we use at <a href="https://www.cypress.io/" target="_blank" rel="noopener">Cypress.io</a> in 
+<a href="https://github.com/cypress-io/eslint-plugin-cypress-dev" target="_blank" rel="noopener">eslint-plugin-cypress-dev</a>.</p>
+<p>You just install this module with <code>npm install --save-dev eslint-plugin-cypress-dev</code>
+and then specify in your <code>.eslintrc</code> file which collection of rules you want to bring.
+There are <code>general</code>, <code>test</code> (for your Mocha unit tests) and <code>react</code> sets. Most of the time
+just add <code>general</code> and you will be all set</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// .eslintc</span><br><span class="line">&#123;</span><br><span class="line">  &quot;extends&quot;: [</span><br><span class="line">    &quot;plugin:cypress-dev/general&quot;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>See how these rules are specified in the <code>eslint-plugin-cypress-dev</code> in the exported file
+<a href="https://github.com/cypress-io/eslint-plugin-cypress-dev/blob/master/index.js" target="_blank" rel="noopener">index.js</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  configs: &#123;</span><br><span class="line">    general: &#123;</span><br><span class="line">      env: &#123;</span><br><span class="line">        commonjs: <span class="literal">true</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">      parserOptions: &#123;</span><br><span class="line">        ecmaVersion: <span class="number">6</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">      rules: &#123;</span><br><span class="line">        <span class="string">'array-bracket-spacing'</span>: [<span class="string">'error'</span>, <span class="string">'never'</span>],</span><br><span class="line">        <span class="string">'arrow-parens'</span>: [<span class="string">'error'</span>, <span class="string">'always'</span>]</span><br><span class="line">        <span class="comment">// lots more rules</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>That&#39;s it - you just export a named object with rules, just like you would code it in <code>.eslintrc</code>
+file.</p>
+<h2><span id="update-6-linting-in-a-monorepo">Update 6 - linting in a monorepo</span></h2><p>If you have a large repo with lots of subprojects, you do not have to install <code>eslint</code> in every
+subfolder. Instead, install it in the root, and then &quot;find it&quot; using <a href="https://github.com/bahmutov/bin-up" target="_blank" rel="noopener">bin-up</a> tool, which
+you should install in each subfolder (but <code>bin-up</code> is very small).</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i -D bin-up</span><br></pre></td></tr></table></figure>
+<p>Then setup the lint script like this</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">    <span class="attr">"lint"</span>: <span class="string">"$(bin-up eslint) *.js"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>bin-up</code> will go up the folder tree, until it either finds the specified tool in one of
+<code>node_modules/.bin</code> folders, or reaches Git root.</p>
+
+      
+    </div>
+
+    
+      <footer class="article-footer personal-links">
+  Follow Gleb Bahmutov <a href="https://twitter.com/bahmutov">@bahmutov</a>,
+  see his projects at <a href="http://glebbahmutov.com">glebbahmutov.com</a>
+</footer>
+<script src="https://rawgit.com/toddmotto/linkjuice/702066a37124081e7ad1a972844a9a91115be05a/dist/linkjuice.js"></script>
+<script>
+function contentFn (node, icon) {
+  const s = '<a href="#' + node.id + '" class="linkjuice">' +
+    node.innerHTML + ' ' + icon + '</a>\n'
+  return s
+}
+linkjuice.init('.article-entry', {
+  selectors: ['h2 span'],
+  icon: '<span class="link-symbol">#</span>',
+  contentFn: contentFn
+});
+</script>
+
+    
+
+    <footer class="article-footer">
+      <a data-url="https://glebbahmutov.com/blog/1-2-3-linted/" data-id="ck0ch2spo000xpzooyu34qrns" class="article-share-link">Share</a>
+      
+        <a href="https://glebbahmutov.com/blog/1-2-3-linted/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="../tags/nodejs/">nodejs</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../tags/testing/">testing</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="../tags/tutorial/">tutorial</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="../use-some-es6-in-cli-apps/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Use some ES6 in CLI apps
+        
+      </div>
+    </a>
+  
+  
+    <a href="../how-to-setup-semantic-release-on-circle-ci/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">How to setup semantic release on Circle CI</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    <style>
+#carbonads {
+  display: block;
+  overflow: hidden;
+  font-size: 11px;
+  font-family: Verdana, "Helvetica Neue", Helvetica, sans-serif;
+  line-height: 1.5;
+}
+
+#carbonads a {
+  color: #258fb8;
+  text-decoration: none;
+}
+
+#carbonads a:hover {
+  text-decoration: underline;
+}
+
+#carbonads span {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+
+.carbon-img {
+  float: left;
+  margin-right: 1em;
+}
+
+.carbon-img img { display: block; }
+
+.carbon-text {
+  display: block;
+  float: left;
+  text-align: left;
+  margin-top: 0.5em;
+}
+@media screen and (min-width: 1024px) {
+  .carbon-text {
+    max-width: calc(100% - 130px - 1em);
+  }
+}
+
+.carbon-poweredby {
+  /*position: absolute;
+  right: 0;
+  bottom: 0;*/
+  float: right;
+  display: block;
+  font-size: 11px;
+}
+</style>
+<div class="widget-wrap">
+  <div class="widget-title">&nbsp;</div>
+  <div class="widget">
+    <!-- Carbon Ads -->
+    <script async type="text/javascript"
+      src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=glebbahmutovcom"
+      id="_carbonads_js"></script>
+  </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="../categories/book-review/">book review</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="../categories/people/">people</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="../categories/process/">process</a><span class="category-list-count">113</span></li><li class="category-list-item"><a class="category-list-link" href="../categories/products/">products</a><span class="category-list-count">319</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="../tags/QUnit/">QUnit</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/a11y/">a11y</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/advice/">advice</a><span class="tag-list-count">100</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/angularjs/">angularjs</a><span class="tag-list-count">58</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/angularjs2/">angularjs2</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/assertions/">assertions</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ast/">ast</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/boilerplate/">boilerplate</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/browser/">browser</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ci/">ci</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/concurrency/">concurrency</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/cyclejs/">cyclejs</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/cypress/">cypress</a><span class="tag-list-count">46</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/d3/">d3</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/db/">db</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/docker/">docker</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/es6/">es6</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/es7/">es7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/functional/">functional</a><span class="tag-list-count">68</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/generators/">generators</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/git/">git</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/github/">github</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/graphql/">graphql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/grunt/">grunt</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/gulp/">gulp</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/hyperapp/">hyperapp</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/immutable/">immutable</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/interview/">interview</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/jade/">jade</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/javascript/">javascript</a><span class="tag-list-count">161</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/jshint/">jshint</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/modular-development/">modular development</a><span class="tag-list-count">27</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/nodejs/">nodejs</a><span class="tag-list-count">79</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/performance/">performance</a><span class="tag-list-count">17</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/presentation/">presentation</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/promises/">promises</a><span class="tag-list-count">31</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/proposal/">proposal</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ramda/">ramda</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/react/">react</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/reactive/">reactive</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/reactjs/">reactjs</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/screencast/">screencast</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/security/">security</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/sentry/">sentry</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/service-workers/">service workers</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/state-machine/">state machine</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/testing/">testing</a><span class="tag-list-count">97</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/tutorial/">tutorial</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/typescript/">typescript</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/ui/">ui</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/vuejs/">vuejs</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/web-workers/">web workers</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="../tags/zeit/">zeit</a><span class="tag-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="../tags/QUnit/" style="font-size: 11.67px;">QUnit</a> <a href="../tags/a11y/" style="font-size: 10px;">a11y</a> <a href="../tags/advice/" style="font-size: 19.58px;">advice</a> <a href="../tags/angularjs/" style="font-size: 17.92px;">angularjs</a> <a href="../tags/angularjs2/" style="font-size: 10px;">angularjs2</a> <a href="../tags/assertions/" style="font-size: 13.33px;">assertions</a> <a href="../tags/ast/" style="font-size: 12.92px;">ast</a> <a href="../tags/boilerplate/" style="font-size: 15.42px;">boilerplate</a> <a href="../tags/browser/" style="font-size: 16.25px;">browser</a> <a href="../tags/ci/" style="font-size: 13.33px;">ci</a> <a href="../tags/concurrency/" style="font-size: 10px;">concurrency</a> <a href="../tags/cyclejs/" style="font-size: 12.5px;">cyclejs</a> <a href="../tags/cypress/" style="font-size: 17.5px;">cypress</a> <a href="../tags/d3/" style="font-size: 10.83px;">d3</a> <a href="../tags/db/" style="font-size: 14.17px;">db</a> <a href="../tags/docker/" style="font-size: 14.17px;">docker</a> <a href="../tags/es6/" style="font-size: 15px;">es6</a> <a href="../tags/es7/" style="font-size: 10px;">es7</a> <a href="../tags/functional/" style="font-size: 18.33px;">functional</a> <a href="../tags/generators/" style="font-size: 11.67px;">generators</a> <a href="../tags/git/" style="font-size: 15px;">git</a> <a href="../tags/github/" style="font-size: 11.25px;">github</a> <a href="../tags/graphql/" style="font-size: 10.83px;">graphql</a> <a href="../tags/grunt/" style="font-size: 12.5px;">grunt</a> <a href="../tags/gulp/" style="font-size: 10.83px;">gulp</a> <a href="../tags/hyperapp/" style="font-size: 12.5px;">hyperapp</a> <a href="../tags/immutable/" style="font-size: 11.67px;">immutable</a> <a href="../tags/interview/" style="font-size: 10.83px;">interview</a> <a href="../tags/jade/" style="font-size: 11.25px;">jade</a> <a href="../tags/javascript/" style="font-size: 20px;">javascript</a> <a href="../tags/jshint/" style="font-size: 10.83px;">jshint</a> <a href="../tags/modular-development/" style="font-size: 16.67px;">modular development</a> <a href="../tags/nodejs/" style="font-size: 18.75px;">nodejs</a> <a href="../tags/performance/" style="font-size: 15.83px;">performance</a> <a href="../tags/presentation/" style="font-size: 11.25px;">presentation</a> <a href="../tags/promises/" style="font-size: 17.08px;">promises</a> <a href="../tags/proposal/" style="font-size: 10.42px;">proposal</a> <a href="../tags/ramda/" style="font-size: 10px;">ramda</a> <a href="../tags/react/" style="font-size: 10px;">react</a> <a href="../tags/reactive/" style="font-size: 14.58px;">reactive</a> <a href="../tags/reactjs/" style="font-size: 10.83px;">reactjs</a> <a href="../tags/screencast/" style="font-size: 10px;">screencast</a> <a href="../tags/security/" style="font-size: 12.5px;">security</a> <a href="../tags/sentry/" style="font-size: 13.75px;">sentry</a> <a href="../tags/service-workers/" style="font-size: 12.08px;">service workers</a> <a href="../tags/state-machine/" style="font-size: 10px;">state machine</a> <a href="../tags/testing/" style="font-size: 19.17px;">testing</a> <a href="../tags/tutorial/" style="font-size: 14.17px;">tutorial</a> <a href="../tags/typescript/" style="font-size: 11.67px;">typescript</a> <a href="../tags/ui/" style="font-size: 10.42px;">ui</a> <a href="../tags/vuejs/" style="font-size: 11.25px;">vuejs</a> <a href="../tags/web-workers/" style="font-size: 12.08px;">web workers</a> <a href="../tags/zeit/" style="font-size: 12.08px;">zeit</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/09/">September 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/08/">August 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/07/">July 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/06/">June 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/05/">May 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/04/">April 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/03/">March 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2019/01/">January 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/12/">December 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/11/">November 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/10/">October 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/09/">September 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/08/">August 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/06/">June 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/04/">April 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/03/">March 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2018/01/">January 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/12/">December 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/08/">August 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/07/">July 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/06/">June 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/04/">April 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/03/">March 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/02/">February 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2017/01/">January 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/11/">November 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/09/">September 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/08/">August 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/07/">July 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/06/">June 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/04/">April 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/03/">March 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/02/">February 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2016/01/">January 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/12/">December 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/11/">November 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/10/">October 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/09/">September 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/08/">August 2015</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/07/">July 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/06/">June 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/05/">May 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/04/">April 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/03/">March 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/02/">February 2015</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2015/01/">January 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/12/">December 2014</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/11/">November 2014</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/10/">October 2014</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/09/">September 2014</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/08/">August 2014</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/07/">July 2014</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/06/">June 2014</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/05/">May 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/04/">April 2014</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/03/">March 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/02/">February 2014</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2014/01/">January 2014</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/12/">December 2013</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/11/">November 2013</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/10/">October 2013</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2013/09/">September 2013</a><span class="archive-list-count">10</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="../configure-prettier-in-vscode/">How to configure Prettier and VSCode</a>
+          </li>
+        
+          <li>
+            <a href="../cypress-using-child-window/">Cypress using child window</a>
+          </li>
+        
+          <li>
+            <a href="../patching-cypress-cli-npm-module/">Patching Cypress CLI NPM module</a>
+          </li>
+        
+          <li>
+            <a href="../fix-low-contrast-with-cypress/">Fix low contrast with Cypress</a>
+          </li>
+        
+          <li>
+            <a href="../filter-mocha-tests/">Filtering Mocha tests</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Gleb Bahmutov<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'betterworldbybettersoftware';
+  
+  var disqus_url = 'https://glebbahmutov.com/blog/1-2-3-linted/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="../fancybox/jquery.fancybox.css">
+  <script src="../fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="../js/script.js"></script>
+
+  </div>
+  <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
+<script>
+(function centerMainOnAsideScroll () {
+  // when aside side bar scrolls outside the view
+  // it centers the main content.
+  const main = document.querySelector('#main')
+  const aside = document.querySelector('aside#sidebar')
+  console.assert(main, 'could not get #main')
+  console.assert(aside, 'could not get aside')
+  // initially the aside sidebar is visible
+  let asideVisible = true
+
+  function centerMain () {
+    console.log('adding class center-main')
+    main.classList.add('center-main')
+  }
+  function leftMain () {
+    main.classList.remove('center-main')
+  }
+
+  function callWhenAsideScrollsUp (becameInvisible, becameVisible) {
+    return function () {
+      const border = 50
+      const rect = aside.getBoundingClientRect()
+      if (asideVisible && rect.bottom < -border) {
+        asideVisible = false
+        becameInvisible()
+      }
+
+      if (!asideVisible && window.scrollY < border) {
+        asideVisible = true
+        becameVisible()
+      }
+    }
+  }
+  const throttleWaitMs = 250
+  const onScroll = _.throttle(
+    callWhenAsideScrollsUp(centerMain, leftMain),
+    throttleWaitMs
+  )
+  window.addEventListener('scroll', onScroll)
+}())
+</script>
+
+</body>
+</html>
