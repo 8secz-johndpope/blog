@@ -28,7 +28,7 @@
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/eslint-prettier.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/eslint-fix.gif">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/cypress-error.png">
-<meta property="og:updated_time" content="2019-09-09T16:15:37.000Z">
+<meta property="og:updated_time" content="2019-09-10T19:34:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="How to configure Prettier and VSCode">
 <meta name="twitter:description" content="You can configure JavaScript code auto-formatting with Prettier to work per-project. This allows you to get a consistent formatting without thinking or arguing about it. This blog post shows how to co">
@@ -145,13 +145,18 @@ ga('send', 'pageview');
 <li><a href="#vscode-setup">VSCode setup</a></li>
 <li><a href="#format-files-from-cli">Format files from CLI</a></li>
 <li><a href="#format-staged-files-on-commit">Format staged files on commit</a></li>
-<li><a href="#catch-mis-formatted-files-on-ci">Catch mis-formatted files on CI</a></li>
+<li><a href="#catch-mis-formatted-files-on-ci">Catch mis-formatted files on CI</a><ul>
+<li><a href="#using-stop-build">Using stop-build</a></li>
+<li><a href="#using-prettier">Using Prettier</a></li>
+</ul>
+</li>
 <li><a href="#common-problems">Common problems</a><ul>
 <li><a href="#nothing-happens-on-save">Nothing happens on save</a></li>
 <li><a href="#code-formatting-is-wrong">Code formatting is wrong</a></li>
 </ul>
 </li>
 <li><a href="#tips">Tips</a><ul>
+<li><a href="#ignoring-files">Ignoring files</a></li>
 <li><a href="#saving-without-formatting">Saving without formatting</a></li>
 <li><a href="#temporarily-disable-formatting">Temporarily disable formatting</a></li>
 </ul>
@@ -209,10 +214,16 @@ ga('send', 'pageview');
 <p>If you try to commit changed JavaScript files, they will automatically be formatted and re-staged, ensuring only pretty JavaScript code is committed. In the Git commit shortcut output below, the &quot;Running tasks...&quot; messages comes from the <code>lint-staged</code> tool.</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ g done &quot;add husky and lint-staged&quot;</span><br><span class="line">husky &gt; pre-commit (node v12.4.0)</span><br><span class="line">  ↓ Stashing changes... [skipped]</span><br><span class="line">    → No partially staged files found...</span><br><span class="line">  ✔ Running tasks...</span><br><span class="line">[master 583b92a] add husky and lint-staged</span><br><span class="line"> 2 files changed, 1513 insertions(+)</span><br></pre></td></tr></table></figure>
 <p>Of course, you can skip the Git pre-commit hook by committing with <code>-n</code> flag.</p>
-<h2><span id="catch-mis-formatted-files-on-ci">Catch mis-formatted files on CI</span></h2><p>You can really enforce the formatting before pushing code to the central repository by running Prettier on CI and then detecting any changed files. Just run <a href="https://github.com/bahmutov/stop-build" target="_blank" rel="noopener">stop-build</a> after running Prettier.</p>
+<h2><span id="catch-mis-formatted-files-on-ci">Catch mis-formatted files on CI</span></h2><h3><span id="using-stop-build">Using stop-build</span></h3><p>You can really enforce the formatting before pushing code to the central repository by running Prettier on CI and then detecting any changed files. Just run <a href="https://github.com/bahmutov/stop-build" target="_blank" rel="noopener">stop-build</a> after running Prettier.</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">script:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">npm</span> <span class="string">run</span> <span class="string">format</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">npx</span> <span class="string">run</span> <span class="string">stop-build</span></span><br></pre></td></tr></table></figure>
 <p>If any of the source files were reformatted by Prettier, the <code>stop-only</code> will detect changed source files using Git information and will exit with an error. It will list the changed files, something like this:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">⚠️ there are 2 changed files</span><br><span class="line">M projectA/index.js</span><br><span class="line">M projectB/index.js</span><br></pre></td></tr></table></figure>
+<h3><span id="using-prettier">Using Prettier</span></h3><p>Prettier has built-in command <a href="https://prettier.io/docs/en/cli.html#check" target="_blank" rel="noopener"><code>--check</code></a> that validates code files against formatting. Using it from a script in <code>package.json</code> file:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">    <span class="attr">"check"</span>: <span class="string">"prettier --check 'projectA/*.js' 'projectB/*.js'"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Then on CI we can call the script right after <code>npm install</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">script:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">npm</span> <span class="string">install</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">npx</span> <span class="string">run</span> <span class="string">check</span></span><br></pre></td></tr></table></figure>
+<p>Let&#39;s say one of the files has not been formatted.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ npm run check</span><br><span class="line"></span><br><span class="line">&gt; prettier-config-example@1.0.0 check /git/prettier-config-example</span><br><span class="line">&gt; prettier --check &apos;projectA/*.js&apos; &apos;projectB/*.js&apos;</span><br><span class="line"></span><br><span class="line">Checking formatting...</span><br><span class="line">projectB/index.js</span><br><span class="line">Code style issues found in the above file(s). Forgot to run Prettier?</span><br></pre></td></tr></table></figure>
 <h2><span id="common-problems">Common problems</span></h2><h3><span id="nothing-happens-on-save">Nothing happens on save</span></h3><p>You are saving a file in VSCode ... and the code does not change. This could be due to three issues:</p>
 <ol>
 <li>Make sure local workspace settings have auto-format on save enabled. Open <code>.vscode/settings.json</code> file and confirm:<ul>
@@ -241,7 +252,9 @@ ga('send', 'pageview');
 <p>Check if there are OTHER code formatting extensions installed and disable them for this workspace. For some reason, VSCode can use globally installed extension overwriting local setting. Don&#39;t ask. In my case, I had &quot;Prettier-Standard&quot; extension enabled globally. After disabling the &quot;Prettier-Standard&quot; for the current workspace, Prettier extension started working as expected.</p>
 <p><img src="/blog/images/prettier/disable.png" alt="Disabling Prettier-Standard extension"></p>
 <p>Why can&#39;t VSCode save the list of disabled extensions in <code>.vscode/settings.json</code>?</p>
-<h2><span id="tips">Tips</span></h2><h3><span id="saving-without-formatting">Saving without formatting</span></h3><p>If you ever work in someone else&#39;s project, please respect their formatting. In order to avoid reformatting the entire file when you save it from VSCode, save it without formatting. Run &quot;Command + Shift + P&quot; to open the Command Palette and type &quot;save without&quot; until you see &quot;File: Save without Formatting&quot; command - use that.</p>
+<h2><span id="tips">Tips</span></h2><h3><span id="ignoring-files">Ignoring files</span></h3><p>Sometimes you have files that should not be formatted: auto-generated source files, saved snapshots, etc. You can list file masks to ignore in file <code>.prettierignore</code>. For example, to ignore all JavaScript files in <code>snapshots</code> folders use</p>
+<figure class="highlight plain"><figcaption><span>.prettierignore</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># do not run Prettier against JavaScript files</span><br><span class="line"># in &quot;snapshots/&quot; folders</span><br><span class="line">**/snapshots/*.js</span><br></pre></td></tr></table></figure>
+<h3><span id="saving-without-formatting">Saving without formatting</span></h3><p>If you ever work in someone else&#39;s project, please respect their formatting. In order to avoid reformatting the entire file when you save it from VSCode, save it without formatting. Run &quot;Command + Shift + P&quot; to open the Command Palette and type &quot;save without&quot; until you see &quot;File: Save without Formatting&quot; command - use that.</p>
 <p><img src="/blog/images/prettier/save-without-formatting.png" alt="Save without formatting"></p>
 <h3><span id="temporarily-disable-formatting">Temporarily disable formatting</span></h3><p>There is also an extension that temporarily disables format on save feature called <a href="https://marketplace.visualstudio.com/items?itemName=tombonnike.vscode-status-bar-format-toggle" target="_blank" rel="noopener">Formatting Toggle</a>. Install it in your VSCode and whenever you want to temporarily disable Prettier on save, click on the &quot;Formatting&quot; toggle in the status bar.</p>
 <p><img src="/blog/images/prettier/format-toggle.png" alt="Save without formatting"></p>
@@ -313,7 +326,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/configure-prettier-in-vscode/" data-id="ck0clyjux007wuzoo385tu1tb" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/configure-prettier-in-vscode/" data-id="ck0e8n2yn007f5ioo01bia56g" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/configure-prettier-in-vscode/#disqus_thread" class="article-comment-link">Comments</a>
       
