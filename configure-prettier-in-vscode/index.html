@@ -27,8 +27,9 @@
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/eslint-errors.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/eslint-prettier.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/eslint-fix.gif">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/use-eslint-to-format.gif">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/cypress-error.png">
-<meta property="og:updated_time" content="2019-09-10T19:34:28.000Z">
+<meta property="og:updated_time" content="2019-09-11T15:09:11.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="How to configure Prettier and VSCode">
 <meta name="twitter:description" content="You can configure JavaScript code auto-formatting with Prettier to work per-project. This allows you to get a consistent formatting without thinking or arguing about it. This blog post shows how to co">
@@ -165,6 +166,7 @@ ga('send', 'pageview');
 <li><a href="#disable-style-rules-in-eslint">Disable style rules in ESLint</a></li>
 <li><a href="#integrate-eslint-in-vscode">Integrate ESLint in VSCode</a></li>
 <li><a href="#run-prettier-from-eslint">Run Prettier from ESLint</a></li>
+<li><a href="#vscode-eslint-prettier-setup">VSCode + ESLint + Prettier setup</a></li>
 <li><a href="#use-prettier-eslint-cypress">Use Prettier + ESLint + Cypress</a></li>
 </ul>
 </li>
@@ -273,11 +275,11 @@ ga('send', 'pageview');
 <figure class="highlight js"><figcaption><span>projectC/index.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> name = <span class="string">'Joe'</span>; name = <span class="string">'Mary'</span></span><br></pre></td></tr></table></figure>
 <p>Then ESLint will catch the <code>const</code> assignment error; it will also catch that the variable <code>name</code> is never used after assignment.</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> npx eslint projectC/index.js</span></span><br><span class="line"></span><br><span class="line">/prettier-config-example/projectC/index.js</span><br><span class="line">  1:7   error  'name' is assigned a value but never used  no-unused-vars</span><br><span class="line">  1:21  error  'name' is constant                         no-const-assign</span><br><span class="line"></span><br><span class="line">✖ 2 problems (2 errors, 0 warnings)</span><br></pre></td></tr></table></figure>
-<h3><span id="integrate-eslint-in-vscode">Integrate ESLint in VSCode</span></h3><p>Since we are using VSCode, it makes sense to install <a href>ESLint VSCode extension</a></p>
+<h3><span id="integrate-eslint-in-vscode">Integrate ESLint in VSCode</span></h3><p>Since we are using VSCode, it makes sense to install <a href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint" target="_blank" rel="noopener">ESLint VSCode extension</a> called <code>dbaeumer.vscode-eslint</code></p>
 <p>Open Command Pallette with Command + P</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ext install eslint</span><br></pre></td></tr></table></figure>
-<p>The enable this extension in VSCode workspace settings</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;editor.defaultFormatter&quot;: &quot;esbenp.prettier-vscode&quot;,</span><br><span class="line">  &quot;editor.formatOnSave&quot;: true,</span><br><span class="line">  &quot;eslint.enable&quot;: true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ext install dbaeumer.vscode-eslint</span><br></pre></td></tr></table></figure>
+<p>Enable this extension in VSCode workspace settings</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;editor.defaultFormatter&quot;: &quot;dbaeumer.vscode-eslint&quot;,</span><br><span class="line">  &quot;editor.formatOnSave&quot;: true,</span><br><span class="line">  &quot;eslint.enable&quot;: true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>JavaScript files should now show ESLint errors right inside VSCode editor.</p>
 <p><img src="/blog/images/prettier/eslint-errors.png" alt="ESLint errors"></p>
 <p>You can see these errors for yourself by opening <code>projectC/index.js</code> in VSCode from the <a href="https://github.com/bahmutov/prettier-config-example" target="_blank" rel="noopener">example repo</a>.</p>
@@ -290,7 +292,11 @@ ga('send', 'pageview');
 <p><img src="/blog/images/prettier/eslint-prettier.png" alt="ESLint shows Prettier errors"></p>
 <p>If we run ESLint with <code>--fix</code> flag, it will use Prettier to auto format code, solving both stylistic and semantic problems.</p>
 <p><img src="/blog/images/prettier/eslint-fix.gif" alt="ESLint with Prettier fixes the code formatting"></p>
-<p>If you decide to use ESLint with Prettier rules, set ESLint to auto-format your code on save. If you have configured <code>husky</code> to run <code>lint-staged</code>, point it at <code>eslint --fix</code> instead of <code>prettier --write</code>.</p>
+<p>If you decide to use ESLint with Prettier rules and have configured <code>husky</code> to run <code>lint-staged</code>, point it at <code>eslint --fix</code> instead of <code>prettier --write</code>.</p>
+<h3><span id="vscode-eslint-prettier-setup">VSCode + ESLint + Prettier setup</span></h3><p>Let&#39;s configure VSCode to use ESLint to auto-fix found issues, including Prettier. The workspace settings use <a href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint" target="_blank" rel="noopener"><code>dbaeumer.vscode-eslint</code></a>.</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"editor.defaultFormatter"</span>: <span class="string">"dbaeumer.vscode-eslint"</span>,</span><br><span class="line">  <span class="attr">"editor.formatOnSave"</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">"eslint.enable"</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">"eslint.alwaysShowStatus"</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">"eslint.autoFixOnSave"</span>: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The animation shows how saving the file fixes both style and lint problems.</p>
+<p><img src="/blog/images/prettier/use-eslint-to-format.gif" alt="Using ESLint to auto-format and auto-fix issues on save"></p>
 <h3><span id="use-prettier-eslint-cypress">Use Prettier + ESLint + Cypress</span></h3><p>One final touch. If you write <a href="https://www.cypress.io" target="_blank" rel="noopener">Cypress</a> end-to-end tests, there is an official <a href="https://github.com/cypress-io/eslint-plugin-cypress" target="_blank" rel="noopener">cypress-io/eslint-plugin-cypress</a> plugin that can catch some common test mistakes. You can find an example &quot;test&quot; in <code>project-with-Cypress/index.js</code> file.</p>
 <p>First, install the plugin</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> npm i -D eslint-plugin-cypress</span></span><br></pre></td></tr></table></figure>
@@ -326,7 +332,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/configure-prettier-in-vscode/" data-id="ck0ep33to007fmboo01i57q1z" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/configure-prettier-in-vscode/" data-id="ck0feheft007nz4oo79u00kb9" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/configure-prettier-in-vscode/#disqus_thread" class="article-comment-link">Comments</a>
       
