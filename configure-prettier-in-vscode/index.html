@@ -33,7 +33,11 @@
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/prettier-error.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/fix-ts.gif">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/cypress-error.png">
-<meta property="og:updated_time" content="2019-09-12T14:25:51.000Z">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/format-css.gif">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/format-json.gif">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/format-json-6.gif">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/format-md.gif">
+<meta property="og:updated_time" content="2019-09-23T17:13:14.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="How to configure Prettier and VSCode">
 <meta name="twitter:description" content="You can configure JavaScript code auto-formatting with Prettier to work per-project. This allows you to get a consistent formatting without thinking or arguing about it. This blog post shows how to co">
@@ -176,6 +180,9 @@ ga('send', 'pageview');
 <li><a href="#vscode-eslint-prettier-setup">VSCode + ESLint + Prettier setup</a></li>
 <li><a href="#vscode-eslint-prettier-typescript-setup">VSCode + ESLint + Prettier + TypeScript setup</a></li>
 <li><a href="#use-prettier-eslint-cypress">Use Prettier + ESLint + Cypress</a></li>
+<li><a href="#format-other-languages-with-prettier">Format other languages with Prettier</a></li>
+<li><a href="#format-json-files-with-prettier">Format JSON files with Prettier</a></li>
+<li><a href="#use-custom-settings-overrides">Use custom settings overrides</a></li>
 </ul>
 </li>
 </ul>
@@ -331,6 +338,17 @@ ga('send', 'pageview');
 <figure class="highlight js"><figcaption><span>project-with-Cypress/index.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// typical Cypress test</span></span><br><span class="line">it(<span class="string">'loads todos'</span>, () =&gt; &#123;</span><br><span class="line">  <span class="comment">// this is wrong - Cypress commands are asynchronous</span></span><br><span class="line">  <span class="comment">// you cannot get element back from cy.get</span></span><br><span class="line">  <span class="comment">// see https://on.cypress.io/get</span></span><br><span class="line">  <span class="keyword">const</span> myApp = cy.get(<span class="string">'#my-app'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 <p>This WON&#39;T work - <code>cy.get</code> does not return an element, like a Promise, the found element will be passed down the command chain. Notice how ESLint shows an error if you try to assign the value of the <code>cy.get</code> command.</p>
 <p><img src="/blog/images/prettier/cypress-error.png" alt="ESLint shows Cypress error"></p>
+<h3><span id="format-other-languages-with-prettier">Format other languages with Prettier</span></h3><p>Prettier can format many languages: JavaScript, JSON, Markdown, HTML, CSS, etc. Here is formatting CSS for example.</p>
+<p><img src="/blog/images/prettier/format-css.gif" alt="Format CSS file using Prettier"></p>
+<h3><span id="format-json-files-with-prettier">Format JSON files with Prettier</span></h3><p>You can configure Prettier and its VSCode extension to format your JSON files. Since there is already a default JSON formatter built into VSCode, you need to tell VSCode to specifically use <code>esbenp.prettier-vscode</code> to format JSON files. Here is a sample project settings file.</p>
+<figure class="highlight json"><figcaption><span>.vscode/settings.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"editor.defaultFormatter"</span>: <span class="string">"esbenp.prettier-vscode"</span>,</span><br><span class="line">  <span class="attr">"[json]"</span>: &#123;</span><br><span class="line">    <span class="attr">"editor.defaultFormatter"</span>: <span class="string">"esbenp.prettier-vscode"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"editor.formatOnSave"</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">"json.format.enable"</span>: <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/blog/images/prettier/format-json.gif" alt="Format JSON files using Prettier"></p>
+<h3><span id="use-custom-settings-overrides">Use custom settings overrides</span></h3><p>Here is a nice feature - you can set custom Prettier settings for some files. For example, we can use 2 spaces to indent by default, but 4 spaces to indent code blocks inside Markdown files, and 6 spaces to indent JSON files. Just because.</p>
+<figure class="highlight json"><figcaption><span>.prettierrc.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"trailingComma"</span>: <span class="string">"all"</span>,</span><br><span class="line">  <span class="attr">"tabWidth"</span>: <span class="number">2</span>,</span><br><span class="line">  <span class="attr">"semi"</span>: <span class="literal">false</span>,</span><br><span class="line">  <span class="attr">"singleQuote"</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">"overrides"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"files"</span>: <span class="string">"*.md"</span>,</span><br><span class="line">      <span class="attr">"options"</span>: &#123;</span><br><span class="line">        <span class="attr">"tabWidth"</span>: <span class="number">4</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"files"</span>: <span class="string">"*.json"</span>,</span><br><span class="line">      <span class="attr">"options"</span>: &#123;</span><br><span class="line">        <span class="attr">"tabWidth"</span>: <span class="number">6</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Let&#39;s save a JSON file.</p>
+<p><img src="/blog/images/prettier/format-json-6.gif" alt="Format JSON files using Prettier with overridden settings"></p>
+<p>And here is saving a Markdown with a code block - which gets automatically formatted using Prettier with 4 spaces per tab.</p>
+<p><img src="/blog/images/prettier/format-md.gif" alt="Format code blocks inside Markdown files"></p>
 
       
     </div>
@@ -357,7 +375,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/configure-prettier-in-vscode/" data-id="ck0q1a5dx007vbmoo2hgak01x" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/configure-prettier-in-vscode/" data-id="ck0wo6v58007rofoos5vio6xe" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/configure-prettier-in-vscode/#disqus_thread" class="article-comment-link">Comments</a>
       
