@@ -37,7 +37,7 @@
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/format-json.gif">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/format-json-6.gif">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/format-md.gif">
-<meta property="og:updated_time" content="2019-09-23T17:13:14.000Z">
+<meta property="og:updated_time" content="2019-10-08T21:06:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="How to configure Prettier and VSCode">
 <meta name="twitter:description" content="You can configure JavaScript code auto-formatting with Prettier to work per-project. This allows you to get a consistent formatting without thinking or arguing about it. This blog post shows how to co">
@@ -171,6 +171,7 @@ ga('send', 'pageview');
 <li><a href="#ignoring-files">Ignoring files</a></li>
 <li><a href="#saving-without-formatting">Saving without formatting</a></li>
 <li><a href="#temporarily-disable-formatting">Temporarily disable formatting</a></li>
+<li><a href="#only-format-configured-projects">Only format configured projects</a></li>
 </ul>
 </li>
 <li><a href="#use-eslint-with-prettier">Use Eslint with Prettier</a><ul>
@@ -275,6 +276,8 @@ ga('send', 'pageview');
 <p><img src="/blog/images/prettier/save-without-formatting.png" alt="Save without formatting"></p>
 <h3><span id="temporarily-disable-formatting">Temporarily disable formatting</span></h3><p>There is also an extension that temporarily disables format on save feature called <a href="https://marketplace.visualstudio.com/items?itemName=tombonnike.vscode-status-bar-format-toggle" target="_blank" rel="noopener">Formatting Toggle</a>. Install it in your VSCode and whenever you want to temporarily disable Prettier on save, click on the &quot;Formatting&quot; toggle in the status bar.</p>
 <p><img src="/blog/images/prettier/format-toggle.png" alt="Save without formatting"></p>
+<h3><span id="only-format-configured-projects">Only format configured projects</span></h3><p>In the VSCode global settings, set this option to only allow running Prettier in the folders with Prettier config file.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Prettier: Require Config</span><br><span class="line">✅ Require a &apos;prettierconfig&apos; to format</span><br></pre></td></tr></table></figure>
 <h2><span id="use-eslint-with-prettier">Use Eslint with Prettier</span></h2><p>Prettier reformats JavaScript code to follow certain style, it does not check the meaning of the code. For example, Prettier happily reformats the following wrong code.</p>
 <p><img src="/blog/images/prettier/const.gif" alt="Prettier makes this wrong code look pretty"></p>
 <p>Static linters, like <a href="https://eslint.org/" target="_blank" rel="noopener">ESLint</a> can catch the assignment to a constant variable, so we need both:</p>
@@ -375,7 +378,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/configure-prettier-in-vscode/" data-id="ck0wo6v58007rofoos5vio6xe" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/configure-prettier-in-vscode/" data-id="ck1ic55qp01feoiooln27bl4l" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/configure-prettier-in-vscode/#disqus_thread" class="article-comment-link">Comments</a>
       
