@@ -16,7 +16,9 @@
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/fiddle/last-example.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/fiddle/fiddle.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/fiddle/dom-test.png">
-<meta property="og:updated_time" content="2019-10-22T02:40:41.000Z">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/fiddle/last-fiddle.png">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/fiddle/last-test.png">
+<meta property="og:updated_time" content="2019-10-22T13:06:57.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Run End-to-end Tests from Markdown Files">
 <meta name="twitter:description" content="Cypress documentation has a lot of examples. Pretty much every command, like cy.get or cy.last has several realistic examples.  There is a huge problem with documentation examples - they might be wron">
@@ -135,6 +137,11 @@ ga('send', 'pageview');
 <p>Notice the special HTML comments <code>&lt;!-- fiddle DOM test --&gt;</code> and <code>&lt;!-- fiddle-end --&gt;</code>. They are ignored by Markdown render engines. Thus we can safely use them to mark the beginning and the end of each test. Inside the test we can have HTML and JavaScript code blocks. The HTML block will be mounted during the test, and the JavaScript code will be executed as the body of a test. The name of the test is encoded in the starting comment, in this case it will be &quot;DOM test&quot;. The test runs and passes.</p>
 <p><img src="/blog/images/fiddle/dom-test.png" alt="Dom test generated from README.md section"></p>
 <p>From the Markdown file we can generate both the static site (like <a href="https://docs.cypress.io" target="_blank" rel="noopener">https://docs.cypress.io</a>) and run Cypress tests, find one such example in <a href="https://github.com/bahmutov/vuepress-cypress-test-example" target="_blank" rel="noopener">bahmutov/vuepress-cypress-test-example</a>.</p>
+<p>So, the <code>cy.last</code> example in the documentation becomes a fiddle like this:</p>
+<p><img src="/blog/images/fiddle/last-fiddle.png" alt="Last fiddle"></p>
+<p>And it runs as a test in Cypress</p>
+<p><img src="/blog/images/fiddle/last-test.png" alt="Last fiddle test passing"></p>
+<p>Happy testing!</p>
 
       
     </div>
@@ -161,7 +168,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/cypress-fiddle/" data-id="ck218ufcd008o38oozitxhz6a" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/cypress-fiddle/" data-id="ck21v8huu008ogfoogvyd1dxf" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/cypress-fiddle/#disqus_thread" class="article-comment-link">Comments</a>
       
