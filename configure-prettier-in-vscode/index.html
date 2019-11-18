@@ -37,7 +37,8 @@
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/format-json.gif">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/format-json-6.gif">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/format-md.gif">
-<meta property="og:updated_time" content="2019-10-17T18:04:32.000Z">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/prettier-in-gh-action.png">
+<meta property="og:updated_time" content="2019-11-18T23:07:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="How to configure Prettier and VSCode">
 <meta name="twitter:description" content="You can configure JavaScript code auto-formatting with Prettier to work per-project. This allows you to get a consistent formatting without thinking or arguing about it. This blog post shows how to co">
@@ -187,6 +188,7 @@ ga('send', 'pageview');
 </ul>
 </li>
 <li><a href="#chrome-extension">Chrome extension</a></li>
+<li><a href="#run-prettier-inside-github-action">Run Prettier inside GitHub Action</a></li>
 </ul>
 <!-- tocstop -->
 <h2><span id="why-prettier">Why Prettier?</span></h2><p><a href="https://prettier.io/" target="_blank" rel="noopener">Prettier</a> reformats your JavaScript code consistently and (arguably) in way that is easy to read and understand. It takes whatever copy/pasted code snippets you put into your file and makes it look the same as the rest of the code. By using Prettier your team skips ALL disagreements about spacing, variable declarations, semi-colons, trailing commas, etc. The code just magically gets to the format you pick.</p>
@@ -221,6 +223,8 @@ ga('send', 'pageview');
 <p>The same JavaScript code in <code>projectB/index.js</code> gets formatted by Prettier using different local settings and ends up looking different.</p>
 <p><img src="/blog/images/prettier/projectB.gif" alt="Prettier formats projectB/index.js"></p>
 <p>Single quotes, no semi-colons, trailing commas.</p>
+<p><strong>Tip:</strong> I love formatting code on &quot;Save&quot;, but I hate formatting code on &quot;Paste&quot; - because it always adds extra line breaks. So I highly recommend the following VSCode settings</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"editor.defaultFormatter"</span>: <span class="string">"esbenp.prettier-vscode"</span>,</span><br><span class="line">  <span class="attr">"editor.formatOnSave"</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">"editor.formatOnPaste"</span>: <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2><span id="format-files-from-cli">Format files from CLI</span></h2><p>Formatting every file as you save it is nice, but we can also format ALL source files at once using Prettier CLI. In the <code>package.json</code> add a script to format files matching the mask and to write them back to disk.</p>
 <figure class="highlight json"><figcaption><span>package.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"prettier-config-example"</span>,</span><br><span class="line">  <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">    <span class="attr">"format"</span>: <span class="string">"prettier --write 'projectA/*.js' 'projectB/*.js'"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"devDependencies"</span>: &#123;</span><br><span class="line">    <span class="attr">"prettier"</span>: <span class="string">"1.18.2"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>Run this NPM script and the files will be formatted to follow the Prettier style</p>
@@ -354,6 +358,10 @@ ga('send', 'pageview');
 <p>And here is saving a Markdown with a code block - which gets automatically formatted using Prettier with 4 spaces per tab.</p>
 <p><img src="/blog/images/prettier/format-md.gif" alt="Format code blocks inside Markdown files"></p>
 <h2><span id="chrome-extension">Chrome extension</span></h2><p>There is now Chrome <a href="https://github.com/prettier/prettier-chrome-extension" target="_blank" rel="noopener">Prettier extension</a> that can format code blocks in text areas. Seems for now it is limited to StackOverflow and GitHub.</p>
+<h2><span id="run-prettier-inside-github-action">Run Prettier inside GitHub Action</span></h2><p>GitHub Actions are now generally available - and they can do lots of interesting things, including running Prettier on every push and if there are any changes, committing the code and pushing it to the repo. In essence, they are doing the hard work for you! Read <a href="../trying-github-actions/">Trying GitHub Actions</a> blog post for full details, here is the relevant <a href="https://github.com/bahmutov/gh-action-with-prettier/blob/master/.github/workflows/ci.yml" target="_blank" rel="noopener">CI YML file</a> from <a href="https://github.com/bahmutov/gh-action-with-prettier" target="_blank" rel="noopener">bahmutov/gh-action-with-prettier</a> repo.</p>
+<figure class="highlight yml"><figcaption><span>.github/workflows/ci.yml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">Prettier</span></span><br><span class="line"><span class="attr">on:</span> <span class="string">[push]</span></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line"><span class="attr">  build:</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">Prettier</span></span><br><span class="line"><span class="attr">    runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line"><span class="attr">    steps:</span></span><br><span class="line"><span class="attr">      - uses:</span> <span class="string">actions/checkout@v1</span></span><br><span class="line"><span class="attr">      - uses:</span> <span class="string">bahmutov/npm-install@v1</span></span><br><span class="line"><span class="attr">      - run:</span> <span class="string">npm</span> <span class="string">run</span> <span class="string">format</span></span><br><span class="line"><span class="attr">      - run:</span> <span class="string">git</span> <span class="string">status</span></span><br><span class="line">      <span class="comment"># commit any changed files</span></span><br><span class="line">      <span class="comment"># https://github.com/mikeal/publish-to-github-action</span></span><br><span class="line"><span class="attr">      - uses:</span> <span class="string">mikeal/publish-to-github-action@master</span></span><br><span class="line"><span class="attr">        env:</span></span><br><span class="line">          <span class="comment"># github token is automatically injected by GH Action</span></span><br><span class="line"><span class="attr">          GITHUB_TOKEN:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.GITHUB_TOKEN</span> <span class="string">&#125;&#125;</span></span><br></pre></td></tr></table></figure>
+<p>Beautiful, and on every push, if there are any format changes, the code gets updated and pushed, which you can see from the list of commits.</p>
+<p><img src="/blog/images/prettier/prettier-in-gh-action.png" alt="Prettier inside GitHub Action fixing code"></p>
 
       
     </div>
@@ -380,7 +388,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/configure-prettier-in-vscode/" data-id="ck308kbqq007u2xoo0jo322bt" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/configure-prettier-in-vscode/" data-id="ck351j4t101fswxooqk7b6cct" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/configure-prettier-in-vscode/#disqus_thread" class="article-comment-link">Comments</a>
       
