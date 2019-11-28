@@ -19,10 +19,12 @@
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/show-extension.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/prettier-not-enabled.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/save-enables-prettier.gif">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/prettier-tab.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/comma-deleted.gif">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/disable.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/save-without-formatting.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/format-toggle.png">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/require-prettier-config.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/const.gif">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/eslint-errors.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/eslint-prettier.png">
@@ -38,7 +40,7 @@
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/format-json-6.gif">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/format-md.gif">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/prettier-in-gh-action.png">
-<meta property="og:updated_time" content="2019-11-18T23:07:34.000Z">
+<meta property="og:updated_time" content="2019-11-28T18:56:50.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="How to configure Prettier and VSCode">
 <meta name="twitter:description" content="You can configure JavaScript code auto-formatting with Prettier to work per-project. This allows you to get a consistent formatting without thinking or arguing about it. This blog post shows how to co">
@@ -269,6 +271,8 @@ ga('send', 'pageview');
 <p><img src="/blog/images/prettier/prettier-not-enabled.png" alt="Prettier extension is disabled for some reason"></p>
 <p>One thing I have noticed that sometimes saving a file enables Prettier if the <code>.vscode/settings.json</code> have the extension enabled for this workspace. For example in this animation I am saving the file with double quotes around a string, and magically the Prettier extension gets the check mark and does its job. Don&#39;t ask.</p>
 <p><img src="/blog/images/prettier/save-enables-prettier.gif" alt="Saving file enables Prettier and formats the code"></p>
+<p>If you click on the &quot;Prettier&quot; extension word in the status bar, it should open the Prettier output tab. It shows what Prettier extension executes, and often shows the problem. For example, the screenshot below shows that Prettier did not run because the project does not have Prettier configuration file like <code>.prettierrc</code>.</p>
+<p><img src="/blog/images/prettier/prettier-tab.png" alt="Prettier extension tab"></p>
 <p>If everything else fails, quit VSCode and start it again.</p>
 <h3><span id="code-formatting-is-wrong">Code formatting is wrong</span></h3><p>Here is a little animation that shows a file being saved with Prettier setting &quot;trailingComma: true&quot;, yet the comma gets deleted somehow.</p>
 <p><img src="/blog/images/prettier/comma-deleted.gif" alt="Saving file removes trailing comma"></p>
@@ -282,7 +286,9 @@ ga('send', 'pageview');
 <h3><span id="temporarily-disable-formatting">Temporarily disable formatting</span></h3><p>There is also an extension that temporarily disables format on save feature called <a href="https://marketplace.visualstudio.com/items?itemName=tombonnike.vscode-status-bar-format-toggle" target="_blank" rel="noopener">Formatting Toggle</a>. Install it in your VSCode and whenever you want to temporarily disable Prettier on save, click on the &quot;Formatting&quot; toggle in the status bar.</p>
 <p><img src="/blog/images/prettier/format-toggle.png" alt="Save without formatting"></p>
 <h3><span id="only-format-configured-projects">Only format configured projects</span></h3><p>In the VSCode global settings, set this option to only allow running Prettier in the folders with Prettier config file.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Prettier: Require Config</span><br><span class="line">✅ Require a &apos;prettierconfig&apos; to format</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Prettier: Require Config</span><br><span class="line">✅ Require a prettier configuration file to format</span><br></pre></td></tr></table></figure>
+<p><img src="/blog/images/prettier/require-prettier-config.png" alt="User global setting to require configuration file"></p>
+<p>I definitely recommend setting this global option to avoid accidentally changing how the code looks in the projects that do not want to use your or any Prettier settings.</p>
 <h2><span id="use-eslint-with-prettier">Use Eslint with Prettier</span></h2><p>Prettier reformats JavaScript code to follow certain style, it does not check the meaning of the code. For example, Prettier happily reformats the following wrong code.</p>
 <p><img src="/blog/images/prettier/const.gif" alt="Prettier makes this wrong code look pretty"></p>
 <p>Static linters, like <a href="https://eslint.org/" target="_blank" rel="noopener">ESLint</a> can catch the assignment to a constant variable, so we need both:</p>
@@ -388,7 +394,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/configure-prettier-in-vscode/" data-id="ck35b39b601f6pkoojn8aiymg" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/configure-prettier-in-vscode/" data-id="ck3j5pq8200812ufji9bl87hw" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/configure-prettier-in-vscode/#disqus_thread" class="article-comment-link">Comments</a>
       
