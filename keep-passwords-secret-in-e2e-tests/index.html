@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/secret/first-run.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/secret/context.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/secret/visible-password.png">
-<meta property="og:updated_time" content="2019-12-02T04:38:26.000Z">
+<meta property="og:updated_time" content="2019-12-02T14:06:54.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Keep passwords secret in E2E tests">
 <meta name="twitter:description" content="Visible password Do not hardcode passwords Validate password Avoid UI login Continuous integration Plugins Conclusions   Note: source code for this blog post is the repository bahmutov/keep-password">
@@ -214,7 +214,7 @@ ga('send', 'pageview');
 <p><img src="/blog/images/secret/visible-password.png" alt="Password is visible in the public video stored on the CI"></p>
 <p>But the password should not be visible in any other video - because we have modified the spec code to be less &quot;chatty&quot;.</p>
 <h2><span id="plugins">Plugins</span></h2><p>Watch out for any <a href="https://on.cypress.io/plugins" target="_blank" rel="noopener">plugins</a> you use with Cypress Test Runner - they might be printing secrets too. For example, I will add <a href="https://github.com/bahmutov/cypress-failed-log" target="_blank" rel="noopener">cypress-failed-log</a> plugin that prints commands to the terminal.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ nmp i -D cypress-failed-log</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm i -D cypress-failed-log</span><br></pre></td></tr></table></figure>
 <p>The add to the support file the following
 <figure class="highlight js"><figcaption><span>cypress/support/index.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">'cypress-failed-log'</span>)</span><br></pre></td></tr></table></figure></p>
 <p>and to the plugins file
@@ -264,7 +264,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/keep-passwords-secret-in-e2e-tests/" data-id="ck3ny3agh00imnifjdf01m0mu" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/keep-passwords-secret-in-e2e-tests/" data-id="ck3oid1xu00isldfj1e0atbfq" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/keep-passwords-secret-in-e2e-tests/#disqus_thread" class="article-comment-link">Comments</a>
       
