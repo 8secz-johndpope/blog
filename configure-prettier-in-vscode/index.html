@@ -40,7 +40,7 @@
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/format-json-6.gif">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/format-md.gif">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/prettier-in-gh-action.png">
-<meta property="og:updated_time" content="2019-11-28T18:56:50.000Z">
+<meta property="og:updated_time" content="2019-12-17T02:44:08.311Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="How to configure Prettier and VSCode">
 <meta name="twitter:description" content="You can configure JavaScript code auto-formatting with Prettier to work per-project. This allows you to get a consistent formatting without thinking or arguing about it. This blog post shows how to co">
@@ -175,6 +175,7 @@ ga('send', 'pageview');
 <li><a href="#saving-without-formatting">Saving without formatting</a></li>
 <li><a href="#temporarily-disable-formatting">Temporarily disable formatting</a></li>
 <li><a href="#only-format-configured-projects">Only format configured projects</a></li>
+<li><a href="#ignore-parts-of-files">Ignore parts of files</a></li>
 </ul>
 </li>
 <li><a href="#use-eslint-with-prettier">Use Eslint with Prettier</a><ul>
@@ -289,6 +290,8 @@ ga('send', 'pageview');
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Prettier: Require Config</span><br><span class="line">✅ Require a prettier configuration file to format</span><br></pre></td></tr></table></figure>
 <p><img src="/blog/images/prettier/require-prettier-config.png" alt="User global setting to require configuration file"></p>
 <p>I definitely recommend setting this global option to avoid accidentally changing how the code looks in the projects that do not want to use your or any Prettier settings.</p>
+<h3><span id="ignore-parts-of-files">Ignore parts of files</span></h3><p>I love using <a href="https://prettier.io/docs/en/ignore.html" target="_blank" rel="noopener">range ignore</a> to disable formatting parts of file. For example, to stop Prettier from reformatting Markdown tables use:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- prettier-ignore-start --&gt;</span><br><span class="line">name | job</span><br><span class="line">--- | ---</span><br><span class="line">Joe | student</span><br><span class="line">Mary | therapist</span><br><span class="line">&lt;!-- prettier-ignore-end --&gt;</span><br></pre></td></tr></table></figure>
 <h2><span id="use-eslint-with-prettier">Use Eslint with Prettier</span></h2><p>Prettier reformats JavaScript code to follow certain style, it does not check the meaning of the code. For example, Prettier happily reformats the following wrong code.</p>
 <p><img src="/blog/images/prettier/const.gif" alt="Prettier makes this wrong code look pretty"></p>
 <p>Static linters, like <a href="https://eslint.org/" target="_blank" rel="noopener">ESLint</a> can catch the assignment to a constant variable, so we need both:</p>
@@ -394,7 +397,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/configure-prettier-in-vscode/" data-id="ck3svi61c007u5rfjcgkyhcpy" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/configure-prettier-in-vscode/" data-id="ck49a02s5007t6tfj3dl69c7s" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/configure-prettier-in-vscode/#disqus_thread" class="article-comment-link">Comments</a>
       
