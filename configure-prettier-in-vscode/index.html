@@ -40,7 +40,7 @@
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/format-json-6.gif">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/format-md.gif">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/prettier/prettier-in-gh-action.png">
-<meta property="og:updated_time" content="2019-12-17T02:44:08.311Z">
+<meta property="og:updated_time" content="2020-01-10T20:17:59.099Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="How to configure Prettier and VSCode">
 <meta name="twitter:description" content="You can configure JavaScript code auto-formatting with Prettier to work per-project. This allows you to get a consistent formatting without thinking or arguing about it. This blog post shows how to co">
@@ -292,6 +292,8 @@ ga('send', 'pageview');
 <p>I definitely recommend setting this global option to avoid accidentally changing how the code looks in the projects that do not want to use your or any Prettier settings.</p>
 <h3><span id="ignore-parts-of-files">Ignore parts of files</span></h3><p>I love using <a href="https://prettier.io/docs/en/ignore.html" target="_blank" rel="noopener">range ignore</a> to disable formatting parts of file. For example, to stop Prettier from reformatting Markdown tables use:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- prettier-ignore-start --&gt;</span><br><span class="line">name | job</span><br><span class="line">--- | ---</span><br><span class="line">Joe | student</span><br><span class="line">Mary | therapist</span><br><span class="line">&lt;!-- prettier-ignore-end --&gt;</span><br></pre></td></tr></table></figure>
+<p>In code, you can tell Prettier to ignore the next AST node by adding <code>// prettier-ignore</code> comment. For example, in the next test we want to show the array input as a Tic-Tac-Toe board</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">'returns O for second row of O'</span>, () =&gt; &#123;</span><br><span class="line">  <span class="comment">// preserve our Tic-Tac-Toe board formatting</span></span><br><span class="line">  <span class="comment">// prettier-ignore</span></span><br><span class="line">  <span class="keyword">const</span> squares = [</span><br><span class="line">    <span class="string">'X'</span>, <span class="string">'X'</span>, <span class="literal">null</span>,</span><br><span class="line">    <span class="string">'O'</span>, <span class="string">'O'</span>, <span class="string">'O'</span>,</span><br><span class="line">    <span class="literal">null</span>, <span class="literal">null</span>, <span class="string">'X'</span></span><br><span class="line">  ]</span><br><span class="line">  <span class="keyword">const</span> winner = calculateWinner(squares)</span><br><span class="line">  expect(winner).to.equal(<span class="string">'O'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 <h2><span id="use-eslint-with-prettier">Use Eslint with Prettier</span></h2><p>Prettier reformats JavaScript code to follow certain style, it does not check the meaning of the code. For example, Prettier happily reformats the following wrong code.</p>
 <p><img src="/blog/images/prettier/const.gif" alt="Prettier makes this wrong code look pretty"></p>
 <p>Static linters, like <a href="https://eslint.org/" target="_blank" rel="noopener">ESLint</a> can catch the assignment to a constant variable, so we need both:</p>
@@ -326,7 +328,10 @@ ga('send', 'pageview');
 <p><img src="/blog/images/prettier/eslint-fix.gif" alt="ESLint with Prettier fixes the code formatting"></p>
 <p>If you decide to use ESLint with Prettier rules and have configured <code>husky</code> to run <code>lint-staged</code>, point it at <code>eslint --fix</code> instead of <code>prettier --write</code>.</p>
 <h3><span id="vscode-eslint-prettier-setup">VSCode + ESLint + Prettier setup</span></h3><p>Let&#39;s configure VSCode to use ESLint to auto-fix found issues, including Prettier. The workspace settings use <a href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint" target="_blank" rel="noopener"><code>dbaeumer.vscode-eslint</code></a>.</p>
+<p><strong>plugin v1 version (old)</strong></p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"editor.defaultFormatter"</span>: <span class="string">"dbaeumer.vscode-eslint"</span>,</span><br><span class="line">  <span class="attr">"editor.formatOnSave"</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">"eslint.enable"</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">"eslint.alwaysShowStatus"</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">"eslint.autoFixOnSave"</span>: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>plugin v2 version (current)</strong></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"editor.defaultFormatter"</span>: <span class="string">"dbaeumer.vscode-eslint"</span>,</span><br><span class="line">  <span class="attr">"editor.formatOnSave"</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">"eslint.enable"</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">"eslint.alwaysShowStatus"</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">"editor.codeActionsOnSave"</span>: &#123;</span><br><span class="line">    <span class="attr">"source.fixAll.eslint"</span>: <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>The animation shows how saving the file fixes both style and lint problems.</p>
 <p><img src="/blog/images/prettier/use-eslint-to-format.gif" alt="Using ESLint to auto-format and auto-fix issues on save"></p>
 <h3><span id="vscode-eslint-prettier-typescript-setup">VSCode + ESLint + Prettier + TypeScript setup</span></h3><p>ESLint can lint TypeScript files through <a href="https://github.com/typescript-eslint/typescript-eslint" target="_blank" rel="noopener">typescript-eslint</a>, and <a href="https://github.com/prettier/prettier/issues/13" target="_blank" rel="noopener">Prettier can format TypeScript code</a>. Let&#39;s set it up.</p>
@@ -397,7 +402,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/configure-prettier-in-vscode/" data-id="ck4rg65uz0080xrfjvydays93" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/configure-prettier-in-vscode/" data-id="ck58ls78s007tt9fjv8j1ad6m" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/configure-prettier-in-vscode/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -578,7 +583,7 @@ linkjuice.init('.article-entry', {
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2019 Gleb Bahmutov<br>
+      &copy; 2020 Gleb Bahmutov<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
