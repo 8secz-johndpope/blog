@@ -14,7 +14,7 @@
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/check-urls/terminal.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/check-urls/ci.png">
-<meta property="og:updated_time" content="2020-02-13T14:28:43.480Z">
+<meta property="og:updated_time" content="2020-02-13T14:40:13.809Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Check links in your Markdown documents">
 <meta name="twitter:description" content="I want to sleep better at night, I want to know, everyone who is reading one of the many README files in my GitHub repositories has correct URLs. I love adding links to examples, blog posts, other rep">
@@ -52,41 +52,40 @@ ga('send', 'pageview');
   <div id="container">
     <div id="wrap">
       <header id="header">
-  <!-- <div id="banner"></div> -->
+  <div id="banner"></div>
   <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="../index.html" id="logo">Better world by better software</a>
-      </h1>
-      <!--
-      
+    <div id="header-titles">
+      <div id="header-title" class="inner">
+        <h1 id="logo-wrap">
+          <a href="../index.html" id="logo">Better world by better software</a>
+        </h1>
+        <!--
+        
+          <h2 id="subtitle-wrap">
+            <a href="../index.html" id="subtitle">Gleb Bahmutov PhD</a>
+          </h2>
+        
+        -->
+        <!-- <span class="no-mobile">Software advice from</span> -->
         <h2 id="subtitle-wrap">
-          <a href="../index.html" id="subtitle">Gleb Bahmutov PhD</a>
+          <span class="subtitle">
+            <a id="subtitle" href="https://glebbahmutov.com">Gleb Bahmutov PhD</a>
+            <a id="nav-house-link" class="nav-icon" href="/" title="Home"></a>
+            
+              <a id="nav-rss-link" class="nav-icon" href="/blog/atom.xml" title="RSS Feed"></a>
+            
+            <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+            <div id="search-form-wrap">
+              <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://glebbahmutov.com/blog"></form>
+            </div>
+          </span>
         </h2>
-      
-      -->
-      <!-- <span class="no-mobile">Software advice from</span> -->
-      <h2 id="subtitle-wrap">
-        <span class="subtitle">
-          <a id="subtitle" href="http://glebbahmutov.com">Gleb Bahmutov PhD</a>
-        </span>
-      </h2>
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-      </nav>
-      <nav id="sub-nav">
-        <a id="nav-house-link" class="nav-icon" href="/" title="Home"></a>
-        
-          <a id="nav-rss-link" class="nav-icon" href="/blog/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://glebbahmutov.com/blog"></form>
+
       </div>
+    </div>
+    <div id="climate-crisis">
+      <h2>Our planet 🌏 is in danger</h2>
+      <h3>Act today: <a href="/blog/climate-emergency/">what you can do</a></h3>
     </div>
   </div>
 </header>
@@ -153,6 +152,7 @@ ga('send', 'pageview');
 <p>Now we are talking</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> find . -<span class="built_in">type</span> f -name <span class="string">'*.md'</span> ! -path <span class="string">'./node_modules/*'</span> | xargs -L1 npx markdown-link-check --quiet</span></span><br><span class="line"></span><br><span class="line">FILE: ./CODE_OF_CONDUCT.md</span><br><span class="line"></span><br><span class="line">3 links checked.</span><br><span class="line"></span><br><span class="line">FILE: ./README.md</span><br><span class="line"></span><br><span class="line">23 links checked.</span><br><span class="line"></span><br><span class="line">FILE: ./browsers/node12.0.0-chrome73-ff68/README.md</span><br><span class="line"></span><br><span class="line">1 links checked.</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">FILE: ./base/README.md</span><br><span class="line">[✖] ubuntu16-8.16.2</span><br><span class="line">[✖] /ubuntu18-node12.14.1</span><br><span class="line">[✖] /ubuntu19-node12.14.1</span><br><span class="line"></span><br><span class="line">38 links checked.</span><br><span class="line"></span><br><span class="line">ERROR: 3 dead links found!</span><br><span class="line">[✖] ubuntu16-8.16.2 → Status: 400</span><br><span class="line">[✖] /ubuntu18-node12.14.1 → Status: 400</span><br><span class="line">[✖] /ubuntu19-node12.14.1 → Status: 400</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">FILE: ./included/3.6.1/README.md</span><br><span class="line"></span><br><span class="line">1 links checked.</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">echo</span> $?</span></span><br><span class="line">1</span><br></pre></td></tr></table></figure>
 <p>The search fails if any of the links are bad. Now I can sleep tight.</p>
+<p>See example in <a href="https://github.com/cypress-io/cypress-docker-images/pull/244" target="_blank" rel="noopener">cypress-docker-images</a></p>
 
       
     </div>
@@ -179,7 +179,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/check-markdown-links/" data-id="ck6kuavak006kdlfjld5xvi80" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/check-markdown-links/" data-id="ck6pelgu1006hwnfjcach4mtv" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/check-markdown-links/#disqus_thread" class="article-comment-link">Comments</a>
       

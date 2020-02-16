@@ -140,7 +140,6 @@ a.linkjuice:hover .link-symbol {
 .outer {
   max-width: 1220px;
   margin: 0 auto;
-  padding: 0 20px;
 }
 .outer:before,
 .outer:after {
@@ -333,7 +332,6 @@ a.linkjuice:hover .link-symbol {
 #header {
   height: 100px;
   position: relative;
-  background-color: #fff;
   -webkit-box-shadow: 1px 2px 3px #ddd;
   box-shadow: 1px 2px 3px #ddd;
   padding-top: 1em;
@@ -366,7 +364,7 @@ a.linkjuice:hover .link-symbol {
   left: 0;
   width: 100%;
   height: 100%;
-  background: url("images/banner.jpg") center #000;
+  background: url("images/warming-stripes.png") center #000;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
@@ -378,8 +376,7 @@ a.linkjuice:hover .link-symbol {
   }
 }
 #header-title {
-  text-align: center;
-  height: 40px;
+  height: 30px;
   position: absolute;
   left: 0;
 }
@@ -387,27 +384,27 @@ a.linkjuice:hover .link-symbol {
 .subtitle,
 a#subtitle {
   text-decoration: none;
-  color: #000;
-  font-weight: 300;
+  color: #fff;
+  font-weight: 500;
   text-shadow: 0 1px 4px rgba(255,255,255,0.3);
 }
 @media screen and (max-width: 479px) {
   #logo,
   .subtitle,
   a#subtitle {
-    color: #000;
+    color: #fff;
     text-shadow: none;
   }
 }
 #logo {
-  font-size: 40px;
-  line-height: 40px;
+  font-size: 30px;
+  line-height: 30px;
   letter-spacing: 2px;
 }
 @media screen and (max-width: 479px) {
   #logo {
-    font-size: 30px;
-    line-height: 30px;
+    font-size: 20px;
+    line-height: 20px;
   }
   #logo:after {
     content: none;
@@ -415,8 +412,8 @@ a#subtitle {
 }
 @media screen and (min-width: 480px) and (max-width: 767px) {
   #logo {
-    font-size: 30px;
-    line-height: 30px;
+    font-size: 20px;
+    line-height: 20px;
   }
   #logo:after {
     content: none;
@@ -438,6 +435,7 @@ a#subtitle {
   letter-spacing: 1px;
   text-decoration: none;
   border-bottom: 1px solid #808080;
+  padding-right: 10px;
 }
 a#subtitle:hover {
   border-bottom: 1px solid #fff;
@@ -456,8 +454,8 @@ a#subtitle:hover {
 }
 .nav-icon,
 .main-nav-link {
-  float: left;
-  color: #333;
+  display: inline;
+  color: #fff;
   opacity: 0.6;
   text-decoration: none;
   text-shadow: 0 1px rgba(255,255,255,0.2);
@@ -465,8 +463,7 @@ a#subtitle:hover {
   -moz-transition: opacity 0.2s;
   -ms-transition: opacity 0.2s;
   transition: opacity 0.2s;
-  display: block;
-  padding: 20px 15px;
+  padding: 10px 5px;
 }
 .nav-icon:hover,
 .main-nav-link:hover {
@@ -478,7 +475,6 @@ a#subtitle:hover {
   font-size: 14px;
   width: 14px;
   height: 14px;
-  padding: 20px 15px;
   position: relative;
   cursor: pointer;
 }
@@ -579,6 +575,24 @@ a#subtitle:hover {
 .search-form-submit:hover,
 .search-form-submit:focus {
   color: #777;
+}
+#climate-crisis {
+  position: relative;
+  float: right;
+  color: #da2a2a;
+  font-weight: 500;
+  font-size: xx-large;
+}
+#climate-crisis:before,
+#climate-crisis:after {
+  content: "";
+  display: table;
+}
+#climate-crisis:after {
+  clear: both;
+}
+#climate-crisis a {
+  color: #177223;
 }
 .article {
   margin: 50px 0;
