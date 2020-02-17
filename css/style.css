@@ -380,6 +380,11 @@ a.linkjuice:hover .link-symbol {
   position: absolute;
   left: 0;
 }
+@media screen and (max-width: 479px) {
+  #header-title {
+    position: relative;
+  }
+}
 #logo,
 .subtitle,
 a#subtitle {
@@ -392,7 +397,7 @@ a#subtitle {
   #logo,
   .subtitle,
   a#subtitle {
-    color: #fff;
+    color: #333;
     text-shadow: none;
   }
 }
@@ -442,6 +447,11 @@ a#subtitle:hover {
 }
 #subtitle-wrap {
   margin-top: 16px;
+}
+@media screen and (max-width: 479px) {
+  #subtitle-wrap {
+    display: none;
+  }
 }
 #main-nav {
   float: left;
@@ -523,6 +533,7 @@ a#subtitle:hover {
   height: 30px;
   right: -150px;
   opacity: 0;
+  z-index: 10;
   -webkit-transition: 0.2s ease-out;
   -moz-transition: 0.2s ease-out;
   -ms-transition: 0.2s ease-out;
@@ -590,6 +601,12 @@ a#subtitle:hover {
 }
 #climate-crisis:after {
   clear: both;
+}
+@media screen and (max-width: 479px) {
+  #climate-crisis {
+    float: left;
+    font-size: large;
+  }
 }
 #climate-crisis a {
   color: #177223;
