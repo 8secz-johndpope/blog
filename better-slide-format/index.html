@@ -24,7 +24,8 @@
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/slides/tweeted-slide.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/slides/first-last.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/slides/context.png">
-<meta property="og:updated_time" content="2018-02-14T02:33:26.000Z">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/slides/text-shadow.png">
+<meta property="og:updated_time" content="2020-03-03T22:19:27.250Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Better slide format">
 <meta name="twitter:description" content="I have been doing presentations for a while, and I have seen hundreds of them. Here are easy mistakes to avoid when preparing slides. Font is too smallThe number one problem I see (or rather &amp;quot;can">
@@ -198,6 +199,11 @@ slide to make them stand by themselves, without the speaker&#39;s narrative.</p>
 long way in providing a little bit of context to enable anyone reading the
 PDF of the slides to understand your main idea. No need to write paragraphs of
 text on each slide (do not do it!), just an extra title or caption.</p>
+<h2><span id="text-gets-lost-in-background">Text gets lost in background</span></h2><p>If you use a background image, make sure to add a shadow to the text so it stands out. For example, the text at the top of the image has no shadow and is hard to read. The bottom text has custom CSS class applied with text shadow.</p>
+<p><img src="/blog/images/slides/text-shadow.png" alt="Text shadow (bottom)"></p>
+<p>The CSS could be</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.text-outline</span> &#123;</span><br><span class="line">  <span class="attribute">text-shadow</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">3px</span> black, <span class="number">0</span> <span class="number">0</span> <span class="number">5px</span> black, <span class="number">0</span> <span class="number">0</span> <span class="number">10px</span> black;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Tip:</strong> you can also set black background color and lower the background image&#39;s opacity to better separate the foreground text from the image.</p>
 <h2><span id="more-information">More information</span></h2><p>You can find more information on how to deliver good presentations
 in <em>this presentation</em>
 (see at <a href="https://slides.com/bahmutov/public-speaking" target="_blank" rel="noopener">https://slides.com/bahmutov/public-speaking</a>)</p>
@@ -229,7 +235,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/better-slide-format/" data-id="ck7c0hatz0055tdfjph1ck3ao" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/better-slide-format/" data-id="ck7cgmlxq0052kefj78707ygh" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/better-slide-format/#disqus_thread" class="article-comment-link">Comments</a>
       
