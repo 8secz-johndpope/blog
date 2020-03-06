@@ -6,7 +6,7 @@
   <link href="/blog/atom.xml" rel="self"/>
   
   <link href="https://glebbahmutov.com/blog/"/>
-  <updated>2020-03-06T13:51:31.674Z</updated>
+  <updated>2020-03-06T14:00:38.963Z</updated>
   <id>https://glebbahmutov.com/blog/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://glebbahmutov.com/blog/ccl-pitch-at-pkg/"/>
     <id>https://glebbahmutov.com/blog/ccl-pitch-at-pkg/</id>
     <published>2020-03-05T05:00:00.000Z</published>
-    <updated>2020-03-06T13:51:31.674Z</updated>
+    <updated>2020-03-06T14:00:38.963Z</updated>
     
-    <content type="html"><![CDATA[<p>Hi,</p><p>Solving climate crisis is tough. It requires us to change how we behave individually, as communities, and as a city. It will require changes at the state level, but most importantly it requires addressing the problem head-on as a nation.</p><p>I personally think that safe and abundant renewable power is almost here - we have the technology and it already beats coal on price. And the only reason it has not replaced oil and fracking gas is because they don&#39;t pay for the pollution they cause.</p><p>This is where CitizenClimateLobby comes in. We are completely non-partizan organization that works at the federal level, and we are successful. We now have in the House the bill called &quot;Energy Innovation and Carbon Dividend Act&quot; that we lobby for, and it has 80 co-sponsors, both Democrats and Republicans. This bill HR 763 will tax every fossil fuel the moment it gets extracted from the ground. This tax would be collected and then distributed to every citizen of the United States. You get this check and buy renewables that suddenly are so much cheaper.</p><p>The bill is NOT the full solution, but a significant step to making the economics of renewables very very attractive.</p><p>Join us - we have a table over there with Gary - we lobby the Congress via personal visits, phone calling and media campaigns, and endorsements from the industry and prominent individuals.</p><p>Make the fossil fuel pollution expensive - and the world will get greener.</p><ul><li><a href="https://citizensclimatelobby.org/" target="_blank" rel="noopener">https://citizensclimatelobby.org/</a></li><li><a href="https://citizensclimatelobby.org/monthly-calling-campaign/" target="_blank" rel="noopener">https://citizensclimatelobby.org/monthly-calling-campaign/</a></li><li><a href="https://energyinnovationact.org/" target="_blank" rel="noopener">https://energyinnovationact.org/</a></li><li><a href="https://www.eventbrite.com/e/pkg-2020-community-conversations-climate-change-tickets-89265199615" target="_blank" rel="noopener">PKG Community Meeting page</a></li></ul>]]></content>
+    <content type="html"><![CDATA[<p>Hi,</p><p>Solving climate crisis is tough. It requires us to change how we behave individually, as communities, and as a city. It will require changes at the state level, but most importantly it requires addressing the problem head-on as a nation.</p><p>I personally think that safe and abundant renewable power is almost here - we have the technology and it already beats coal on price. And the only reason it has not replaced oil and fracking gas is because they don&#39;t pay for the pollution they cause.</p><p>This is where <a href="https://citizensclimatelobby.org/" target="_blank" rel="noopener">CitizenClimateLobby</a> comes in. We are completely non-partizan organization that works at the federal level, and we are successful. We now have in the House the bill called &quot;<a href="https://energyinnovationact.org/" target="_blank" rel="noopener">Energy Innovation and Carbon Dividend Act</a>&quot; that we lobby for, and it has 80 co-sponsors, both Democrats and Republicans. This bill HR 763 will tax every fossil fuel the moment it gets extracted from the ground. This tax would be collected and then distributed to every citizen of the United States. You get this check and buy renewables that suddenly are so much cheaper.</p><p>The bill is NOT the full solution, but a significant step to making the economics of renewables very very attractive.</p><p>Join us - we have a table over there with Gary - we lobby the Congress via personal visits, phone calling and media campaigns, and endorsements from the industry and prominent individuals.</p><p>Make the fossil fuel pollution expensive - and the world will get greener.</p><ul><li><a href="https://citizensclimatelobby.org/" target="_blank" rel="noopener">https://citizensclimatelobby.org/</a></li><li><a href="https://citizensclimatelobby.org/monthly-calling-campaign/" target="_blank" rel="noopener">https://citizensclimatelobby.org/monthly-calling-campaign/</a></li><li><a href="https://energyinnovationact.org/" target="_blank" rel="noopener">https://energyinnovationact.org/</a></li><li><a href="https://www.eventbrite.com/e/pkg-2020-community-conversations-climate-change-tickets-89265199615" target="_blank" rel="noopener">PKG Community Meeting page</a></li></ul>]]></content>
     
     <summary type="html">
     
@@ -459,9 +459,9 @@
       <category term="process" scheme="https://glebbahmutov.com/blog/categories/process/"/>
     
     
-      <category term="nodejs" scheme="https://glebbahmutov.com/blog/tags/nodejs/"/>
-    
       <category term="cypress" scheme="https://glebbahmutov.com/blog/tags/cypress/"/>
+    
+      <category term="nodejs" scheme="https://glebbahmutov.com/blog/tags/nodejs/"/>
     
   </entry>
   
@@ -643,9 +643,9 @@
     
       <category term="testing" scheme="https://glebbahmutov.com/blog/tags/testing/"/>
     
-      <category term="nodejs" scheme="https://glebbahmutov.com/blog/tags/nodejs/"/>
-    
       <category term="cypress" scheme="https://glebbahmutov.com/blog/tags/cypress/"/>
+    
+      <category term="nodejs" scheme="https://glebbahmutov.com/blog/tags/nodejs/"/>
     
   </entry>
   
