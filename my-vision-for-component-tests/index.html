@@ -25,7 +25,7 @@
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/components/todo3.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/components/graphql-test.gif">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/components/app-test.gif">
-<meta property="og:updated_time" content="2020-04-29T13:14:51.697Z">
+<meta property="og:updated_time" content="2020-04-29T18:34:58.008Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="My Vision for Component Tests in Cypress">
 <meta name="twitter:description" content="Example application The Goal Adding tests Code coverage Component test Styles Testing the interface GraphQL example Components all the way down Benefits Examples Future plans   I have been talking a">
@@ -152,6 +152,10 @@ ga('send', 'pageview');
 <!-- tocstop -->
 <p>I have been talking about framework-specific component testing for ages now. I have even coded a bunch of adaptors like <a href="https://github.com/bahmutov/cypress-react-unit-test" target="_blank" rel="noopener">cypress-react-unit-test</a>, <a href="https://github.com/bahmutov/cypress-vue-unit-test" target="_blank" rel="noopener">cypress-vue-unit-test</a> and others, that allow mounting individual components into Cypress and run them as full-fledged mini-web applications. While the initial solution was technically ok, due to the way Cypress works it has a long list of issues: React Hooks do not work, styles are often lost, etc.</p>
 <p>I am excited to say that we have an [experimental support][<a href="https://github.com/cypress-io/cypress/releases/tag/v4.5.0]" target="_blank" rel="noopener">https://github.com/cypress-io/cypress/releases/tag/v4.5.0]</a> for a new way of binding test code in Cypress v4.5.0 that seems to solve <em>all known problems</em>. In this blog post I will show how it might work, once we release it.</p>
+<center>
+<strong>⚠️ Warning:</strong> component testing is currently in Alpha release. If you find a problem, please open an issue in the adapter repo (like <a href="https://github.com/bahmutov/cypress-react-unit-test" target="_blank" rel="noopener">bahmutov/cypress-react-unit-test</a>, <a href="https://github.com/bahmutov/cypress-vue-unit-test" target="_blank" rel="noopener">bahmutov/cypress-vue-unit-test</a>). Use this awesome feature at your own risk.
+</center>
+
 <h2><span id="example-application">Example application</span></h2><p>I will take a nice Todo application from blog post <a href="https://www.digitalocean.com/community/tutorials/how-to-build-a-react-to-do-app-with-react-hooks" target="_blank" rel="noopener">How To Build a React To-Do App with React Hooks</a> as the starting point. You can see this application yourself at its original <a href="https://codesandbox.io/s/oj3qm2zq06" target="_blank" rel="noopener">https://codesandbox.io/s/oj3qm2zq06</a> URL.</p>
 <p><img src="/blog/images/components/app-code.png" alt="React Todo App"></p>
 <p>I have downloaded the code from the sandbox to my repo <a href="https://github.com/bahmutov/react-todo-with-hooks" target="_blank" rel="noopener">https://github.com/bahmutov/react-todo-with-hooks</a>; it has a CSS file and two JS files - very compact example.</p>
@@ -399,7 +403,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/my-vision-for-component-tests/" data-id="ck9ld4yz600mhkwfjl4huf2ha" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/my-vision-for-component-tests/" data-id="ck9lojr5700mkryfjlg2j3pms" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/my-vision-for-component-tests/#disqus_thread" class="article-comment-link">Comments</a>
       
