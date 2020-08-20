@@ -5,13 +5,13 @@
   
   <title>Test the Preview Vercel Deploys | Better world by better software</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="The site Vercel deployment Index page   Preview deploys Testing Testing previews   GitHub Checks More info   The siteLet&amp;#39;s play with a personal site made using 11ty. You can find the source code">
+  <meta name="description" content="The site Vercel deployment Index page   Preview deploys Testing Testing previews   GitHub Checks Cypress Dashboard Cypress GH Integration More info   The siteLet&amp;#39;s play with a personal site made">
 <meta name="keywords" content="cypress">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Test the Preview Vercel Deploys">
 <meta property="og:url" content="https://glebbahmutov.com/blog/develop-preview-test/index.html">
 <meta property="og:site_name" content="Better world by better software">
-<meta property="og:description" content="The site Vercel deployment Index page   Preview deploys Testing Testing previews   GitHub Checks More info   The siteLet&amp;#39;s play with a personal site made using 11ty. You can find the source code">
+<meta property="og:description" content="The site Vercel deployment Index page   Preview deploys Testing Testing previews   GitHub Checks Cypress Dashboard Cypress GH Integration More info   The siteLet&amp;#39;s play with a personal site made">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/deploy-preview-test/readme.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/deploy-preview-test/settings.png">
@@ -35,10 +35,20 @@
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/deploy-preview-test/post-status.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/deploy-preview-test/post-jobs.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/deploy-preview-test/target_url.png">
-<meta property="og:updated_time" content="2020-08-20T03:08:12.823Z">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/deploy-preview-test/runs.png">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/deploy-preview-test/set-up-project.png">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/deploy-preview-test/record-settings.png">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/deploy-preview-test/secret.png">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/deploy-preview-test/recording-url.png">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/deploy-preview-test/first-run.png">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/deploy-preview-test/gh-app.png">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/deploy-preview-test/configure-gh-app.png">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/deploy-preview-test/comments.png">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/deploy-preview-test/checks.png">
+<meta property="og:updated_time" content="2020-08-20T16:20:51.615Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Test the Preview Vercel Deploys">
-<meta name="twitter:description" content="The site Vercel deployment Index page   Preview deploys Testing Testing previews   GitHub Checks More info   The siteLet&amp;#39;s play with a personal site made using 11ty. You can find the source code">
+<meta name="twitter:description" content="The site Vercel deployment Index page   Preview deploys Testing Testing previews   GitHub Checks Cypress Dashboard Cypress GH Integration More info   The siteLet&amp;#39;s play with a personal site made">
 <meta name="twitter:image" content="https://glebbahmutov.com/blog/images/deploy-preview-test/readme.png">
 <meta name="twitter:creator" content="@bahmutov">
   
@@ -157,6 +167,8 @@ ga('send', 'pageview');
 </ul>
 </li>
 <li><a href="#github-checks">GitHub Checks</a></li>
+<li><a href="#cypress-dashboard">Cypress Dashboard</a></li>
+<li><a href="#cypress-gh-integration">Cypress GH Integration</a></li>
 <li><a href="#more-info">More info</a></li>
 </ul>
 <!-- tocstop -->
@@ -233,7 +245,7 @@ ga('send', 'pageview');
 <figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="deletion">- cy.location("pathname").should("match", /\/README\/$/);</span></span><br><span class="line"><span class="addition">+ cy.location("pathname").should("include", "/README");</span></span><br></pre></td></tr></table></figure>
 <p>Perfect. The test passes locally and against the preview URL.</p>
 <p><img src="/blog/images/deploy-preview-test/passing-e2e.png" alt="Passing E2E test"></p>
-<p>Once the checks are green, I am confident and merge the pull request into the <code>main</code> branch. Vercel then deploys the production site. I can also remove extra CI events and only run the GitHub workflow on successful deployment</p>
+<p>Once the checks are green, I am confident and merge the pull request into the <code>main</code> branch. Vercel then deploys the production site. I can also remove extra CI events and only run the GitHub workflow on successful deployment. To install, cache and run Cypress we can use <a href="https://github.com/cypress-io/github-action" target="_blank" rel="noopener">Cypress GitHub Action</a>:</p>
 <figure class="highlight yml"><figcaption><span>.github/workflows/ci.yml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">ci</span></span><br><span class="line"><span class="comment"># https://docs.github.com/en/actions/reference/events-that-trigger-workflows</span></span><br><span class="line"><span class="attr">on:</span> <span class="string">[deployment_status]</span></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line"><span class="attr">  e2e:</span></span><br><span class="line">    <span class="comment"># only runs this job on successful deploy</span></span><br><span class="line"><span class="attr">    if:</span> <span class="string">github.event.deployment_status.state</span> <span class="string">==</span> <span class="string">'success'</span></span><br><span class="line"><span class="attr">    runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line"><span class="attr">    steps:</span></span><br><span class="line"><span class="attr">      - name:</span> <span class="string">Checkout</span> <span class="string">🛎</span></span><br><span class="line"><span class="attr">        uses:</span> <span class="string">actions/checkout@v1</span></span><br><span class="line"><span class="attr">      - name:</span> <span class="string">Run</span> <span class="string">Cypress</span> <span class="string">🌲</span></span><br><span class="line"><span class="attr">        uses:</span> <span class="string">cypress-io/github-action@v2</span></span><br><span class="line"><span class="attr">        env:</span></span><br><span class="line"><span class="attr">          CYPRESS_BASE_URL:</span> <span class="string">$&#123;&#123;</span> <span class="string">github.event.deployment_status.target_url</span> <span class="string">&#125;&#125;</span></span><br></pre></td></tr></table></figure>
 <h2><span id="github-checks">GitHub Checks</span></h2><p>There is one more detail that GitHub gets wrong when running tests on <code>deployment_status</code> event. It seems to be confused about <em>which commit</em> is tested, so it never reports the status back to the Pull Request. For example in <a href="https://github.com/bahmutov/eleventy-example/pull/3" target="_blank" rel="noopener">#3</a> we see a pending check.</p>
 <p><img src="/blog/images/deploy-preview-test/no-status.png" alt="The e2e CI check is pending even after the tests have finished"></p>
@@ -247,6 +259,31 @@ ga('send', 'pageview');
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">--data &apos;&#123;</span><br><span class="line">  &quot;context&quot;: &quot;e2e&quot;,</span><br><span class="line">  &quot;state&quot;: &quot;success&quot;,</span><br><span class="line">  &quot;description&quot;: &quot;Cypress tests passed&quot;,</span><br><span class="line">  &quot;target_url&quot;: &quot;https://github.com/$&#123;&#123; github.repository &#125;&#125;/actions/runs/$&#123;&#123; github.run_id &#125;&#125;&quot;</span><br><span class="line">&#125;&apos;</span><br></pre></td></tr></table></figure>
 <p>This creates the little &quot;Details&quot; link on the right.</p>
 <p><img src="/blog/images/deploy-preview-test/target_url.png" alt="Run URL in the status check"></p>
+<h2><span id="cypress-dashboard">Cypress Dashboard</span></h2><p>I have mentioned before that every Cypress run generates a video, and every failed Cypress test automatically saves the screenshot of the failure. You can store these test artifacts on GitHub, or send them to the <a href="https://on.cypress.io/dashboard-introduction" target="_blank" rel="noopener">Cypress Dashboard</a> where they can be easily viewed. Let&#39;s set up our project for recording.</p>
+<p>In the Cypress Desktop GUI select the &quot;Runs&quot; tab.</p>
+<p><img src="/blog/images/deploy-preview-test/runs.png" alt="Cypress Runs tab"></p>
+<p>Click the &quot;Set up project to record&quot; button.</p>
+<p>I will place the &quot;eleventy-example&quot; project under my personal &quot;Gleb OSS&quot; organization that has the <a href="https://on.cypress.io/organizations#Requesting-OSS-plan-for-an-org" target="_blank" rel="noopener">Cypress Open Source Software billing plan</a>. The test recordings will be public - everyone should be able to see them.</p>
+<p><img src="/blog/images/deploy-preview-test/set-up-project.png" alt="Setting up the project"></p>
+<p>Once I click &quot;Set up project&quot; button, its project id will be added to the <code>cypress.json</code> file and the recording key is shown. Please keep this <a href="https://on.cypress.io/projects#Record-key" target="_blank" rel="noopener">key private</a>.</p>
+<p><img src="/blog/images/deploy-preview-test/record-settings.png" alt="Project recording key"></p>
+<p>I will set the recording key as a GitHub Action Secret in my repository.</p>
+<p><img src="/blog/images/deploy-preview-test/secret.png" alt="Set the record key as GH Action Secret"></p>
+<p>Let&#39;s update the GitHub workflow file to record test results and artifacts. We are using <a href="https://github.com/cypress-io/github-action" target="_blank" rel="noopener">Cypress GitHub Action</a>, thus we need to add <code>record: true</code> parameter and pass the recording secret as an environment variable.</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># updated ci.yml file</span></span><br><span class="line"><span class="attr">- name:</span> <span class="string">Run</span> <span class="string">Cypress</span> <span class="string">🌲</span></span><br><span class="line"><span class="attr">  uses:</span> <span class="string">cypress-io/github-action@v2</span></span><br><span class="line"><span class="attr">  with:</span></span><br><span class="line"><span class="attr">    record:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  env:</span></span><br><span class="line"><span class="attr">    CYPRESS_BASE_URL:</span> <span class="string">$&#123;&#123;</span> <span class="string">github.event.deployment_status.target_url</span> <span class="string">&#125;&#125;</span></span><br><span class="line"><span class="attr">    CYPRESS_RECORD_KEY:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.CYPRESS_RECORD_KEY</span> <span class="string">&#125;&#125;</span></span><br></pre></td></tr></table></figure>
+<p>The tests run on GitHub and show the recorded run URL <code>https://dashboard.cypress.io/projects/y2sysj/runs/1</code></p>
+<p><img src="/blog/images/deploy-preview-test/recording-url.png" alt="Recorded test runs show the Dashboard URL"></p>
+<p>At the <a href="https://dashboard.cypress.io/projects/y2sysj/runs" target="_blank" rel="noopener">Dashboard page</a> you can see every spec, every video, every screenshot, and lots of <a href="https://on.cypress.io/analytics" target="_blank" rel="noopener">test analytics</a>.</p>
+<p><img src="/blog/images/deploy-preview-test/first-run.png" alt="First recorded run"></p>
+<h2><span id="cypress-gh-integration">Cypress GH Integration</span></h2><p>If we are using GitHub and Cypress Dashboard, we might as well use the <a href="https://on.cypress.io/github-integration" target="_blank" rel="noopener">Cypress GitHub Integration App</a>. I can add it to all my repositories, or just install it for selected repository &quot;eleventy-example&quot;.</p>
+<p><img src="/blog/images/deploy-preview-test/gh-app.png" alt="Installing Cypress GitHub App"></p>
+<p>Once installed, we can configure how the Cypress GH App comments on pull requests and sets status checks.</p>
+<p><img src="/blog/images/deploy-preview-test/configure-gh-app.png" alt="Configure Cypress GitHub App"></p>
+<p>Let&#39;s try a new pull request <a href="https://github.com/bahmutov/eleventy-example/pull/6" target="_blank" rel="noopener">#6</a> - we will see Vercel&#39;s comment and Cypress&#39; GH comment.</p>
+<p><img src="/blog/images/deploy-preview-test/comments.png" alt="Cypress GitHub App comments on the pull requests"></p>
+<p>Cypress GH App adds its own status check to the commit.</p>
+<p><img src="/blog/images/deploy-preview-test/checks.png" alt="Full set of commit status checks"></p>
+<p>Because we have the Cypress GH status check, we could remove our custom test job check implemented using <code>curl</code> commands. I will leave them in for completeness sake.</p>
 <h2><span id="more-info">More info</span></h2><p>If you want to test a site deployed to GitHub Pages, read <a href="../triple-tested/">Triple Tested Static Site Deployed to GitHub Pages Using GitHub Actions</a>.</p>
 <p>You can test deployed previews using <a href="../gatsby-netlify-circle-and-cypress/">Netlify + CircleCI combination</a></p>
 <p>For full confidence, we do recommend adding <a href="https://on.cypress.io/visual-testing" target="_blank" rel="noopener">visual testing</a> using open source or commercial service to your functional end-to-end tests. Visual testing will prevent any CSS or style regressions from creeping into your site.</p>
@@ -277,7 +314,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/develop-preview-test/" data-id="cke2870pv00ak4pfjcc3kx3k0" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/develop-preview-test/" data-id="cke30io0k00aqmyfjxd71cvzz" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/develop-preview-test/#disqus_thread" class="article-comment-link">Comments</a>
       
