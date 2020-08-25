@@ -6,7 +6,7 @@
   <link href="/blog/atom.xml" rel="self"/>
   
   <link href="https://glebbahmutov.com/blog/"/>
-  <updated>2020-08-20T16:20:51.615Z</updated>
+  <updated>2020-08-25T14:04:05.206Z</updated>
   <id>https://glebbahmutov.com/blog/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>It Is OK to Get Stuck Sometimes</title>
+    <link href="https://glebbahmutov.com/blog/it-is-ok-to-get-stuck/"/>
+    <id>https://glebbahmutov.com/blog/it-is-ok-to-get-stuck/</id>
+    <published>2020-08-25T04:00:00.000Z</published>
+    <updated>2020-08-25T14:04:05.206Z</updated>
+    
+    <content type="html"><![CDATA[<p>Everyone gets stuck sometimes. I love and enjoy coding in JavaScript, have been doing it for a while, yet sometimes I commit simple mistakes. Most of the times, the linter or the tests catch them. But sometimes a harder to catch error slips through, stumbling me for a while. Recently, our open source test runner Cypress continuous integration broke due to Mac application code signing.</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> electron-osx-sign Error executing file:</span><br><span class="line">&gt; Stdout:</span><br><span class="line">&gt; Stderr: .../node_modules/@ffmpeg-installer/darwin-x64/ffmpeg: No such file or directory</span><br></pre></td></tr></table></figure><p>We just merged a very large <a href="https://github.com/cypress-io/cypress/pull/7753" target="_blank" rel="noopener">v5.0 pull request</a>, so I naturally suspected the problem to be due to this large code change. The squashed commit included Electron application upgrade, Node version change, and lots of code and dependency changes.</p><p>The funny thing was that it has built and signed the binary from the merge commit, and the CI has started failing on the <em>next</em> build. Even funnier was that I could build and code sign Mac application just fine on my laptop using exactly the same source code. The final piece of the puzzle (that actually should have been my clue) was that the missing file &quot;.../node_modules/@ffmpeg-installer/darwin-x64/ffmpeg&quot; was actually present! Hmm. I started my investigation in <a href="https://github.com/cypress-io/cypress/issues/8299" target="_blank" rel="noopener">issue #8299</a>. I spent probably two full days looking for the source of the problem, trying to update Electron builder, playing with Mac machine versions, etc.</p><p>After 2 days I brought in the big guns: the Cypress&#39; author Brian Mann pair-programmed with me on this issue. We looked at each part of the code, ran the individual actions by themselves - it all seemed to work separately, yet fail together. Altogether we spent around 4-6 hours looking at the CI machine, learnt VIM (normally we code using VSCode) to be able to edit files directly on the CI machine, etc.</p><p>Nothing.</p><p>While looking at some unrelated thing we accidentally looked at the file <a href="https://github.com/cypress-io/cypress/blob/abf4d858694e1be3ae6b93da42c6678ad22ba290/scripts/after-pack-hook.js" target="_blank" rel="noopener">scripts/after-pack-hook.js</a> and Brian saw something suspicious. This code that copies files from each subfolder used <code>async / await</code> keywords:</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">'copying node_modules to'</span>, outputFolder)</span><br><span class="line"></span><br><span class="line">packages.forEach(<span class="keyword">async</span> (packageNodeModules) =&gt; &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'copying'</span>, packageNodeModules)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> sourceFolder = join(params.packager.info._appDir, packageNodeModules)</span><br><span class="line">  <span class="keyword">const</span> destinationFolder = join(outputFolder, packageNodeModules)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">await</span> fs.copy(sourceFolder, destinationFolder)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'all node_modules subfolders copied to'</span>, outputFolder)</span><br></pre></td></tr></table></figure><p>The debug output on the CI machine looked correct:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">copying node_modules to ...</span><br><span class="line">copying folderA</span><br><span class="line">copying folderB</span><br><span class="line">copying folderC</span><br><span class="line">copying folderD</span><br><span class="line">...</span><br><span class="line">all node_modules subfolders copied to ...</span><br></pre></td></tr></table></figure><p>Do you see it? Exactly - the <code>packages.forEach</code> does NOT wait for the result of the callback function, even if it is marked <code>async</code>. Thus this code did NOT wait for the files to be copied, it just went on to the code signing part! The fix was a one line change in <a href="https://github.com/cypress-io/cypress/pull/8378" target="_blank" rel="noopener">PR #8378</a>.</p><figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="deletion">- packages.forEach(async (packageNodeModules) =&gt; &#123;</span></span><br><span class="line"><span class="addition">+ for await (const packageNodeModules of packages) &#123;</span></span><br></pre></td></tr></table></figure><p>Sigh.</p><p>So the code signing used to work accidentally, and once we upgraded the Electron framework and changed the dependencies, the copying slowed down enough for the code signing to not find the <code>ffmpeg</code> file when needed. Yet when we looked at the failed build, the copying has finished and <code>ffmpeg</code> was present, confusing us.</p><p>Last note: if we logged the folder copy operations <em>after</em> the fact we would have seen the problem, since we would see the log lines out of order:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">copying node_modules to ...</span><br><span class="line">all node_modules subfolders copied to ...</span><br><span class="line">copied folderA</span><br><span class="line">copied folderB</span><br><span class="line">copied folderC</span><br><span class="line">copied folderD</span><br><span class="line">...</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Everyone gets stuck sometimes. I love and enjoy coding in JavaScript, have been doing it for a while, yet sometimes I commit simple mista
+      
+    
+    </summary>
+    
+      <category term="people" scheme="https://glebbahmutov.com/blog/categories/people/"/>
+    
+    
+      <category term="javascript" scheme="https://glebbahmutov.com/blog/tags/javascript/"/>
+    
+  </entry>
   
   <entry>
     <title>Test the Preview Vercel Deploys</title>
@@ -819,33 +844,6 @@
       <category term="tutorial" scheme="https://glebbahmutov.com/blog/tags/tutorial/"/>
     
       <category term="github" scheme="https://glebbahmutov.com/blog/tags/github/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Run End-to-end Tests from Markdown Files</title>
-    <link href="https://glebbahmutov.com/blog/cypress-fiddle/"/>
-    <id>https://glebbahmutov.com/blog/cypress-fiddle/</id>
-    <published>2019-10-22T04:00:00.000Z</published>
-    <updated>2020-04-22T19:21:41.353Z</updated>
-    
-    <content type="html"><![CDATA[<p><a href="https://on.cypress.io" target="_blank" rel="noopener">Cypress documentation</a> has a lot of examples. Pretty much every command, like <a href="https://on.cypress.io/get#Examples" target="_blank" rel="noopener"><code>cy.get</code></a> or <a href="https://on.cypress.io/last#Examples" target="_blank" rel="noopener"><code>cy.last</code></a> has several realistic examples.</p><p><img src="/blog/images/fiddle/last-example.png" alt="`cy.last` example"></p><p>There is a huge problem with documentation examples - they might be wrong. Since they are copied from tests, or written by hand without running them, there is no guarantee that they are correct with respect to the latest Cypress version.</p><p>We could write a real end-to-end test for each example and keep it in sync, but this requires a lot of work to stay up-to-date. What if we instead executed the examples <em>directly from the documentation pages</em>? After all, each example has the HTML to mount and test code to run, so it contains all the parts of a real test as code blocks.</p><p>This is what <a href="https://github.com/cypress-io/cypress-fiddle" target="_blank" rel="noopener">@cypress/fiddle</a> does. It contains a test file preprocessor that understand the Markdown file format, finds all specially marked example blocks and creates a Cypress test out of them. For example, see <a href="https://github.com/bahmutov/vuepress-cypress-test-example" target="_blank" rel="noopener">bahmutov/vuepress-cypress-test-example</a>. In that repo, the README.md file contains the following block</p><p><img src="/blog/images/fiddle/fiddle.png" alt="Markdown section with a fiddle"></p><p>Notice the special HTML comments <code>&lt;!-- fiddle DOM test --&gt;</code> and <code>&lt;!-- fiddle-end --&gt;</code>. They are ignored by Markdown render engines. Thus we can safely use them to mark the beginning and the end of each test. Inside the test we can have HTML and JavaScript code blocks. The HTML block will be mounted during the test, and the JavaScript code will be executed as the body of a test. The name of the test is encoded in the starting comment, in this case it will be &quot;DOM test&quot;. The test runs and passes.</p><p><img src="/blog/images/fiddle/dom-test.png" alt="Dom test generated from README.md section"></p><p>From the Markdown file we can generate both the static site (like <a href="https://docs.cypress.io" target="_blank" rel="noopener">https://docs.cypress.io</a>) and run Cypress tests, find one such example in <a href="https://github.com/bahmutov/vuepress-cypress-test-example" target="_blank" rel="noopener">bahmutov/vuepress-cypress-test-example</a>.</p><p>So, the <code>cy.last</code> example in the documentation becomes a fiddle like this:</p><p><img src="/blog/images/fiddle/last-fiddle.png" alt="Last fiddle"></p><p>And it runs as a test in Cypress</p><p><img src="/blog/images/fiddle/last-test.png" alt="Last fiddle test passing"></p><p>Happy testing!</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;a href=&quot;https://on.cypress.io&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Cypress documentation&lt;/a&gt; has a lot of examples. Pretty much every command
-      
-    
-    </summary>
-    
-      <category term="products" scheme="https://glebbahmutov.com/blog/categories/products/"/>
-    
-    
-      <category term="cypress" scheme="https://glebbahmutov.com/blog/tags/cypress/"/>
-    
-      <category term="markdown" scheme="https://glebbahmutov.com/blog/tags/markdown/"/>
     
   </entry>
   
