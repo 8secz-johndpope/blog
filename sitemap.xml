@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://glebbahmutov.com/blog/cypress-book/</loc>
+    
+    <lastmod>2020-09-18T13:42:29.578Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://glebbahmutov.com/blog/what-i-have-done/</loc>
     
     <lastmod>2020-09-02T15:34:53.832Z</lastmod>
@@ -1045,13 +1052,6 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/2-shell-search-commands/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://glebbahmutov.com/blog/1-2-3-linted/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
@@ -1066,7 +1066,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/a-second-taste-of-nodejs-generators/</loc>
+    <loc>https://glebbahmutov.com/blog/2-shell-search-commands/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -1080,7 +1080,14 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/accurate-coverage-number/</loc>
+    <loc>https://glebbahmutov.com/blog/a-second-taste-of-nodejs-generators/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://glebbahmutov.com/blog/a-taste-of-nodejs-generators/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -1101,7 +1108,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/a-taste-of-nodejs-generators/</loc>
+    <loc>https://glebbahmutov.com/blog/accurate-coverage-number/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -1109,6 +1116,13 @@
   
   <url>
     <loc>https://glebbahmutov.com/blog/abandoning-return-values/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://glebbahmutov.com/blog/after-upgrading-to-angular-1.3/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -1129,13 +1143,6 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/after-upgrading-to-angular-1.3/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://glebbahmutov.com/blog/agile-software-quality/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
@@ -1150,7 +1157,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/angular-module-info/</loc>
+    <loc>https://glebbahmutov.com/blog/angular-from-browser-console/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -1164,14 +1171,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/angular-from-browser-console/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://glebbahmutov.com/blog/angular-q-promises-with-timeouts/</loc>
+    <loc>https://glebbahmutov.com/blog/angular-module-info/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -1179,6 +1179,13 @@
   
   <url>
     <loc>https://glebbahmutov.com/blog/angular-nuggets/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://glebbahmutov.com/blog/angular-q-promises-with-timeouts/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -1227,13 +1234,6 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/applicative-intuition/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://glebbahmutov.com/blog/angularjs-performance-lessons/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
@@ -1242,6 +1242,13 @@
   
   <url>
     <loc>https://glebbahmutov.com/blog/angularjs2-intro/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://glebbahmutov.com/blog/applicative-intuition/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -1262,14 +1269,14 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/async-functions-in-sw/</loc>
+    <loc>https://glebbahmutov.com/blog/asking-coworkers/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/asking-coworkers/</loc>
+    <loc>https://glebbahmutov.com/blog/async-functions-in-sw/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -1290,14 +1297,14 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/avoiding-silent-angular-failures/</loc>
+    <loc>https://glebbahmutov.com/blog/avoid-side-effects-with-immutable-data-structures/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/avoid-side-effects-with-immutable-data-structures/</loc>
+    <loc>https://glebbahmutov.com/blog/avoiding-silent-angular-failures/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -1311,14 +1318,14 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/building-runtime-tree-of-angular-modules/</loc>
+    <loc>https://glebbahmutov.com/blog/binding-vs-partial-application/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/binding-vs-partial-application/</loc>
+    <loc>https://glebbahmutov.com/blog/building-runtime-tree-of-angular-modules/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -1360,14 +1367,14 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/check-dependencies-in-grunt-by-default/</loc>
+    <loc>https://glebbahmutov.com/blog/changing-the-function-arguments-trick/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/changing-the-function-arguments-trick/</loc>
+    <loc>https://glebbahmutov.com/blog/check-dependencies-in-grunt-by-default/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -1389,6 +1396,13 @@
   
   <url>
     <loc>https://glebbahmutov.com/blog/code-coverage-proxy/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://glebbahmutov.com/blog/combine-promises-with-maybe-functors/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -1451,21 +1465,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/combine-promises-with-maybe-functors/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://glebbahmutov.com/blog/cyclejs-frontendcamp/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://glebbahmutov.com/blog/debugging-js-minification-bug/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -1479,14 +1479,14 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/debugging-karma-unit-tests/</loc>
+    <loc>https://glebbahmutov.com/blog/debugging-js-minification-bug/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/deep-picking/</loc>
+    <loc>https://glebbahmutov.com/blog/debugging-karma-unit-tests/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -1500,13 +1500,6 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/defensive-distance/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://glebbahmutov.com/blog/defensive-coding-examples/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
@@ -1514,7 +1507,14 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/deployed-commit/</loc>
+    <loc>https://glebbahmutov.com/blog/defensive-distance/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://glebbahmutov.com/blog/deep-picking/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -1522,6 +1522,13 @@
   
   <url>
     <loc>https://glebbahmutov.com/blog/deploy-node-app-to-heroku/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://glebbahmutov.com/blog/deployed-commit/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -1542,13 +1549,6 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/dev-influence/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://glebbahmutov.com/blog/developer-value/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
@@ -1556,7 +1556,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/developing-wiseli/</loc>
+    <loc>https://glebbahmutov.com/blog/dev-influence/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -1570,6 +1570,13 @@
   </url>
   
   <url>
+    <loc>https://glebbahmutov.com/blog/developing-wiseli/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://glebbahmutov.com/blog/di-vs-io-monad-example/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
@@ -1577,14 +1584,14 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/difference-between-promise-and-task/</loc>
+    <loc>https://glebbahmutov.com/blog/do-not-break-dependant-modules/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/do-not-break-dependant-modules/</loc>
+    <loc>https://glebbahmutov.com/blog/difference-between-promise-and-task/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -1619,14 +1626,14 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/end-to-end-unit-testing/</loc>
+    <loc>https://glebbahmutov.com/blog/embed-version-info/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/essence-of-functional-programming/</loc>
+    <loc>https://glebbahmutov.com/blog/end-to-end-unit-testing/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -1640,14 +1647,14 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/embed-version-info/</loc>
+    <loc>https://glebbahmutov.com/blog/essence-of-functional-programming/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/factorial-using-promises/</loc>
+    <loc>https://glebbahmutov.com/blog/express-sessions/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -1668,7 +1675,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/express-sessions/</loc>
+    <loc>https://glebbahmutov.com/blog/factorial-using-promises/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -1696,7 +1703,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/focus-on-karma-test/</loc>
+    <loc>https://glebbahmutov.com/blog/from-callbacks-to-tasks/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -1717,14 +1724,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/from-callbacks-to-tasks/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://glebbahmutov.com/blog/functors-encapsulate-imperative-logic/</loc>
+    <loc>https://glebbahmutov.com/blog/focus-on-karma-test/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -1732,6 +1732,13 @@
   
   <url>
     <loc>https://glebbahmutov.com/blog/functional-pipeline/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://glebbahmutov.com/blog/functors-encapsulate-imperative-logic/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -1759,14 +1766,14 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/git-bisect/</loc>
+    <loc>https://glebbahmutov.com/blog/git-branches-with-descriptions/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/git-branches-with-descriptions/</loc>
+    <loc>https://glebbahmutov.com/blog/git-bisect/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -1780,14 +1787,14 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/hacking-node-require/</loc>
+    <loc>https://glebbahmutov.com/blog/great-league-of-engineers/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/great-league-of-engineers/</loc>
+    <loc>https://glebbahmutov.com/blog/hacking-node-require/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -1815,13 +1822,6 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/homebrew-cli-testing/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://glebbahmutov.com/blog/hooking-into-node-loader-for-fun-and-profit/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
@@ -1829,7 +1829,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/how-to-correctly-unit-test-express-server/</loc>
+    <loc>https://glebbahmutov.com/blog/homebrew-cli-testing/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -1843,7 +1843,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/how-to-setup-semantic-release-on-circle-ci/</loc>
+    <loc>https://glebbahmutov.com/blog/how-to-correctly-unit-test-express-server/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -1858,6 +1858,13 @@
   
   <url>
     <loc>https://glebbahmutov.com/blog/how-to-draw-an-owl/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://glebbahmutov.com/blog/how-to-setup-semantic-release-on-circle-ci/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -1899,6 +1906,13 @@
   </url>
   
   <url>
+    <loc>https://glebbahmutov.com/blog/improving-angular-web-app-performance-example/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://glebbahmutov.com/blog/inject-valid-constants-into-angular/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
@@ -1920,21 +1934,14 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/iterator-callbacks/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://glebbahmutov.com/blog/improving-angular-web-app-performance-example/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://glebbahmutov.com/blog/is-framework-pure-or-not/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://glebbahmutov.com/blog/iterator-callbacks/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -1955,13 +1962,6 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/javascript-closures/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://glebbahmutov.com/blog/javascript-does-not-annoy-me-anymore/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
@@ -1969,7 +1969,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/javascript-stack-size/</loc>
+    <loc>https://glebbahmutov.com/blog/javascript-closures/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -1990,21 +1990,14 @@
   </url>
   
   <url>
+    <loc>https://glebbahmutov.com/blog/javascript-stack-size/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://glebbahmutov.com/blog/journey-from-procedural-to-reactive-javascript-with-stops/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://glebbahmutov.com/blog/json-schema-for-the-win/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://glebbahmutov.com/blog/large-projects-are-never-finished/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2018,14 +2011,14 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/kleisli/</loc>
+    <loc>https://glebbahmutov.com/blog/json-schema-for-the-win/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/lazy-and-async-assertions/</loc>
+    <loc>https://glebbahmutov.com/blog/kleisli/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2039,6 +2032,13 @@
   </url>
   
   <url>
+    <loc>https://glebbahmutov.com/blog/large-projects-are-never-finished/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://glebbahmutov.com/blog/leaving-examples-in-code/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
@@ -2046,7 +2046,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/linking-promises/</loc>
+    <loc>https://glebbahmutov.com/blog/lazy-and-async-assertions/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2074,7 +2074,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/local-microservice-containers/</loc>
+    <loc>https://glebbahmutov.com/blog/linking-promises/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2088,7 +2088,14 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/local-angular-scopes/</loc>
+    <loc>https://glebbahmutov.com/blog/local-overrides/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://glebbahmutov.com/blog/local-microservice-containers/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2102,7 +2109,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/local-overrides/</loc>
+    <loc>https://glebbahmutov.com/blog/local-angular-scopes/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2116,13 +2123,6 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/making-small-docker-image/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://glebbahmutov.com/blog/manual-semantic-release-setup/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
@@ -2130,7 +2130,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/measure-space-allocation/</loc>
+    <loc>https://glebbahmutov.com/blog/making-small-docker-image/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2144,14 +2144,14 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/measuring-semver-adherence/</loc>
+    <loc>https://glebbahmutov.com/blog/missing-feature-in-every-project-planning-app/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/missing-feature-in-every-project-planning-app/</loc>
+    <loc>https://glebbahmutov.com/blog/measuring-semver-adherence/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2172,6 +2172,13 @@
   </url>
   
   <url>
+    <loc>https://glebbahmutov.com/blog/measure-space-allocation/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://glebbahmutov.com/blog/mocking-vs-refactoring/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
@@ -2180,6 +2187,13 @@
   
   <url>
     <loc>https://glebbahmutov.com/blog/modular-development-using-nodejs/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://glebbahmutov.com/blog/monads/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2200,13 +2214,6 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/my-node-tools/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://glebbahmutov.com/blog/my-favorite-functional-adaptors/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
@@ -2214,7 +2221,14 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/monads/</loc>
+    <loc>https://glebbahmutov.com/blog/my-node-tools/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://glebbahmutov.com/blog/my-story-presentations/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2235,13 +2249,6 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/nice-touch-rethinkdb/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://glebbahmutov.com/blog/no-binding-necessary/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
@@ -2249,14 +2256,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/my-story-presentations/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://glebbahmutov.com/blog/not-tested-not-included/</loc>
+    <loc>https://glebbahmutov.com/blog/nice-touch-rethinkdb/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2270,7 +2270,14 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/oo-vs-fp-log-example/</loc>
+    <loc>https://glebbahmutov.com/blog/node-server-with-rx-and-cycle/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://glebbahmutov.com/blog/not-tested-not-included/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2284,7 +2291,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/node-server-with-rx-and-cycle/</loc>
+    <loc>https://glebbahmutov.com/blog/oo-vs-fp-log-example/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2305,14 +2312,14 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/oscon/</loc>
+    <loc>https://glebbahmutov.com/blog/optimizing-nth/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/optimizing-nth/</loc>
+    <loc>https://glebbahmutov.com/blog/oscon/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2340,14 +2347,14 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/partial-argument-binding-with-heroin/</loc>
+    <loc>https://glebbahmutov.com/blog/partial-application-for-options-object/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/partial-application-for-options-object/</loc>
+    <loc>https://glebbahmutov.com/blog/partial-argument-binding-with-heroin/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2375,20 +2382,6 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/passing-multiple-arguments-in-promises/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://glebbahmutov.com/blog/patching-global-Node-tools/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://glebbahmutov.com/blog/passing-options-through-script-tag/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
@@ -2396,7 +2389,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/performance-of-v8-generators-vs-promises/</loc>
+    <loc>https://glebbahmutov.com/blog/passing-multiple-arguments-in-promises/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2410,7 +2403,14 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/picking-snapshot-library/</loc>
+    <loc>https://glebbahmutov.com/blog/performance-of-v8-generators-vs-promises/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://glebbahmutov.com/blog/patching-global-Node-tools/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2424,6 +2424,20 @@
   </url>
   
   <url>
+    <loc>https://glebbahmutov.com/blog/picking-javascript-testing-framework/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://glebbahmutov.com/blog/picking-snapshot-library/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://glebbahmutov.com/blog/playing-with-es6-code/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
@@ -2431,7 +2445,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/playing-with-pouchdb/</loc>
+    <loc>https://glebbahmutov.com/blog/playing-havoc-with-node-module-system/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2459,7 +2473,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/playing-havoc-with-node-module-system/</loc>
+    <loc>https://glebbahmutov.com/blog/playing-with-pouchdb/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2480,6 +2494,20 @@
   </url>
   
   <url>
+    <loc>https://glebbahmutov.com/blog/promises-with-timeouts/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://glebbahmutov.com/blog/promisify-seneca-microservice/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://glebbahmutov.com/blog/promisify-event-emitter/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
@@ -2494,14 +2522,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/promisify-seneca-microservice/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://glebbahmutov.com/blog/promises-with-timeouts/</loc>
+    <loc>https://glebbahmutov.com/blog/pure-programming-with-hyper-app/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2515,14 +2536,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/pure-programming-with-hyper-app/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://glebbahmutov.com/blog/pyramid-of-lexical-scope-doom/</loc>
+    <loc>https://glebbahmutov.com/blog/put-mock-data-into-node-require-cache/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2543,7 +2557,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/quick-solid-module/</loc>
+    <loc>https://glebbahmutov.com/blog/pyramid-of-lexical-scope-doom/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2564,7 +2578,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/put-mock-data-into-node-require-cache/</loc>
+    <loc>https://glebbahmutov.com/blog/quick-solid-module/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2585,14 +2599,14 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/recursive-angular-directive/</loc>
+    <loc>https://glebbahmutov.com/blog/really-painless-modular-development/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/really-painless-modular-development/</loc>
+    <loc>https://glebbahmutov.com/blog/recursive-angular-directive/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2620,13 +2634,6 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/refactoring-to-compose/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://glebbahmutov.com/blog/releasing-for-old-node/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
@@ -2641,14 +2648,14 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/replacing-the-wheels-on-the-running-car/</loc>
+    <loc>https://glebbahmutov.com/blog/refactoring-to-compose/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/rethinkdb-and-bdd-on-ci/</loc>
+    <loc>https://glebbahmutov.com/blog/replacing-the-wheels-on-the-running-car/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2662,7 +2669,21 @@
   </url>
   
   <url>
+    <loc>https://glebbahmutov.com/blog/rethinkdb-and-bdd-on-ci/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://glebbahmutov.com/blog/review-clean-code-by-robert-martin/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://glebbahmutov.com/blog/return-a-promise-for-cleaner-api/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2677,13 +2698,6 @@
   
   <url>
     <loc>https://glebbahmutov.com/blog/review-everyday-calculus-by-oscar-fernandez/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://glebbahmutov.com/blog/review-how-not-to-be-wrong-by-jordan-ellenberg/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2711,14 +2725,14 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/review-the-phantom-tollbooth/</loc>
+    <loc>https://glebbahmutov.com/blog/review-how-not-to-be-wrong-by-jordan-ellenberg/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/return-a-promise-for-cleaner-api/</loc>
+    <loc>https://glebbahmutov.com/blog/review-the-phantom-tollbooth/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2732,14 +2746,14 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/review-the-grapes-of-math-by-alex-bellos/</loc>
+    <loc>https://glebbahmutov.com/blog/review-the-smashing-book-4/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/review-the-smashing-book-4/</loc>
+    <loc>https://glebbahmutov.com/blog/review-the-grapes-of-math-by-alex-bellos/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2789,13 +2803,6 @@
   
   <url>
     <loc>https://glebbahmutov.com/blog/run-express-server-in-your-browser/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://glebbahmutov.com/blog/picking-javascript-testing-framework/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2865,14 +2872,14 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/server-push-on-dokku/</loc>
+    <loc>https://glebbahmutov.com/blog/server-side-constants-injection-into-angular-modules/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/server-side-constants-injection-into-angular-modules/</loc>
+    <loc>https://glebbahmutov.com/blog/server-push-on-dokku/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2886,14 +2893,21 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/service-worker-intro/</loc>
+    <loc>https://glebbahmutov.com/blog/setup-hosted-rethinkdb/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/setup-hosted-rethinkdb/</loc>
+    <loc>https://glebbahmutov.com/blog/sharing-data-between-controller-and-link-without-scope/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://glebbahmutov.com/blog/service-worker-intro/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2907,13 +2921,6 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/shorten-promises/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://glebbahmutov.com/blog/shorten-promises-advanced/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
@@ -2921,7 +2928,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/sharing-data-between-controller-and-link-without-scope/</loc>
+    <loc>https://glebbahmutov.com/blog/shorten-promises/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2956,13 +2963,6 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/slow-updates/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://glebbahmutov.com/blog/simplify-your-life-with-jshint/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
@@ -2970,7 +2970,21 @@
   </url>
   
   <url>
+    <loc>https://glebbahmutov.com/blog/slow-updates/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://glebbahmutov.com/blog/smaller-published-NPM-modules/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://glebbahmutov.com/blog/snapshot-testing/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -2991,7 +3005,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/snapshot-testing/</loc>
+    <loc>https://glebbahmutov.com/blog/splitting-pull-request/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -3005,13 +3019,6 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/splitting-pull-request/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://glebbahmutov.com/blog/spying-on-methods/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
@@ -3019,14 +3026,14 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/starting-to-react/</loc>
+    <loc>https://glebbahmutov.com/blog/stand-your-own-crash-server/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/stand-your-own-crash-server/</loc>
+    <loc>https://glebbahmutov.com/blog/starting-to-react/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -3054,6 +3061,13 @@
   </url>
   
   <url>
+    <loc>https://glebbahmutov.com/blog/sweet-naked-objects/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://glebbahmutov.com/blog/sync-callbacks/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
@@ -3075,28 +3089,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/test-if-a-function-is-pure/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://glebbahmutov.com/blog/test-if-a-function-is-pure-revisited/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://glebbahmutov.com/blog/test-closures/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://glebbahmutov.com/blog/sweet-naked-objects/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -3110,7 +3103,14 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/test-runners/</loc>
+    <loc>https://glebbahmutov.com/blog/test-if-a-function-is-pure-revisited/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://glebbahmutov.com/blog/test-mole/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -3124,7 +3124,14 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/test-mole/</loc>
+    <loc>https://glebbahmutov.com/blog/test-if-a-function-is-pure/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://glebbahmutov.com/blog/test-runners/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -3145,21 +3152,14 @@
   </url>
   
   <url>
+    <loc>https://glebbahmutov.com/blog/testing-async-lazy-assertion/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://glebbahmutov.com/blog/testing-async-module-setup/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://glebbahmutov.com/blog/testing-es6-module-in-cypress-electron/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://glebbahmutov.com/blog/testing-reactive-code/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -3173,14 +3173,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/testing-async-lazy-assertion/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://glebbahmutov.com/blog/testing-svelte-store/</loc>
+    <loc>https://glebbahmutov.com/blog/testing-es6-module-in-cypress-electron/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -3194,7 +3187,21 @@
   </url>
   
   <url>
+    <loc>https://glebbahmutov.com/blog/testing-svelte-store/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://glebbahmutov.com/blog/testing-vue-cli-reload/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://glebbahmutov.com/blog/testing-reactive-code/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -3222,13 +3229,6 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/training-new-developers-like-you-were-a-loan-shark/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://glebbahmutov.com/blog/tightening-project-with-grunt-build/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
@@ -3236,14 +3236,21 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/too-much-point-free/</loc>
+    <loc>https://glebbahmutov.com/blog/too-much-curry/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/too-much-curry/</loc>
+    <loc>https://glebbahmutov.com/blog/training-new-developers-like-you-were-a-loan-shark/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://glebbahmutov.com/blog/too-much-point-free/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -3278,6 +3285,13 @@
   </url>
   
   <url>
+    <loc>https://glebbahmutov.com/blog/unit-testing-angular-load-using-node/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://glebbahmutov.com/blog/unit-testing-angular-from-node-like-a-boss/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
@@ -3292,7 +3306,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/unit-testing-angular-load-using-node/</loc>
+    <loc>https://glebbahmutov.com/blog/unit-testing-promises/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -3300,13 +3314,6 @@
   
   <url>
     <loc>https://glebbahmutov.com/blog/unit-testing-d3-code-without-browser/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://glebbahmutov.com/blog/unit-testing-promises/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -3327,6 +3334,13 @@
   </url>
   
   <url>
+    <loc>https://glebbahmutov.com/blog/use-javascript-functor-today/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://glebbahmutov.com/blog/use-a-little-bit-of-fp/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
@@ -3334,7 +3348,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/use-javascript-functor-today/</loc>
+    <loc>https://glebbahmutov.com/blog/use-some-es6-in-cli-apps/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -3355,28 +3369,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/use-some-es6-in-cli-apps/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://glebbahmutov.com/blog/useful-module-pattern/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://glebbahmutov.com/blog/user-friendly-api/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://glebbahmutov.com/blog/using-node-es6-today/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -3390,7 +3383,14 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/using-webpack/</loc>
+    <loc>https://glebbahmutov.com/blog/using-node-es6-today/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://glebbahmutov.com/blog/user-friendly-api/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -3398,6 +3398,13 @@
   
   <url>
     <loc>https://glebbahmutov.com/blog/variable-assignment-shortcut/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://glebbahmutov.com/blog/using-webpack/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -3432,6 +3439,13 @@
   </url>
   
   <url>
+    <loc>https://glebbahmutov.com/blog/web-working-like-a-boss/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://glebbahmutov.com/blog/what-is-the-difference-between-streams-and-functional-reactive-programming/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
@@ -3440,13 +3454,6 @@
   
   <url>
     <loc>https://glebbahmutov.com/blog/when-in-doubt-return-a-promise/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://glebbahmutov.com/blog/web-working-like-a-boss/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -3474,21 +3481,7 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/winning-hackathons/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://glebbahmutov.com/blog/why-upgrade-dependencies/</loc>
-    
-    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://glebbahmutov.com/blog/why-use-reactive-streams-for-components/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -3502,7 +3495,14 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/year-without-pants-review/</loc>
+    <loc>https://glebbahmutov.com/blog/worst-code/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://glebbahmutov.com/blog/why-use-reactive-streams-for-components/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
@@ -3516,7 +3516,14 @@
   </url>
   
   <url>
-    <loc>https://glebbahmutov.com/blog/worst-code/</loc>
+    <loc>https://glebbahmutov.com/blog/year-without-pants-review/</loc>
+    
+    <lastmod>2018-02-14T02:33:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://glebbahmutov.com/blog/winning-hackathons/</loc>
     
     <lastmod>2018-02-14T02:33:26.000Z</lastmod>
     
