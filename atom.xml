@@ -6,7 +6,7 @@
   <link href="/blog/atom.xml" rel="self"/>
   
   <link href="https://glebbahmutov.com/blog/"/>
-  <updated>2020-09-29T12:52:32.325Z</updated>
+  <updated>2020-09-30T12:48:16.958Z</updated>
   <id>https://glebbahmutov.com/blog/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Multiple Benefits</title>
+    <link href="https://glebbahmutov.com/blog/multiple-benefits/"/>
+    <id>https://glebbahmutov.com/blog/multiple-benefits/</id>
+    <published>2020-09-30T04:00:00.000Z</published>
+    <updated>2020-09-30T12:48:16.958Z</updated>
+    
+    <content type="html"><![CDATA[<p>Many people think the purpose of software development is <em>the software</em>. No. I think the purpose of software development is a better <em>understanding of the problem</em>. Our users, clients, customers might have a problem, and we, the developers, need to find a solution.</p><p>Certainly, writing software could be a solution. Often it solves a part of the client&#39;s problem, while introducing new challenges. Documentation, process improvements, tutorials, blog posts, training sessions - these all could be better solutions to the client&#39;s problem than writing a new software feature. Thus I think the absolute emphasis some organizations put on code commits and features, while ignoring the other types of output, is a misguided and self-limiting approach.</p><h2><span id="the-relative-benefits">The relative benefits</span></h2><p>I often &quot;count&quot; how many benefits we can get from working on the client&#39;s problem, and how much long-term value we can derive. Here are my rules of thumb:</p><ul><li>if we write private code to be deployed, then we get 1x benefit. The code might solve the problem, might not, we often do not know very well until the code is done. We might get paid for writing this code though, but it will also cost us to maintain the code.</li><li>if we write any internal documentation for our own practices (think an internal company wiki), we probably get 0.1x benefit from it. Maybe at some point this wiki will help us write software for the client, but maybe it won&#39;t. Internal documentation requires maintenance, thus it will cost us. I guarantee that wiki will get out of date and will be confusing to the newer hires. Thus I rate private wikis very low and do not contribute to them anymore.</li><li>writing public blog posts describing good development processes, or problems solved, or how-tos I would rate at 5x. Because you get multiple benefits from this:<ul><li>you investigate the problem, thus your understanding increases</li><li>you write better because the final result is <em>public</em>. And I always do a better job when the results are public rather than private</li><li>you raise your own profile by writing about the problem, attracting attention and building your reputation. This is a nice benefit that allows employees to advance in their careers</li><li>you bring the search traffic to your blog. Some companies <em>pay external developers</em> to write articles about everything under the sun just to get that search traffic, see <a href="https://blog.logrocket.com/" target="_blank" rel="noopener">LogRocket blog</a> and <a href="https://blog.bitsrc.io/" target="_blank" rel="noopener">BitSrc.io</a></li></ul></li><li>speaking on the subject at a meetup or a conference gives approximately the same 5x benefit in my opinion. A conference talk might have a strong boost, but I believe it is short-lived compared to a well-written article, and the SEO on the article is stronger. But the preparation for public presentation requires definitely a deeper understanding of the work you have done</li><li>making an open source tool solving the problem well enough gives 10x benefits<ul><li>the work is typically of higher quality - again, because the code is open for everyone&#39;s criticism and inspection prompts its authors to make an effort</li><li>the project can benefit from input and work of the people from the open source community</li><li>the code might be reused multiple times, bringing your own <a href="../developer-value/">developer value</a> to the cool $1mil</li><li>by the way, open source projects can benefit from a free infrastructure provided by code source hosting companies (GitHub, GitLab), continuous integration (no need to pay for your own Jenkins torture device), testing and hosting services, etc</li></ul></li><li>short term exploratory projects commonly called &quot;spikes&quot; are 0.5x - on one hand they help us understand the problem better, but often I do not see any tangible output aside from a single developer getting a better understanding of the problem or its possible solution. This benefit is short-lived; the developer forgets, or moves to another organization. Make sure the spikes produce a public blog post, a library, an update to documentation, something tangible.</li></ul><p>Wait, how can open sourcing code bring <em>more</em> benefits than selling the code to a paying customer? Well, in my experience, few customers require <em>exactly</em> a single piece of code. Most of the time, making a successful business is 10% &quot;special sauce&quot; code and 90% of-the-shelf code ... that does not need to be private. And thus we can safely open source that 90% of the code, get the benefits I have described above, get public recognition, etc. etc.</p><h2><span id="an-example">An example</span></h2><p>This is how I translate the above list into practice. Recently, I wanted to find for sure if some Cypress recipes randomly failing on CI had a real flake in their tests. Normally debugging a failing test is a time sink, right? No if we derive some benefits from this work.</p><ul><li>I wrote a script to run the project again and again. The script, although public, lived in the recipes&#39; repository and was not reusable. 1x benefit, since it was not reusable and no one could easily benefit from it in the wider community.</li><li>By using the script I did find a bunch of tests that had problems in their timing and fixed them. Nice. Even wrote a new section for the blog post <a href="https://www.cypress.io/blog/2020/03/20/working-with-select-elements-and-select2-widgets-in-cypress/" target="_blank" rel="noopener">Working with Select elements and Select2 widgets in Cypress</a>. Extra nice.</li><li>Then I thought about the script and how to make it into its own open source project. To make it into a general <code>cypress run</code> wrapper I needed to parse the command line arguments people might provide like <code>cypress run --browser chrome --record --group frontend ...</code> the same way <code>cypress</code> does it. Thus I <a href="https://github.com/cypress-io/cypress/issues/7760" target="_blank" rel="noopener">added it</a> as a feature to Cypress itself. Ok so far probably 1x benefit.</li><li>Once the <a href="https://on.cypress.io/changelog#4-11-0" target="_blank" rel="noopener">CLI parsing was released</a> (benefitting any user who wants to write own Cypress wrapper), I created <a href="https://github.com/bahmutov/cypress-repeat" target="_blank" rel="noopener">cypress-repeat</a> and <a href="https://github.com/bahmutov/cypress-expect" target="_blank" rel="noopener">cypress-expect</a> - multiple benefits from my original effort that accrue to both Cypress and to me personally</li><li>The same logic I have shown could also be used to implement <a href="https://docs.percy.io/docs/cypress" target="_blank" rel="noopener">@cypress/percy</a> module to avoid launching a child process, since now their wrapper could parse its arguments separately from Cypress&#39; arguments. This strengthening of Cypress ecosystem brings its own benefit, let&#39;s say 1x</li><li>The same wrapper could also be used by the CI providers like AWS Amplify in their integration of <a href="https://www.cypress.io/blog/2019/10/02/cypress-integrated-with-aws-amplify-console-for-end-to-end-testing/" target="_blank" rel="noopener">Cypress Dashboard with their own project web UIs</a> - another 1x benefit</li><li>Finally, I have written a blog post about different ways to use <a href="https://on.cypress.io/module-api" target="_blank" rel="noopener">Cypress NPM Module API</a> in <a href="../wrap-cypress-using-npm/">Wrap Cypress Using NPM Module API</a>. This blog post can be shared, linked from Cypress documentation, etc. It could become a topic fo a future webinar presentation or a meetup talk.</li></ul><p>Simple software, but I derived multiple benefits from developing it.</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Many people think the purpose of software development is &lt;em&gt;the software&lt;/em&gt;. No. I think the purpose of software development is a bett
+      
+    
+    </summary>
+    
+      <category term="process" scheme="https://glebbahmutov.com/blog/categories/process/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>Wrap Cypress Using NPM Module API</title>
@@ -807,31 +830,6 @@
     </summary>
     
       <category term="process" scheme="https://glebbahmutov.com/blog/categories/process/"/>
-    
-    
-      <category term="climate" scheme="https://glebbahmutov.com/blog/tags/climate/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Paint roof white</title>
-    <link href="https://glebbahmutov.com/blog/paint-roof-white/"/>
-    <id>https://glebbahmutov.com/blog/paint-roof-white/</id>
-    <published>2019-12-28T05:00:00.000Z</published>
-    <updated>2019-12-28T03:59:54.824Z</updated>
-    
-    <content type="html"><![CDATA[<p>My house is tall and narrow and lacks an attic. In the summer the bedroom gets pretty hot - because the black rubber coating of the flat roof got really really hot. I could not touch it on a sunny day without burning myself. So I have painted it white using <a href="https://www.homedepot.com/p/Henry-5-Gal-687-100-Acrylic-Enviro-White-Extreme-Elastomeric-Roof-Coating-HE687406/202091034" target="_blank" rel="noopener">Henry Acrylic Enviro-White Extreme Elastomeric Roof Coating</a>.</p><p><img src="/blog/images/roof/white-roof.jpg" alt="The completed roof"></p><p>I have used less than 5 gallons of paint, and have covered the roof with three coatings. The paint is extremely thick, almost like liquid rubber, yet it rolls easily using a regular roller. It is elastomeric - meaning it stretches without cracking as it heats.</p><p><img src="/blog/images/roof/henry-paint.jpeg" alt="Henry paint"></p><p>The difference was immense. On a hot day as I left a small unpainted patch, which I could not touch with my hand, the rest of the roof was absolutely cool to the touch - warm, but fine. We will see next summer how the hot days feel.</p><p>PS: I have heard the argument that black roofs soak the sun in the winter better. I don&#39;t put much stock into that argument - the house should be well isolated, and I am suffering from the heat a lot more than from cold temperatures.</p><p>PSS: I wish I could make a roof garden, but my roof is too small and hard to access, so I picked the white paint instead.</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;My house is tall and narrow and lacks an attic. In the summer the bedroom gets pretty hot - because the black rubber coating of the flat 
-      
-    
-    </summary>
-    
-      <category term="products" scheme="https://glebbahmutov.com/blog/categories/products/"/>
     
     
       <category term="climate" scheme="https://glebbahmutov.com/blog/tags/climate/"/>
