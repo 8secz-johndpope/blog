@@ -23,7 +23,7 @@
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/graphql/routeG.gif">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/graphql/requests.png">
 <meta property="article:published_time" content="2020-10-04T04:00:00.000Z">
-<meta property="article:modified_time" content="2020-10-05T01:54:08.276Z">
+<meta property="article:modified_time" content="2020-10-05T14:24:53.454Z">
 <meta property="article:author" content="Gleb Bahmutov">
 <meta property="article:tag" content="cypress">
 <meta property="article:tag" content="graphql">
@@ -141,6 +141,7 @@ ga('send', 'pageview');
 <li><a href="#operation-name">Operation name</a></li>
 <li><a href="#refactoring-common-code">Refactoring common code</a></li>
 <li><a href="#inspecting-requests">Inspecting requests</a></li>
+<li><a href="#bonus-1-number-of-requests">Bonus 1 - number of requests</a></li>
 <li><a href="#learn-more">Learn more</a></li>
 </ul>
 <!-- tocstop -->
@@ -211,6 +212,10 @@ ga('send', 'pageview');
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; requests &#125; = routeG(&#123; ... &#125;)</span><br><span class="line"><span class="comment">// complete the first item</span></span><br><span class="line"><span class="comment">// check the update call to the server</span></span><br><span class="line">cy.log(<span class="string">&#x27;check call **updateTodo**&#x27;</span>)</span><br><span class="line">cy.wrap(requests)</span><br><span class="line">  .its(<span class="string">&#x27;updateTodo.0&#x27;</span>)</span><br><span class="line">  .should(<span class="string">&#x27;deep.contain&#x27;</span>, &#123;</span><br><span class="line">    operationName: <span class="string">&#x27;updateTodo&#x27;</span>,</span><br><span class="line">    variables: &#123;</span><br><span class="line">      id: <span class="string">&#x27;1&#x27;</span>,</span><br><span class="line">      completed: <span class="literal">true</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
 <p>All requests are saved by the operation name. We can see them all in the <code>cy.wrap(requests)</code> object.</p>
 <p><img src="/blog/images/graphql/requests.png" alt="All GraphQL requests are linked in a single object"></p>
+<h2><span id="bonus-1-number-of-requests">Bonus 1 - number of requests</span></h2><p>When using <code>cy.route</code> or <code>cy.route2</code> the only way to confirm the number of requests was to wait for each one using <a target="_blank" rel="noopener" href="https://on.cypress.io/wait"><code>cy.wait(&lt;alias&gt;)</code></a>. For example, to assert there were two Ajax calls:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cy.route2(...).as(<span class="string">&#x27;ajax&#x27;</span>)</span><br><span class="line">cy.wait(<span class="string">&#x27;@ajax&#x27;</span>)</span><br><span class="line">cy.wait(<span class="string">&#x27;@ajax&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>With <code>routeG</code> and its <code>requests</code> object, you simply assert the length of the array using <a target="_blank" rel="noopener" href="https://on.cypress.io/its"><code>cy.its</code></a> with its built-in <a target="_blank" rel="noopener" href="https://on.cypress.io/retry-ability">retry-ability</a>:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; requests &#125; = routeG(&#123;...&#125;)</span><br><span class="line"><span class="comment">// check if the app really called &quot;operationName: allTodos&quot; twice</span></span><br><span class="line">cy.wrap(requests).its(<span class="string">&#x27;allTodos&#x27;</span>).should(<span class="string">&#x27;have.length&#x27;</span>, <span class="number">2</span>)</span><br></pre></td></tr></table></figure>
 <h2><span id="learn-more">Learn more</span></h2><p>I might play more with <code>routeG</code> to see if I can write useful end-to-end tests for my web applications, and if it turns useful, I might move it from <a target="_blank" rel="noopener" href="https://github.com/bahmutov/todo-graphql-example">bahmutov/todo-graphql-example</a> into its own NPM package. Meanwhile, check out:</p>
 <ul>
 <li>I have described my early attempts at stubbing GraphQL calls from Cypress tests in blog posts <a href="/blog/e2e-testing-graphql-using-cypress/" title="E2E Testing json-graphql-server using Cypress">E2E Testing json-graphql-server using Cypress</a> and <a href="/blog/mock-graphql-with-lunar-in-cypress-tests/" title="Mocking GraphQL with Lunar in Cypress End-to-End Tests">Mocking GraphQL with Lunar in Cypress End-to-End Tests</a></li>
@@ -243,7 +248,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/smart-graphql-stubbing/" data-id="ckfvvuule00x1q2fj61icduma" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/smart-graphql-stubbing/" data-id="ckfwmmxcv00wxkifja3y818l2" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/smart-graphql-stubbing/#disqus_thread" class="article-comment-link">Comments</a>
       
