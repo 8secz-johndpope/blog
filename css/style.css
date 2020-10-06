@@ -1078,6 +1078,17 @@ a.linkjuice:hover {
   -ms-transition: 0.2s ease-out;
   transition: 0.2s ease-out;
 }
+details {
+  line-height: 1.6em;
+}
+summary {
+  margin-top: 0.7em;
+  margin-bottom: 1em;
+  font-style: italic;
+}
+summary:focus {
+  outline: 1px solid lightGray;
+}
 #comments {
   background: #fff;
   -webkit-box-shadow: 1px 2px 3px #ddd;
