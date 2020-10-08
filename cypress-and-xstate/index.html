@@ -5,12 +5,12 @@
   
   <title>Access XState from Cypress Test | Better world by better software</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Model-based app State visualization Connect from test Set the initial data Send state events Listen to events See also   Model-based appDavid K has recently released a good TodoMVC example implement">
+  <meta name="description" content="Model-based app State visualization Connect from test Set the initial data Update - the fix   Send state events Listen to events See also   Model-based appDavid K has recently released a good TodoMV">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Access XState from Cypress Test">
 <meta property="og:url" content="https://glebbahmutov.com/blog/cypress-and-xstate/index.html">
 <meta property="og:site_name" content="Better world by better software">
-<meta property="og:description" content="Model-based app State visualization Connect from test Set the initial data Send state events Listen to events See also   Model-based appDavid K has recently released a good TodoMVC example implement">
+<meta property="og:description" content="Model-based app State visualization Connect from test Set the initial data Update - the fix   Send state events Listen to events See also   Model-based appDavid K has recently released a good TodoMV">
 <meta property="og:locale">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/todomvc-state/state-visualization.gif">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/todomvc-state/initial.png">
@@ -23,7 +23,7 @@
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/todomvc-state/new-todo.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/todomvc-state/listen.gif">
 <meta property="article:published_time" content="2020-10-08T04:00:00.000Z">
-<meta property="article:modified_time" content="2020-10-08T16:22:02.811Z">
+<meta property="article:modified_time" content="2020-10-08T16:46:28.386Z">
 <meta property="article:author" content="Gleb Bahmutov">
 <meta property="article:tag" content="testing">
 <meta property="article:tag" content="cypress">
@@ -137,7 +137,10 @@ ga('send', 'pageview');
 <li><a href="#model-based-app">Model-based app</a></li>
 <li><a href="#state-visualization">State visualization</a></li>
 <li><a href="#connect-from-test">Connect from test</a></li>
-<li><a href="#set-the-initial-data">Set the initial data</a></li>
+<li><a href="#set-the-initial-data">Set the initial data</a><ul>
+<li><a href="#update-the-fix">Update - the fix</a></li>
+</ul>
+</li>
 <li><a href="#send-state-events">Send state events</a></li>
 <li><a href="#listen-to-events">Listen to events</a></li>
 <li><a href="#see-also">See also</a></li>
@@ -180,6 +183,7 @@ ga('send', 'pageview');
 <p>Hmm, seems the <code>completed</code> property gets &quot;lost&quot; on the way to the item</p>
 <p><img src="/blog/images/todomvc-state/completed-to-false.gif" alt="Print individual Todo item"></p>
 <p>Ok, so this goes into the weeds of <code>useActor</code>, so I will stop. This failing test example shows that you still need end-to-end tests, since they can discover problems in your logic, in your code bundling pipeline, in your hosting, in your configuration - all the things that can go wrong for your users can be tested against using Cypress end-to-end tests.</p>
+<h3><span id="update-the-fix">Update - the fix</span></h3><p><a target="_blank" rel="noopener" href="https://twitter.com/DavidKPiano/status/1314241597027090432">David K has fixed the Codesandbox</a>, see <a target="_blank" rel="noopener" href="https://github.com/bahmutov/xstate-todomvc/commit/08f526b86b843ca91f3d38282852c618efdb7772">b7772</a>.</p>
 <h2><span id="send-state-events">Send state events</span></h2><p>If we can access and verify the context, we can also drive the application by sending events from the test to the state machine. For example, let&#39;s add several todos not via user interface, but via state events.</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">&#x27;adds todos&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> state = &#123;&#125;</span><br><span class="line">  cy.visit(<span class="string">&#x27;/&#x27;</span>, &#123;</span><br><span class="line">    onBeforeLoad(win) &#123;</span><br><span class="line">      win.__xstate__ = &#123;</span><br><span class="line">        register: <span class="function">(<span class="params">x</span>) =&gt;</span> &#123;</span><br><span class="line">          state.xstate = x</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  cy.wrap(state)</span><br><span class="line">    .its(<span class="string">&#x27;xstate&#x27;</span>)</span><br><span class="line">    .invoke(<span class="string">&#x27;send&#x27;</span>, &#123; <span class="attr">type</span>: <span class="string">&#x27;NEWTODO.COMMIT&#x27;</span>, <span class="attr">value</span>: <span class="string">&#x27;first todo&#x27;</span> &#125;)</span><br><span class="line">  cy.get(<span class="string">&#x27;.todo-list li&#x27;</span>).should(<span class="string">&#x27;have.length&#x27;</span>, <span class="number">1</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 <p>So we can &quot;drive&quot; the application by sending events to the state machine, and triggering actions, rather than always going through the user interface</p>
@@ -221,7 +225,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/cypress-and-xstate/" data-id="ckg114dnl0087kyfj3xr0e8ll" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/cypress-and-xstate/" data-id="ckg11zo9n0088eefjggp1809r" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/cypress-and-xstate/#disqus_thread" class="article-comment-link">Comments</a>
       
