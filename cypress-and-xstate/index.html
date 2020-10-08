@@ -23,7 +23,7 @@
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/todomvc-state/new-todo.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/todomvc-state/listen.gif">
 <meta property="article:published_time" content="2020-10-08T04:00:00.000Z">
-<meta property="article:modified_time" content="2020-10-08T15:08:34.152Z">
+<meta property="article:modified_time" content="2020-10-08T16:22:02.811Z">
 <meta property="article:author" content="Gleb Bahmutov">
 <meta property="article:tag" content="testing">
 <meta property="article:tag" content="cypress">
@@ -172,7 +172,7 @@ ga('send', 'pageview');
 <p><img src="/blog/images/todomvc-state/completed.gif" alt="The test fails to find the class completed in the second item"></p>
 <p>Wait, is this possible? Is there a true error we have found in this most excellent TodoMVC application? Let&#39;s try the application by itself, without Cypress.</p>
 <p><img src="/blog/images/todomvc-state/fail-app.gif" alt="Application does not preserve the completed property for real during reload"></p>
-<p>But I thought ... I mean, David said that model-based apps cannot have bugs... Has my life have been a lie?! Let&#39;s see why the <code>completed</code> property is not accurately reflected in the DOM after reload. First, let&#39;s see if it is deserialized correctly</p>
+<p>Interesting - so the number of completed todos is 1 after reload - so that&#39;s correct, but the <code>completed</code> field is not passed correctly to the individual Todo components. But I thought ... I mean, David said that model-based apps cannot have bugs... Has my life been a lie?! Let&#39;s see why the <code>completed</code> property is not accurately reflected in the DOM after reload. First, let&#39;s see if it is deserialized correctly</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">Todos</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="keyword">const</span> options = <span class="built_in">window</span>.Cypress ? &#123; <span class="attr">devTools</span>: <span class="literal">true</span> &#125; : &#123;&#125;</span><br><span class="line"><span class="keyword">const</span> [state, send] = useMachine(persistedTodosMachine, options)</span><br><span class="line"><span class="built_in">console</span>.table(state.context.todos)</span><br></pre></td></tr></table></figure>
 <p><img src="/blog/images/todomvc-state/print-todos.gif" alt="Print the todos to the console"></p>
 <p>So the items are deserialized correctly, let&#39;s dig further. Let&#39;s print the context inside the individual Todo items</p>
@@ -221,7 +221,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/cypress-and-xstate/" data-id="ckg0yi7oo008b2xfj09mb37ky" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/cypress-and-xstate/" data-id="ckg114dnl0087kyfj3xr0e8ll" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/cypress-and-xstate/#disqus_thread" class="article-comment-link">Comments</a>
       
