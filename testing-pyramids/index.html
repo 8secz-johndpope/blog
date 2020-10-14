@@ -17,8 +17,9 @@
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/pyramids/workflow.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/pyramids/pyramids.png">
 <meta property="og:image" content="https://glebbahmutov.com/blog/images/pyramids/external-examples.gif">
+<meta property="og:image" content="https://glebbahmutov.com/blog/images/pyramids/version-badges.png">
 <meta property="article:published_time" content="2020-10-09T04:00:00.000Z">
-<meta property="article:modified_time" content="2020-10-09T12:03:20.105Z">
+<meta property="article:modified_time" content="2020-10-14T13:24:41.796Z">
 <meta property="article:author" content="Gleb Bahmutov">
 <meta property="article:tag" content="advice">
 <meta property="article:tag" content="testing">
@@ -159,6 +160,17 @@ ga('send', 'pageview');
 <h2><span id="bonus-external-examples">Bonus - external examples</span></h2><p>Just to complete the picture, there is a number of external example repositories that use <code>cypress-react-unit-test</code>. I cloned a few popular projects and showed how one could my library to write component tests. You can find these projects under GitHub topic <a target="_blank" rel="noopener" href="https://github.com/topics/cypress-react-unit-test-example">cypress-react-unit-test-example</a>.</p>
 <p><img src="/blog/images/pyramids/external-examples.gif" alt="External examples"></p>
 <p>The external examples are not tested immediately from the main repository, but they are <a href="/blog/keep-examples-up-to-date/" title="upgraded automatically">upgraded automatically</a> when a new version of <code>cypress-react-unit-test</code> comes out.</p>
+<p>I have a trick up my sleeve with external repositories. Because a user looking at an example wants it to work and apply to their situation <em>today</em>, I have added version badges. These badges show the current version of <code>cypress-react-unit-test</code> listed in the <code>package.json</code> file in that repository.</p>
+<p><img src="/blog/images/pyramids/version-badges.png" alt="Version badges for external repositories"></p>
+<p>Anyone looking at this list immediately can see if any example projects are behind the current released version.</p>
+<p><strong>Tip:</strong> use <a target="_blank" rel="noopener" href="https://github.com/bahmutov/available-versions">available-versions</a> utility to see all published versions of an NPM package</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">npm i -g available-versions</span><br><span class="line">vers cypress-react-unit-test</span><br><span class="line">---------------------------------------------------------------------------</span><br><span class="line">version                       age       dist-tag                    release</span><br><span class="line">----------------------------  --------  --------------------------  --------</span><br><span class="line">1.0.0                         3 years</span><br><span class="line">...</span><br><span class="line">4.0.0                         6 months</span><br><span class="line">...</span><br><span class="line">4.15.0                        15 days</span><br><span class="line">4.16.0                        7 days    latest</span><br></pre></td></tr></table></figure>
+<p>Seems some of the external applications are behind and should be upgraded to the latest version of <code>cypress-react-unit-test</code> so we are sure they still works.</p>
+<p><strong>Tip:</strong> read <a href="/blog/keep-examples-up-to-date/" title="Keep Examples Up To Date">Keep Examples Up To Date</a> to learn how I keep hundreds of my GitHub repositories up-to-date automatically</p>
+<p>These version badges in the Markdown table were created and can be updated using <a target="_blank" rel="noopener" href="https://github.com/bahmutov/dependency-version-badge">dependency-version-badge</a> utility. You can insert such badge, or update an existing badge by running a command line this one:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm i -D dependency-version-badge</span><br><span class="line">npx update-badge cypress-react-unit-test --from bahmutov/emoji-search</span><br></pre></td></tr></table></figure>
+<p>These badges are updated nightly using a GitHub Workflow set to run on a schedule</p>
+<figure class="highlight yml"><figcaption><span>.github/workflows/badges.yml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="attr">schedule:</span></span><br><span class="line">    <span class="comment"># update README badges every night</span></span><br><span class="line">    <span class="comment"># because we have a few badges that are linked</span></span><br><span class="line">    <span class="comment"># to the external repositories</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">cron:</span> <span class="string">&#x27;0 3 * * *&#x27;</span></span><br><span class="line"><span class="comment"># run multiple &quot;npx update-badge cypress-react-unit-test --from ...&quot; commands</span></span><br></pre></td></tr></table></figure>
 <h2><span id="related">Related</span></h2><ul>
 <li>read <a href="/blog/testing-trapezoid/" title="Testing Trapezoid">Testing Trapezoid</a> blog post</li>
 <li>browse <a target="_blank" rel="noopener" href="https://slides.com/bahmutov/sdet">slides for SDET meetup</a> or <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=XQ6WQTJ05p0">watch the video</a> to see me talk about testing crab</li>
@@ -189,7 +201,7 @@ linkjuice.init('.article-entry', {
     
 
     <footer class="article-footer">
-      <a data-url="https://glebbahmutov.com/blog/testing-pyramids/" data-id="ckg7w3rb10102tofj31isho8l" class="article-share-link">Share</a>
+      <a data-url="https://glebbahmutov.com/blog/testing-pyramids/" data-id="ckg9fiws00102q4fj4khtfans" class="article-share-link">Share</a>
       
         <a href="https://glebbahmutov.com/blog/testing-pyramids/#disqus_thread" class="article-comment-link">Comments</a>
       
