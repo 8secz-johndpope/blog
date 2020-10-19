@@ -383,6 +383,7 @@ a.linkjuice:hover .link-symbol {
 @media screen and (max-width: 479px) {
   #header-title {
     position: relative;
+    height: 45px;
   }
 }
 #logo,
@@ -592,7 +593,8 @@ a#subtitle:hover {
   float: right;
   color: #da2a2a;
   font-weight: 500;
-  font-size: xx-large;
+  font-size: x-large;
+  text-shadow: 2px 2px 4px #fff;
 }
 #climate-crisis:before,
 #climate-crisis:after {
@@ -605,7 +607,7 @@ a#subtitle:hover {
 @media screen and (max-width: 479px) {
   #climate-crisis {
     float: left;
-    font-size: large;
+    font-size: medium;
   }
 }
 #climate-crisis a {
@@ -742,6 +744,11 @@ h2.article-title {
   font-size: 1.4em;
   margin: 1.6em 20px;
   text-align: center;
+}
+@media screen and (max-width: 479px) {
+  .article-entry blockquote {
+    margin: 1.6em 0px;
+  }
 }
 .article-entry blockquote footer {
   font-size: 14px;
