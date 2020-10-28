@@ -338,7 +338,6 @@ a.linkjuice:hover .link-symbol {
 }
 @media screen and (max-width: 479px) {
   #header {
-    height: 140px;
     color: #000;
   }
 }
@@ -383,7 +382,7 @@ a.linkjuice:hover .link-symbol {
 @media screen and (max-width: 479px) {
   #header-title {
     position: relative;
-    height: 45px;
+    height: 39px;
   }
 }
 #logo,
